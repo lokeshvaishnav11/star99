@@ -879,7 +879,7 @@ const groupFancyByMatch = (list) => {
 const getProviderResult = async (matchId) => {
   try {
     const { data } = await axios.get(
-      `https://docs.vkmster.com/sport/market-result​?sportsid=4&gmid=${matchId}`,
+      `http://156.67.111.58:3000/sport/market-result?sportsid=4&gmid=${matchId}`,
       {
         headers: {
           "x-api-key": "1cfdeb5a7b55d02111f3e2bd324f609f2330c928",
