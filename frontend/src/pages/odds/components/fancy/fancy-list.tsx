@@ -86,17 +86,18 @@ export const FancyList = React.memo(
           fancies.map((fancy: LFancy) => {
             if (!fancy?.active) return null;
 
-              const fancyName = String(fancy?.fancyName || "")
-              .trim()
-              .toLowerCase();
+            const fancyName = String(fancy?.fancyName || "")
+  .toLowerCase()
+  .replace(/\s+/g, " ")
+  .trim();
 
-            // "bhav" ho OR last character "2" ho => hide
-            if (
-              fancyName.includes("bhav") ||
-              fancyName.endsWith("2") || fancyName.endsWith("2 adv")
-            ) {
-              return null;
-            }
+const shouldHide =
+  fancyName.includes("bhav") ||
+  /(?:^|\s)2(?:\s+adv)?$/.test(fancyName);
+
+if (shouldHide) {
+  return null;
+}
             let updatedFancy: IFancy = {} as IFancy;
             if (fancyUpdate[fancy.marketId]) {
               updatedFancy = fancyUpdate[fancy.marketId];
