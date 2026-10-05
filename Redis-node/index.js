@@ -520,14 +520,14 @@ const getFancyDataApi = async () => {
       matches.map(async (m) => {
         try {
           const res = await axios.get(
-            `https://docs.vkmster.com/sportapi/privateData?sportsid=4&gmid=${m.matchId}`,
+            `http://156.67.111.58:3000/sport/odds?sportsid=4&gmid=${m.matchId}`,
             {
-              headers: {
-                "x-api-key": "a3f41cc1eff0e0609f70b738d9e9d6cfda7b7465",
-                "x-api-secret":
-                  "06926b1891e99df1dd28f123c4935cfb87d07e4b9641f21ac99bc6f31263f946",
-              },
-            }
+          headers: {
+            "x-api-key": "1cfdeb5a7b55d02111f3e2bd324f609f2330c928",
+            "x-api-secret":
+              "0e3be4c11c551261575a87b50a0b14da1c87c50aada2770c765a1ed6f2d5b84b",
+          },
+        }
           );
 
           FancyData[m?.matchId] = res?.data?.data?.data || [];
@@ -879,12 +879,12 @@ const groupFancyByMatch = (list) => {
 const getProviderResult = async (matchId) => {
   try {
     const { data } = await axios.get(
-      `https://docs.vkmster.com/sportapi/sportsResult?sportsid=4&gmid=${matchId}`,
+      `https://docs.vkmster.com/sport/market-result​?sportsid=4&gmid=${matchId}`,
       {
         headers: {
-          "x-api-key": "a3f41cc1eff0e0609f70b738d9e9d6cfda7b7465",
+          "x-api-key": "1cfdeb5a7b55d02111f3e2bd324f609f2330c928",
           "x-api-secret":
-            "06926b1891e99df1dd28f123c4935cfb87d07e4b9641f21ac99bc6f31263f946",
+            "0e3be4c11c551261575a87b50a0b14da1c87c50aada2770c765a1ed6f2d5b84b",
         },
       }
     );

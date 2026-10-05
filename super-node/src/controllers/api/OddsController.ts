@@ -6,11 +6,11 @@ import axios from "axios"
 const fetchDataFromApi = async (EventID: any, sportId: any, markettype: any) => {
   try {
  const res = await axios.get(
- `https://docs.vkmster.com/sportapi/privateData?sportsid=4&gmid=${EventID}`,        {
+ `http://156.67.111.58:3000/sport/odds?sportsid=4&gmid=${EventID}`,        {
           headers: {
-            "x-api-key": "a3f41cc1eff0e0609f70b738d9e9d6cfda7b7465",
+            "x-api-key": "1cfdeb5a7b55d02111f3e2bd324f609f2330c928",
             "x-api-secret":
-              "06926b1891e99df1dd28f123c4935cfb87d07e4b9641f21ac99bc6f31263f946",
+              "0e3be4c11c551261575a87b50a0b14da1c87c50aada2770c765a1ed6f2d5b84b",
           },
         }
       )    
@@ -156,11 +156,11 @@ const fetchBookMakerDataFromApi = async (EventID: any, sportId: any) => {
 const GetsessionFromApi = async (MatchId: any, sportId: any) => {
   try {
    const res = await axios.get(
- `https://docs.vkmster.com/sportapi/privateData?sportsid=4&gmid=${MatchId}`,        {
+  `http://156.67.111.58:3000/sport/odds?sportsid=4&gmid=${MatchId}`,        {
           headers: {
-            "x-api-key": "ad555ec066072775e43d341ae92b57a3a0718fa2",
+            "x-api-key": "1cfdeb5a7b55d02111f3e2bd324f609f2330c928",
             "x-api-secret":
-              "864d26332d6fb6649a2251750884bdec4df3bf42800f4253c90a52a179a210e7",
+              "0e3be4c11c551261575a87b50a0b14da1c87c50aada2770c765a1ed6f2d5b84b",
           },
         }
       ) 
