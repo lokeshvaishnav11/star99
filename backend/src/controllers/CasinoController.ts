@@ -1106,7 +1106,7 @@ export class CasinoController extends ApiController {
       // console.log(resultApi,"CGHJK")
 
        const resultApi = await axios.get(
-      `https://docs.vkmster.com/casinoapi/casinoResult?gtype=${type}&mid=${roundId}`, {
+      `http://64.227.139.183:3088/casinoapi/casinoResult?gtype=${type}&mid=${roundId}`, {
       headers: {
         "x-api-key": "a3f41cc1eff0e0609f70b738d9e9d6cfda7b7465",
         "x-api-secret":

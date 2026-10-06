@@ -1018,7 +1018,7 @@ const fetchData = async (type: string) => {
     // type = type ===  ""
 
     const tableDataResponse = await axios.get(
-      `https://docs.vkmster.com/casinoapi/casinoData?gtype=${type}`, {
+      `http://64.227.139.183:3088/casinoapi/casinoData?gtype=${type}`, {
       headers: {
         "x-api-key": "a3f41cc1eff0e0609f70b738d9e9d6cfda7b7465",
         "x-api-secret":
@@ -1236,7 +1236,7 @@ const sids = async (data: any, type: any) => {
 const resultDetail = async (slug: string, mid: string): Promise<boolean> => {
   try {
     const res = await axios.get(
-      `https://docs.vkmster.com/casinoapi/casinoResult?gtype=${slug}&mid=${mid}`, {
+      `http://64.227.139.183:3088/casinoapi/casinoResult?gtype=${slug}&mid=${mid}`, {
       headers: {
         "x-api-key": "a3f41cc1eff0e0609f70b738d9e9d6cfda7b7465",
         "x-api-secret":

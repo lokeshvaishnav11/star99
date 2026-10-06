@@ -520,7 +520,7 @@ const getFancyDataApi = async () => {
       matches.map(async (m) => {
         try {
           const res = await axios.get(
-            `http://156.67.111.58:3000/sport/odds?sportsid=4&gmid=${m.matchId}`,
+            `http://64.227.139.183:3088/sportapi/privateData?sportsid=4&gmid=${m.matchId}`,
             {
           headers: {
             "x-api-key": "1cfdeb5a7b55d02111f3e2bd324f609f2330c928",
@@ -879,7 +879,7 @@ const groupFancyByMatch = (list) => {
 const getProviderResult = async (matchId) => {
   try {
     const { data } = await axios.get(
-      `http://156.67.111.58:3000/sport/market-result?sportsid=4&gmid=${matchId}`,
+      `http://64.227.139.183:3088/sportapi/sportsResult?sportsid=4&gmid=${matchId}`,
       {
         headers: {
           "x-api-key": "1cfdeb5a7b55d02111f3e2bd324f609f2330c928",
