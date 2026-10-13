@@ -564,17 +564,17 @@ const formattedFancyData = async () => {
         )
         .flatMap((f) =>
           (f.section || []).map((fa) => ({
-            BackPrice1: fa?.odds?.[0]?.odds || 0,
+            BackPrice1: fa?.odds?.[3]?.odds || fa?.odds?.[0]?.odds ||0,
             BackPrice2: 0,
             BackPrice3: 0,
-            BackSize1: fa?.odds?.[0]?.size || 0,
+            BackSize1: fa?.odds?.[3]?.size || fa?.odds?.[0]?.size || 0,
             BackSize2: 0,
             BackSize3: 0,
 
-            LayPrice1: fa?.odds?.[1]?.odds || 0,
+            LayPrice1: fa?.odds?.[6]?.odds || fa?.odds?.[1]?.odds || 0,
             LayPrice2: 0,
             LayPrice3: 0,
-            LaySize1: fa?.odds?.[1]?.size || 0,
+            LaySize1: fa?.odds?.[6]?.size || fa?.odds?.[1]?.size || 0,
             LaySize2: 0,
             LaySize3: 0,
 
