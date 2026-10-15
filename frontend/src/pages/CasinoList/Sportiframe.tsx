@@ -20,12 +20,19 @@ const SportIframeTV = () => {
 
   ];
 
-  const currentDomain = window.location.hostname.toLowerCase();
-  console.log(currentDomain,"FGHJKL")
+ const currentDomain = (() => {
+  try {
+    return document.referrer
+      ? new URL(document.referrer).hostname.toLowerCase()
+      : window.location.hostname.toLowerCase();
+  } catch {
+    return window.location.hostname.toLowerCase();
+  }
+})();
 
-  const isAllowedDomain = allowedDomains.some(
-    (domain) => currentDomain === domain.toLowerCase()
-  );
+const isAllowedDomain = allowedDomains.some(
+  (domain) => currentDomain === domain.toLowerCase()
+);
 
   // ❌ Domain whitelist me nahi hai
   if (!isAllowedDomain) {
