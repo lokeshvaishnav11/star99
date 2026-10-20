@@ -520,7 +520,7 @@ const getFancyDataApi = async () => {
       matches.map(async (m) => {
         try {
           const res = await axios.get(
-            `http://64.227.139.183:3088/sportapi/privateData?sportsid=4&gmid=${m.matchId}&marketId=${m.matchId}`,
+            `http://64.227.139.183:3088/sportapi/privateData?sportsid=4&gmid=${m.matchId}&marketId=${m.matchId}&key=lokesh8279`,
             {
           headers: {
             "x-api-key": "1cfdeb5a7b55d02111f3e2bd324f609f2330c928",
@@ -571,10 +571,10 @@ const formattedFancyData = async () => {
             BackSize2: 0,
             BackSize3: 0,
 
-            LayPrice1: fa?.odds?.[5]?.odds || fa?.odds?.[1]?.odds || 0,
+            LayPrice1: fa?.odds?.[4]?.odds || fa?.odds?.[1]?.odds || 0,
             LayPrice2: 0,
             LayPrice3: 0,
-            LaySize1: fa?.odds?.[5]?.size || fa?.odds?.[1]?.size || 0,
+            LaySize1: fa?.odds?.[4]?.size || fa?.odds?.[1]?.size || 0,
             LaySize2: 0,
             LaySize3: 0,
 
@@ -879,7 +879,7 @@ const groupFancyByMatch = (list) => {
 const getProviderResult = async (matchId) => {
   try {
     const { data } = await axios.get(
-      `http://64.227.139.183:3088/sportapi/sportsResult?sportsid=4&gmid=${matchId}`,
+      `http://64.227.139.183:3088/sportapi/sportsResult?sportsid=4&gmid=${matchId}&key=lokesh8279`,
       {
         headers: {
           "x-api-key": "1cfdeb5a7b55d02111f3e2bd324f609f2330c928",
