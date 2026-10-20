@@ -5,7 +5,7 @@ const SportIframeTV = () => {
   const { type } = useParams();
 
   // ✅ Yahan apne allowed domains add karo
-  const allowedDomains = [
+   const allowedDomains = [
     "localhost",
     "127.0.0.1",
     "yourdomain.com",
@@ -16,7 +16,9 @@ const SportIframeTV = () => {
     "admin.sixrun.pro",
     "goexch9.uk",
     "star-99.com",
-    "admin.star-99.com"
+    "admin.star-99.com",
+    "tv.chidiyakabutar.com",
+    "leelabet.com"
 
   ];
 
