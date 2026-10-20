@@ -426,7 +426,7 @@ class SportsController extends ApiController {
       const name = m?.RunnerName || "";
 
       return (
-        (m.gtype === "session" || m.gtype === "fancy1") &&
+        (m.gtype === "session" || m.gtype === "fancy") &&
 
         // must include
         !name.includes(".3 over ") &&
