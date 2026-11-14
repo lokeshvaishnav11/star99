@@ -68,7 +68,6 @@ export class UserRoutes {
     )
 
     this.router.get('/get-user-list', Passport.authenticateJWT, this.dealerController.getUserList)
-
         this.router.get('/get-user-list-two', Passport.authenticateJWT, this.dealerController.getUserList2)
 
 
@@ -98,12 +97,6 @@ export class UserRoutes {
       Http.validateRequest,
       Passport.authenticateJWT,
       this.dealerController.updateUserStatus,
-    )
-
-     this.router.post(
-      '/force-user-logout',
-      Passport.authenticateJWT,
-      this.dealerController.forceUserLogout,
     )
 
     this.router.post(

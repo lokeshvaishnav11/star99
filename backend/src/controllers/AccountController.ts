@@ -26,6 +26,7 @@ export class AccountController extends ApiController {
   constructor() {
     super()
     this.saveUserDepositFC = this.saveUserDepositFC.bind(this)
+    this.clinetladger21 = this.clinetladger21.bind(this)
   }
 
   async saveUserDepositFC(req: Request, res: Response): Promise<Response> {
@@ -225,7 +226,7 @@ export class AccountController extends ApiController {
       txnType: TxnType.cr,
       openBal: getOpenBal,
       closeBal: getOpenBal + +amount,
-      txnBy: `${username}/${userData.parent.username}`, //parent username here
+      txnBy: `${username}/${userData.username}`, // transaction by / transaction for
     }
 
     const newUserAccStmt = new AccoutStatement(userAccountData)
@@ -349,7 +350,7 @@ export class AccountController extends ApiController {
         txnType: TxnType.dr,
         openBal: getPrevCloseBal,
         closeBal: getPrevCloseBal - +amount,
-        txnBy: `${user.username}/${userData.parent.username}`, //parent username here
+        txnBy: `${user.username}/${userData.username}`, // transaction by / transaction for
       }
 
       const newUserAccStmt = new AccoutStatement(userAccountData)
@@ -1146,6 +1147,7 @@ getAccountStmtList = async (req: Request, res: Response) => {
 
 
 
+
   
   getAccountStmtList22 = async (req: Request, res: Response) => {
     try {
@@ -1251,403 +1253,45 @@ getAccountStmtList = async (req: Request, res: Response) => {
 
 
 
-  // clinetladger = async (req:Request,res:Response)=>{
-  //   try {
-  //     let user = req.user
-  //     let id = user["_id"]
-  //     // const ddata = await ledger.find({ChildId:id})
-  //     const ldata = await ledger.find({ParentId:id})
-  //     const ddata= await ledger.find({ChildId:id})
-  //     // const arr = [ddata,ldata]
-  //     return this.success(res, [ldata,ddata])
+  clinetladger = async (req:Request,res:Response)=>{
+    try {
+      let user = req.user
+      let id = user["_id"]
+      // const ddata = await ledger.find({ChildId:id})
+      const ldata = await ledger.find({ParentId:id})
+      const ddata= await ledger.find({ChildId:id})
+      // const arr = [ddata,ldata]
+      return this.success(res, [ldata,ddata])
   
-  //   } catch (error) {
+    } catch (error) {
       
-  //   }
-  // }
-
-  clinetladger21 = async (req: Request, res: Response) => {
-  try {
-    let id = req.user["_id"];
-
-    const result = await ledger.aggregate([
-      {
-        $match: {
-          $and: [
-            { ParentId: id },
-            // { username: { $ne: null } }
-          ]
-        }
-      },
-
-      {
-        $addFields: {
-          isParent: { $eq: ["$ParentId", id] }
-        }
-      },
-
-     {
-  $group: {
-    _id: "$ChildId",
-
-    ParentId: { $first: "$ParentId" }, // 👈 ADD THIS
-    ChildId: { $first: "$ChildId" },
-
-    username: { $first: "$username" },
-    cname: { $first: "$cname" },
-
-    positive: {
-      $sum: {
-        $cond: [
-          { $and: [{ $eq: ["$settled", false] }, { $gt: ["$money", 0] }] },
-          "$money",
-          0
-        ]
-      }
-    },
-    negative: {
-      $sum: {
-        $cond: [
-          { $and: [{ $eq: ["$settled", false] }, { $lt: ["$money", 0] }] },
-          { $abs: "$money" },
-          0
-        ]
-      }
-    },
-
-    settled: {
-      $sum: {
-        $cond: [{ $eq: ["$settled", true] }, "$money", 0]
-      }
     }
   }
-},
 
-     {
-  $addFields: {
-    ChildId: "$ChildId",
-    ParentId: "$ParentId", // 👈 ensure output me aaye
-    amount: { $subtract: ["$positive", "$negative"] },
-    final: { $add: [{ $subtract: ["$positive", "$negative"] }, "$settled"] },
-    agent: { $concat: ["$username", " (", "$cname", ")"] }
-  }
-},
+  clinetladger22 = async (req:Request,res:Response)=>{
+    console.log(req.body,"seocndd ledgerr")
+    try {
+      // let user = req.user
+      // let id = user["_id"]
+      const id = req.body.sendId
+      const user = await User.findOne({ _id: id });
+      console.log(user,"ffff")
 
-{
-  $match: {
-    $expr: {
-      $ne: ["$ParentId", "$ChildId"]
-    }
-  }
-},
-
-      {
-        $facet: {
-          lenaArray: [
-            { $match: { final: { $gte: 0 } } }
-          ],
-          denaArray: [
-            { $match: { final: { $lt: 0 } } }
-          ]
-        }
+      if (!user) {
+        return res.status(404).json({ success: false, message: "User not found" });
       }
-    ]);
-
-    return this.success(res, result[0]);
-
-  } catch (error) {
-    return this.fail(res, error);
-  }
-};
 
 
-clinetladgernew = async (req: Request, res: Response) => {
-  try {
-    let user = req.user;
-    let id = user["_id"];
-
-    const [ldata, ddata] = await Promise.all([
-      ledger.find({ ParentId: id }).lean(),
-      ledger.find({ ChildId: id }).lean()
-    ]);
-
-    return this.success(res, [ldata, ddata]);
-
-  } catch (error) {
-    return this.fail(res, error);
-  }
-};
-
-clinetladger = async (req: Request, res: Response) => {
-  try {
-    let user = req.user;
-    let id = user["_id"];
-
-    // 🔥 pagination params (default page = 1)
-    const page = Number(req.query.page) || 1;
-    const limit = 1000;
-    const skip = (page - 1) * limit;
-
-    const [ldata, ddata] = await Promise.all([
-      ledger
-        .find({ ParentId: id })
-        .sort({ createdAt: -1 }) // latest first (important for ledger)
-        .skip(skip)
-        .limit(limit)
-        .lean(),
-
-      ledger
-        .find({ ChildId: id })
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit)
-        .lean()
-    ]);
-
-    // 🔥 SAME RESPONSE (no change)
-    return this.success(res, [ldata, ddata]);
-
-  } catch (error) {
-    return this.fail(res, error);
-  }
-};
-
-  // clinetladger22 = async (req:Request,res:Response)=>{
-  //   console.log(req.body,"seocndd ledgerr")
-  //   try {
-  //     // let user = req.user
-  //     // let id = user["_id"]
-  //     const id = req.body.sendId
-  //     const user = await User.findOne({ _id: id });
-  //     console.log(user,"ffff")
-
-  //     if (!user) {
-  //       return res.status(404).json({ success: false, message: "User not found" });
-  //     }
-
-
-  //     // const ddata = await ledger.find({ChildId:id})
-  //     const ldata = await ledger.find({ParentId:id})
-  //     const ddata= await ledger.find({ChildId:id})
-  //     // const arr = [ddata,ldata]
-  //     return this.success(res, [ldata,ddata, {user}])
+      // const ddata = await ledger.find({ChildId:id})
+      const ldata = await ledger.find({ParentId:id})
+      const ddata= await ledger.find({ChildId:id})
+      // const arr = [ddata,ldata]
+      return this.success(res, [ldata,ddata, {user}])
   
-  //   } catch (error) {
+    } catch (error) {
       
-  //   }
-  // }
-
-
-   clinetladger22 = async (req: Request, res: Response) => {
-  try {
-    let id = Types.ObjectId(req.body.sendId);
-    let user = await User.findOne({_id:id})
-
-    const result = await ledger.aggregate([
-      {
-        $match: {
-          $or: [
-            { ParentId: id },
-            // { ChildId: id }
-          ]
-        }
-      },
-
-      {
-        $addFields: {
-          isParent: { $eq: ["$ParentId", id] }
-        }
-      },
-
-     {
-  $group: {
-    _id: "$ChildId",
-
-    ParentId: { $first: "$ParentId" }, // 👈 ADD THIS
-    ChildId: { $first: "$ChildId" },
-
-    username: { $first: "$username" },
-    cname: { $first: "$cname" },
-
-    positive: {
-      $sum: {
-        $cond: [
-          { $and: [{ $eq: ["$settled", false] }, { $gt: ["$money", 0] }] },
-          "$money",
-          0
-        ]
-      }
-    },
-    negative: {
-      $sum: {
-        $cond: [
-          { $and: [{ $eq: ["$settled", false] }, { $lt: ["$money", 0] }] },
-          { $abs: "$money" },
-          0
-        ]
-      }
-    },
-
-    settled: {
-      $sum: {
-        $cond: [{ $eq: ["$settled", true] }, "$money", 0]
-      }
     }
   }
-},
-
-     {
-  $addFields: {
-    ChildId: "$ChildId",
-    ParentId: "$ParentId", // 👈 ensure output me aaye
-    amount: { $subtract: ["$positive", "$negative"] },
-    final: { $add: [{ $subtract: ["$positive", "$negative"] }, "$settled"] },
-    agent: { $concat: ["$username", " (", "$cname", ")"] }
-  }
-},
-{
-  $match: {
-    $expr: {
-      $ne: ["$ParentId", "$ChildId"]
-    }
-  }
-},
-      {
-        $facet: {
-          lenaArray: [
-            { $match: { final: { $gte: 0 } } }
-          ],
-          denaArray: [
-            { $match: { final: { $lt: 0 } } }
-          ],
-         
-        },
-      
-      }
-    ]);
-
-     return this.success(res, {
-      lenaArray: result[0]?.lenaArray || [],
-      denaArray: result[0]?.denaArray || [],
-      user: user || null
-    });
-
-  } catch (error) {
-    return this.fail(res, error);
-  }
-};
-
-
-
-//   clinetladger22 = async (req: Request, res: Response) => {
-//   try {
-//   const id :any =  Types.ObjectId(req.body.sendId);
-
-//     // 🔥 parallel (fast)
-//     const [user, result] = await Promise.all([
-//       User.findOne({ _id: id }).lean(),
-
-//       ledger.aggregate([
-//         {
-//           $match: {
-//             $or: [
-//               { ParentId: id },
-//               { ChildId: id }
-//             ]
-//           }
-//         },
-
-//         {
-//           $project: {
-//             ParentId: 1,
-//             ChildId: 1,
-//             username: 1,
-//             cname: 1,
-//             money: 1,
-//             settled: 1
-//           }
-//         },
-
-//         {
-//           $group: {
-//             _id: "$ChildId",
-
-//             ParentId: { $first: "$ParentId" },
-//             ChildId: { $first: "$ChildId" },
-
-//             username: { $first: "$username" },
-//             cname: { $first: "$cname" },
-
-//             positive: {
-//               $sum: {
-//                 $cond: [
-//                   { $and: [{ $eq: ["$settled", false] }, { $gt: ["$money", 0] }] },
-//                   "$money",
-//                   0
-//                 ]
-//               }
-//             },
-
-//             negative: {
-//               $sum: {
-//                 $cond: [
-//                   { $and: [{ $eq: ["$settled", false] }, { $lt: ["$money", 0] }] },
-//                   { $abs: "$money" },
-//                   0
-//                 ]
-//               }
-//             },
-
-//             settled: {
-//               $sum: {
-//                 $cond: [{ $eq: ["$settled", true] }, "$money", 0]
-//               }
-//             }
-//           }
-//         },
-
-//         {
-//           $addFields: {
-//             amount: { $subtract: ["$positive", "$negative"] },
-//             final: {
-//               $add: [
-//                 { $subtract: ["$positive", "$negative"] },
-//                 "$settled"
-//               ]
-//             },
-//             agent: {
-//               $concat: ["$username", " (", "$cname", ")"]
-//             }
-//           }
-//         },
-
-//         {
-//           $facet: {
-//             lenaArray: [{ $match: { final: { $gte: 0 } } }],
-//             denaArray: [{ $match: { final: { $lt: 0 } } }]
-//           }
-//         }
-//       ],)
-//     ]);
-
-//     if (!user) {
-//       return res.status(404).json({
-//         success: false,
-//         message: "User not found"
-//       });
-//     }
-
-//     // 🔥 SAME RESPONSE FORMAT (important)
-//     return this.success(res, [
-//       result[0]?.lenaArray || [],
-//       result[0]?.denaArray || [],
-//       { user }
-//     ]);
-
-//   } catch (error) {
-//     return this.fail(res, error);
-//   }
-// };
 
   iframeurl = async (req:Request,res:Response)=>{
     try {
@@ -1905,6 +1549,117 @@ clinetladger = async (req: Request, res: Response) => {
     }
   };
 
+ clinetladger21 = async (req: Request, res: Response) => {
+  try {
+    let id = req.user["_id"];
+
+    const result = await ledger.aggregate([
+      {
+        $match: {
+          $and: [
+            { ParentId: id },
+            // { username: { $ne: null } }
+          ]
+        }
+      },
+
+      {
+        $addFields: {
+          isParent: { $eq: ["$ParentId", id] }
+        }
+      },
+
+     {
+  $group: {
+    _id: "$ChildId",
+
+    ParentId: { $first: "$ParentId" }, // 👈 ADD THIS
+    ChildId: { $first: "$ChildId" },
+
+    username: { $first: "$username" },
+    cname: { $first: "$cname" },
+
+    positive: {
+      $sum: {
+        $cond: [
+          { $and: [{ $eq: ["$settled", false] }, { $gt: ["$money", 0] }] },
+          "$money",
+          0
+        ]
+      }
+    },
+    negative: {
+      $sum: {
+        $cond: [
+          { $and: [{ $eq: ["$settled", false] }, { $lt: ["$money", 0] }] },
+          { $abs: "$money" },
+          0
+        ]
+      }
+    },
+
+    settled: {
+      $sum: {
+        $cond: [{ $eq: ["$settled", true] }, "$money", 0]
+      }
+    }
+  }
+},
+
+     {
+  $addFields: {
+    ChildId: "$ChildId",
+    ParentId: "$ParentId", // 👈 ensure output me aaye
+    amount: { $subtract: ["$positive", "$negative"] },
+    final: { $add: [{ $subtract: ["$positive", "$negative"] }, "$settled"] },
+    agent: { $concat: ["$username", " (", "$cname", ")"] }
+  }
+},
+
+{
+  $match: {
+    $expr: {
+      $ne: ["$ParentId", "$ChildId"]
+    }
+  }
+},
+
+      {
+        $facet: {
+          lenaArray: [
+            { $match: { final: { $gte: 0 } } }
+          ],
+          denaArray: [
+            { $match: { final: { $lt: 0 } } }
+          ]
+        }
+      }
+    ]);
+
+    return this.success(res, result[0]);
+
+  } catch (error) {
+    return this.fail(res, error);
+  }
+};
+
+
+clinetladgernew = async (req: Request, res: Response) => {
+  try {
+    let user = req.user;
+    let id = user["_id"];
+
+    const [ldata, ddata] = await Promise.all([
+      ledger.find({ ParentId: id }).lean(),
+      ledger.find({ ChildId: id }).lean()
+    ]);
+
+    return this.success(res, [ldata, ddata]);
+
+  } catch (error) {
+    return this.fail(res, error);
+  }
+};
  
   
 

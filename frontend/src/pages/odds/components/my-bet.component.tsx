@@ -702,113 +702,204 @@ const MyBetComponent = () => {
     return acc;
   }, {});
 
+
+
+
+const theme = {
+  background:
+    "radial-gradient(at 80% 0%, rgba(201, 137, 21, 0.12), transparent 60%), linear-gradient(145deg, rgb(23, 20, 14) 0%, rgb(6, 7, 8) 55%, rgb(16, 13, 9) 100%)",
+  border: "1.5px solid rgb(217, 162, 52)",
+  gold: "rgb(217, 162, 52)",
+};
+
+const th: React.CSSProperties = {
+  padding: "7px 4px",
+  textAlign: "center",
+  border: theme.border,
+  background: theme.background,
+  color: theme.gold,
+  fontWeight: 700,
+  fontSize: "11px",
+  whiteSpace: "normal",
+  wordBreak: "break-word",
+};
+
+const td: React.CSSProperties = {
+  padding: "7px 4px",
+  textAlign: "center",
+  border: theme.border,
+  background: theme.background,
+  color: "#ffffff",
+  fontSize: "11px",
+  whiteSpace: "normal",
+  wordBreak: "break-word",
+};
+
+const tableStyle: React.CSSProperties = {
+  width: "100%",
+  borderCollapse: "collapse",
+  background: theme.background,
+  border: theme.border,
+  marginBottom: "10px",
+};
+
+
+// const th: React.CSSProperties = {
+//   padding: "8px 4px",
+//   textAlign: "center",
+//   background: theme.background,
+//   border: theme.border,
+//   color: theme.gold,
+//   fontWeight: 700,
+//   fontSize: "11px",
+//   wordBreak: "break-word",
+// };
+
+// const td: React.CSSProperties = {
+//   padding: "8px 4px",
+//   textAlign: "center",
+//   background: theme.background,
+//   border: theme.border,
+//   color: "#fff",
+//   fontSize: "11px",
+//   wordBreak: "break-word",
+// };
+
   /* ================= TABLE UI ================= */
-  const TableHead = () => (
-    <thead>
-      <tr style={{ background: "#76d68f" }}>
-        <th className="p-2">Sr</th>
-        {/* {userState.user.role !== RoleType.user && <th className="p-2">User</th>} */}
-        <th className="p-2">Narration</th>
-        <th className="p-2">Rate</th>
-        <th className="p-2">Amount</th>
-        <th className="p-2">Mode</th>
-        {/* <th className="p-2">Dec</th> */}
-      </tr>
-    </thead>
-  );
+  // const TableHead = () => (
+  //   <thead>
+  //     <tr style={{ background: "#76d68f" }}>
+  //       <th className="p-2">Sr</th>
+  //       {/* {userState.user.role !== RoleType.user && <th className="p-2">User</th>} */}
+  //       <th className="p-2">Narration</th>
+  //       <th className="p-2">Rate</th>
+  //       <th className="p-2">Amount</th>
+  //       <th className="p-2">Mode</th>
+  //       {/* <th className="p-2">Dec</th> */}
+  //     </tr>
+  //   </thead>
+  // );
 
-  const TableHeadTwo = ({ runnerName }: { runnerName: string }) => (
-    <thead>
-      <tr style={{ background: "#76d68f" }}>
-        <th className="p-2">Sr</th>
-        <th className="p-2">{runnerName}</th>
-        <th className="p-2">Rate</th>
-        <th className="p-2">Amount</th>
-        <th className="p-2">Mode</th>
-        <th className="p-2">Dec</th>
-      </tr>
-    </thead>
-  );
+  // const TableHeadTwo = ({ runnerName }: { runnerName: string }) => (
+  //   <thead>
+  //     <tr style={{ background: "#76d68f" }}>
+  //       <th className="p-2">Sr</th>
+  //       <th className="p-2">{runnerName}</th>
+  //       <th className="p-2">Rate</th>
+  //       <th className="p-2">Amount</th>
+  //       <th className="p-2">Mode</th>
+  //       <th className="p-2">Dec</th>
+  //     </tr>
+  //   </thead>
+  // );
 
-  const th: React.CSSProperties = {
-    padding: "3px",
-    textAlign: "center",
-    border: "1px solid #ddd",
-    fontWeight: 600,
-    wordBreak: "break-word",
-    whiteSpace: "normal",   // ⭐ wrap allow
-  };
+  // const th: React.CSSProperties = {
+  //   padding: "3px",
+  //   textAlign: "center",
+  //   border: "1px solid #ddd",
+  //   fontWeight: 600,
+  //   wordBreak: "break-word",
+  //   whiteSpace: "normal",   // ⭐ wrap allow
+  // };
 
-  const td: React.CSSProperties = {
-    padding: "3px",
-    textAlign: "center",
-    border: "1px solid #ddd",
-    wordBreak: "break-word",   // ⭐ text break
-    whiteSpace: "normal",      // ⭐ wrap
-  };
+  // const td: React.CSSProperties = {
+  //   padding: "3px",
+  //   textAlign: "center",
+  //   border: "1px solid #ddd",
+  //   wordBreak: "break-word",   // ⭐ text break
+  //   whiteSpace: "normal",      // ⭐ wrap
+  // };
 
 
 
-  return (
-    <div className="table-responsive-new" style={{ maxHeight: 400, overflowY: "auto" }}>
-      <h6 className="p-2 w-100 m-0 bg-info text-white text-center">
-        Place Bets
-      </h6>
-      
-      {/* ================= MATCH ODDS TABLE ================= */}
-      {matchBets.length > 0 && (
+ 
+
+
+return (
+  <div
+    className="table-responsive-new golden-mybet"
+    style={{
+      maxHeight: 400,
+      overflowY: "auto",
+      background: theme.background,
+      border: theme.border,
+      borderRadius: "8px",
+      padding: "8px",
+    }}
+  >
+    <h6
+      style={{
+        padding: "10px",
+        margin: "0 0 10px",
+        textAlign: "center",
+        background: theme.background,
+        color: theme.gold,
+        border: theme.border,
+        fontWeight: 800,
+        letterSpacing: "1px",
+      }}
+    >
+      PLACE BETS
+    </h6>
+
+    {/* MATCH ODDS - ORIGINAL FIELDS */}
+    {matchBets.length > 0 && (
+      <div style={{ overflowX: "auto" }}>
         <table
           className="coupon-table mybet"
-          style={{
-            width: "100%",
-            borderCollapse: "collapse",
-            fontSize: "11px",
-            marginBottom: "8px",
-          }}
+          style={tableStyle}
         >
           <thead>
-            <tr style={{ background: "#76d68f" }}>
+            <tr>
               <th style={th}>Sr</th>
               <th style={th}>Team</th>
               <th style={th}>Rate</th>
               <th style={th}>Amount</th>
               <th style={th}>Mode</th>
-              {/* <th style={th}>Dec</th> */}
             </tr>
           </thead>
+
           <tbody>
             {matchBets.map((bet, i) => (
-              <tr key={bet._id} className={bet.isBack ? "back" : "lay"}>
+              <tr key={bet._id}>
                 <td style={td}>{i + 1}</td>
                 <td style={td}>{bet.selectionName}</td>
-                <td style={td}>{(bet.odds * 100 - 100).toFixed()}</td>
+                <td style={td}>
+                  {(bet.odds * 100 - 100).toFixed()}
+                </td>
                 <td style={td}>{bet.stack}</td>
-                <td style={td}>{bet.isBack ? "LAGAI" : "KHAI"}</td>
-                {/* <td style={td}>{bet?.result?.result || "YES"}</td> */}
+                <td
+                  style={{
+                    ...td,
+                    color: bet.isBack
+                      ? "#4ade80"
+                      : "#ff6464",
+                    fontWeight: 700,
+                  }}
+                >
+                  {bet.isBack ? "LAGAI" : "KHAI"}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
-      )}
+      </div>
+    )}
 
-      {/* ================= FANCY TABLE ================= */}
-      {Object.keys(groupedFancy).map((runner) => (
+    {/* FANCY BETS - NO GROUPING */}
+    {fancyBets.length > 0 && (
+      <div style={{ overflowX: "auto" }}>
         <table
-          key={runner}
           className="coupon-table mybet"
           style={{
-            width: "100%",
-            tableLayout: "fixed",      // ⭐ MOST IMPORTANT
-            borderCollapse: "collapse",
-            fontSize: "10px",          // chhota font
-            marginBottom: "10px",
+            ...tableStyle,
+            tableLayout: "fixed",
           }}
         >
-
           <thead>
-            <tr style={{ background: "#76d68f" }}>
+            <tr>
               <th style={th}>Sr</th>
-              <th style={th}>{runner}</th>
+              <th style={th}>Narration</th>
               <th style={th}>Rate</th>
               <th style={th}>Amount</th>
               <th style={th}>Run</th>
@@ -818,27 +909,61 @@ const MyBetComponent = () => {
           </thead>
 
           <tbody>
-            {groupedFancy[runner].map((bet: IBet, i: number) => (
-              <tr key={bet._id} className={bet.isBack ? "back" : "lay"}>
+            {fancyBets.map((bet, i) => (
+              <tr key={bet._id}>
                 <td style={td}>{i + 1}</td>
-                <td style={td}>{bet.selectionName}</td>
+
+                <td style={td}>
+                  {bet.selectionName}
+                </td>
+
                 <td style={td}>
                   {bet.gtype === "fancy1"
                     ? bet.odds.toFixed(2)
                     : bet.volume.toFixed(2)}
                 </td>
+
                 <td style={td}>{bet.stack}</td>
+
                 <td style={td}>{bet.odds}</td>
-                <td style={td}>{bet.isBack ? "YES" : "NO"}</td>
-                <td style={td}>{bet?.result?.result || "No"}</td>
+
+                <td
+                  style={{
+                    ...td,
+                    color: bet.isBack
+                      ? "#4ade80"
+                      : "#ff6464",
+                    fontWeight: 700,
+                  }}
+                >
+                  {bet.isBack ? "YES" : "NO"}
+                </td>
+
+                <td style={td}>
+                  {bet?.result?.result || "No"}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
-      ))}
+      </div>
+    )}
 
-    </div>
-  );
+    {bets.length === 0 && (
+      <div
+        style={{
+          textAlign: "center",
+          padding: "20px",
+          color: theme.gold,
+        }}
+      >
+        No Bets Found
+      </div>
+    )}
+  </div>
+);
+
+
 };
 
 export default MyBetComponent;

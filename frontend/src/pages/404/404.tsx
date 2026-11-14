@@ -23,8 +23,8 @@ const Page404 = () => {
             <div className='col-md-12'>
               <div className='loginInner1'>
                 <div className='log-logo m-b-20 text-center'>
-                  {/* <img src='/imgs/logo.png' className='logo-login' /> */}
-                  A2Z
+                  {/* <img src='/imgs/starlogo.png' className='logo-login' /> */}
+                  star-99
                 </div>
                 {!timerCount &&
                   <div className='featured-box-login featured-box-secundary default text-center'>

@@ -85,192 +85,381 @@
 // }
 // export default React.memo(CasinoListItem)
 
+// import React, { MouseEvent, useMemo, useState } from 'react'
+// import { selectCasinoMatchList } from '../../redux/actions/casino/casinoSlice'
+// import { useAppSelector } from '../../redux/hooks'
+// import ICasinoMatch from '../../models/ICasinoMatch'
+// import { useNavigateCustom } from '../_layout/elements/custom-link'
+// import { toast } from 'react-toastify'
+
+// // Category definitions — "match" holds keyword(s) checked against the
+// // game title (lowercased) to decide which category a game belongs to.
+// const CATEGORIES = [
+//   { key: 'all', label: 'All', match: [] as string[] },
+//   { key: 'crash', label: 'Crash', match: ['crash', 'aviator'] },
+//   { key: 'teenpatti', label: 'Teenpatti', match: ['teenpatti', 'teen patti'] },
+//   { key: 'lucky7', label: 'Lucky7', match: ['lucky 7', 'lucky7'] },
+//   { key: 'dragontiger', label: 'Dragon Tiger', match: ['dragon tiger'] },
+//   { key: '32card', label: '32 Card', match: ['32 card', 'card 32', '32cards'] },
+//   { key: 'poker', label: 'Poker', match: ['poker'] },
+//   { key: 'andarbahar', label: 'Andar Bahar', match: ['andar bahar', 'andar bhar'] },
+// ]
+
+// // A unique, unlikely-to-collide prefix. Every rule below uses !important
+// // so it wins even against legacy/template CSS that also uses !important.
+// const P = 'cbz2026'
+
+// const CasinoListItem = (props: any) => {
+//   const gamesList = useAppSelector<any>(selectCasinoMatchList)
+//   const navigate = useNavigateCustom()
+//   const [activeCategory, setActiveCategory] = useState('all')
+
+//   const onCasinoClick = (e: MouseEvent<HTMLAnchorElement>, Item: ICasinoMatch) => {
+//     e.preventDefault()
+//     if (!Item.isDisable && Item.match_id != -1) navigate.go(`/casino/${Item.slug}/${Item.match_id}`)
+//     else toast.warn('This game is suspended by admin, please try again later')
+//   }
+
+//   const visibleGames = useMemo(() => {
+//     if (!gamesList) return []
+//     const base = gamesList.filter((item: any) => !item.isDisable && item.match_id !== -1)
+
+//     if (activeCategory === 'all') return base
+
+//     const category = CATEGORIES.find((c) => c.key === activeCategory)
+//     if (!category || category.match.length === 0) return base
+
+//     return base.filter((item: any) => {
+//       const title = (item.title || '').toLowerCase()
+//       return category.match.some((keyword) => title.includes(keyword))
+//     })
+//   }, [gamesList, activeCategory])
+
+//   return (
+//     <div className={`${P}-root`}>
+//       {/* Scoped stylesheet — !important beats any legacy/template CSS,
+//           and the "cbz2026" prefix avoids colliding with existing classes */}
+//       <style>{`
+//         .${P}-tabs {
+//           display: flex !important;
+//           align-items: center !important;
+//           gap: 6px !important;
+//           overflow-x: auto !important;
+//           white-space: nowrap !important;
+//           background: #020421 !important;
+//           padding: 10px !important;
+//           margin: 0 !important;
+//           list-style: none !important;
+//           width:100vw;
+//         }
+//         .${P}-tab {
+//           flex: 0 0 auto !important;
+//           border: none !important;
+//           font-size: 13px !important;
+//           font-weight: 600 !important;
+//           padding: 7px 16px !important;
+//           border-radius: 18px !important;
+//           cursor: pointer !important;
+//           background: transparent !important;
+//           color: #cfd8e3 !important;
+//         }
+//         .${P}-tab-active {
+//           background: #ffffff !important;
+//           color: #020421 !important;
+//         }
+//         .${P}-grid {
+//           display: grid !important;
+//           grid-template-columns: repeat(3, 1fr) !important;
+//           gap: 10px !important;
+//           padding: 10px !important;
+//           box-sizing: border-box !important;
+//           margin: 0 !important;
+//           list-style: none !important;
+//         }
+//         .${P}-card {
+//           width: 100% !important;
+//           max-width: 100% !important;
+//           margin: 0 !important;
+//           padding: 0 !important;
+//         }
+//         .${P}-link {
+//           display: block !important;
+//           text-decoration: none !important;
+//           border-radius: 8px !important;
+//           overflow: hidden !important;
+//           box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
+//           background: #020421 !important;
+//         }
+//         /* padding-bottom trick = forces a perfect square box on every
+//            browser, even old ones that don't support aspect-ratio */
+//         .${P}-imgwrap {
+//           position: relative !important;
+//           width: 100% !important;
+//           height: 0 !important;
+//           padding-bottom: 105% !important;
+//           overflow: hidden !important;
+//           background: #1a3a63 !important;
+//         }
+//         .${P}-img {
+//           position: absolute !important;
+//           top: 0 !important;
+//           left: 0 !important;
+//           width: 100% !important;
+//           height: 100% !important;
+//           max-width: 100% !important;
+//           object-fit: cover !important;
+//           display: block !important;
+//           margin: 0 !important;
+//         }
+//         .${P}-title {
+//           background: #020421 !important;
+//           color: #fff !important;
+//           text-align: center !important;
+//           font-size: 11.5px !important;
+//           font-weight: 600 !important;
+//           padding: 6px 4px !important;
+//           line-height: 1.25 !important;
+//           min-height: 32px !important;
+//           margin: 0 !important;
+//         }
+//       `}</style>
+
+//       {/* CATEGORY SCROLLER */}
+//       <div className={`${P}-tabs`}>
+//         {CATEGORIES.map((cat) => (
+//           <button
+//             key={cat.key}
+//             className={`${P}-tab ${activeCategory === cat.key ? `${P}-tab-active` : ''}`}
+//             onClick={() => setActiveCategory(cat.key)}
+//           >
+//             {cat.label}
+//           </button>
+//         ))}
+//       </div>
+
+//       {/* GAME GRID — 3 per row, guaranteed via !important */}
+//       <div className={`${P}-grid`}>
+//         {visibleGames.map((Item: any, key: number) => {
+//           return (
+//             <div className={`${P}-card`} key={key}>
+//               <a href="#" onClick={(e) => onCasinoClick(e, Item)} className={`${P}-link`}>
+//                 <div className={`${P}-imgwrap`}>
+//                   <img
+//                     src={Item.image}
+//                     alt={Item.title}
+//                     className={`${P}-img`}
+//                     loading="lazy"
+//                   />
+//                 </div>
+//                 <div className={`${P}-title`}>{Item.title}</div>
+//               </a>
+
+//             </div>
+//           )
+//         })}
+
+//           <a href="/match/matka"  className={`${P}-link`}>
+//                 <div className={`${P}-imgwrap`}>
+//                   <img
+//                     src="https://sixrun.co/assets/matka_new-CYM3bRoj.png"
+                  
+//                     className={`${P}-img`}
+//                     loading="lazy"
+//                   />
+//                 </div>
+//                 <div className={`${P}-title`}>matka</div>
+//               </a>
+//       </div>
+//     </div>
+//   )
+// }
+// export default React.memo(CasinoListItem)
+
+
+
 import React, { MouseEvent, useMemo, useState } from 'react'
 import { selectCasinoMatchList } from '../../redux/actions/casino/casinoSlice'
 import { useAppSelector } from '../../redux/hooks'
 import ICasinoMatch from '../../models/ICasinoMatch'
 import { useNavigateCustom } from '../_layout/elements/custom-link'
 import { toast } from 'react-toastify'
+import './CasinoListItem.css'
 
-// Category definitions — "match" holds keyword(s) checked against the
-// game title (lowercased) to decide which category a game belongs to.
-const CATEGORIES = [
-  { key: 'all', label: 'All', match: [] as string[] },
+type Category = {
+  key: string
+  label: string
+  match: string[]
+}
+
+const CATEGORIES: Category[] = [
+  { key: 'all', label: 'All Games', match: [] },
   { key: 'crash', label: 'Crash', match: ['crash', 'aviator'] },
   { key: 'teenpatti', label: 'Teenpatti', match: ['teenpatti', 'teen patti'] },
-  { key: 'lucky7', label: 'Lucky7', match: ['lucky 7', 'lucky7'] },
+  { key: 'lucky7', label: 'Lucky 7', match: ['lucky 7', 'lucky7'] },
   { key: 'dragontiger', label: 'Dragon Tiger', match: ['dragon tiger'] },
   { key: '32card', label: '32 Card', match: ['32 card', 'card 32', '32cards'] },
   { key: 'poker', label: 'Poker', match: ['poker'] },
   { key: 'andarbahar', label: 'Andar Bahar', match: ['andar bahar', 'andar bhar'] },
 ]
 
-// A unique, unlikely-to-collide prefix. Every rule below uses !important
-// so it wins even against legacy/template CSS that also uses !important.
-const P = 'cbz2026'
-
-const CasinoListItem = (props: any) => {
-  const gamesList = useAppSelector<any>(selectCasinoMatchList)
+const CasinoListItem: React.FC = () => {
+  const gamesList = useAppSelector(selectCasinoMatchList) as ICasinoMatch[] | undefined
   const navigate = useNavigateCustom()
+
   const [activeCategory, setActiveCategory] = useState('all')
 
-  const onCasinoClick = (e: MouseEvent<HTMLAnchorElement>, Item: ICasinoMatch) => {
+  const onCasinoClick = (
+    e: MouseEvent<HTMLAnchorElement>,
+    item: ICasinoMatch
+  ) => {
     e.preventDefault()
-    if (!Item.isDisable && Item.match_id != -1) navigate.go(`/casino/${Item.slug}/${Item.match_id}`)
-    else toast.warn('This game is suspended by admin, please try again later')
+
+    if (!item.isDisable && item.match_id !== -1) {
+      navigate.go(`/casino/${item.slug}/${item.match_id}`)
+    } else {
+      toast.warn('This game is suspended by admin, please try again later')
+    }
   }
 
   const visibleGames = useMemo(() => {
-    if (!gamesList) return []
-    const base = gamesList.filter((item: any) => !item.isDisable && item.match_id !== -1)
+    if (!Array.isArray(gamesList)) return []
 
-    if (activeCategory === 'all') return base
+    const availableGames = gamesList.filter(
+      (item) => !item.isDisable && item.match_id !== -1
+    )
 
-    const category = CATEGORIES.find((c) => c.key === activeCategory)
-    if (!category || category.match.length === 0) return base
+    if (activeCategory === 'all') return availableGames
 
-    return base.filter((item: any) => {
-      const title = (item.title || '').toLowerCase()
-      return category.match.some((keyword) => title.includes(keyword))
+    const category = CATEGORIES.find(
+      (cat) => cat.key === activeCategory
+    )
+
+    if (!category || category.match.length === 0) {
+      return availableGames
+    }
+
+    return availableGames.filter((item) => {
+      const title = String(item.title || '').toLowerCase()
+
+      return category.match.some((keyword) =>
+        title.includes(keyword)
+      )
     })
   }, [gamesList, activeCategory])
 
   return (
-    <div className={`${P}-root`}>
-      {/* Scoped stylesheet — !important beats any legacy/template CSS,
-          and the "cbz2026" prefix avoids colliding with existing classes */}
-      <style>{`
-        .${P}-tabs {
-          display: flex !important;
-          align-items: center !important;
-          gap: 6px !important;
-          overflow-x: auto !important;
-          white-space: nowrap !important;
-          background: #020421 !important;
-          padding: 10px !important;
-          margin: 0 !important;
-          list-style: none !important;
-          width:100vw;
-        }
-        .${P}-tab {
-          flex: 0 0 auto !important;
-          border: none !important;
-          font-size: 13px !important;
-          font-weight: 600 !important;
-          padding: 7px 16px !important;
-          border-radius: 18px !important;
-          cursor: pointer !important;
-          background: transparent !important;
-          color: #cfd8e3 !important;
-        }
-        .${P}-tab-active {
-          background: #ffffff !important;
-          color: #020421 !important;
-        }
-        .${P}-grid {
-          display: grid !important;
-          grid-template-columns: repeat(3, 1fr) !important;
-          gap: 10px !important;
-          padding: 10px !important;
-          box-sizing: border-box !important;
-          margin: 0 !important;
-          list-style: none !important;
-        }
-        .${P}-card {
-          width: 100% !important;
-          max-width: 100% !important;
-          margin: 0 !important;
-          padding: 0 !important;
-        }
-        .${P}-link {
-          display: block !important;
-          text-decoration: none !important;
-          border-radius: 8px !important;
-          overflow: hidden !important;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
-          background: #020421 !important;
-        }
-        /* padding-bottom trick = forces a perfect square box on every
-           browser, even old ones that don't support aspect-ratio */
-        .${P}-imgwrap {
-          position: relative !important;
-          width: 100% !important;
-          height: 0 !important;
-          padding-bottom: 105% !important;
-          overflow: hidden !important;
-          background: #1a3a63 !important;
-        }
-        .${P}-img {
-          position: absolute !important;
-          top: 0 !important;
-          left: 0 !important;
-          width: 100% !important;
-          height: 100% !important;
-          max-width: 100% !important;
-          object-fit: cover !important;
-          display: block !important;
-          margin: 0 !important;
-        }
-        .${P}-title {
-          background: #020421 !important;
-          color: #fff !important;
-          text-align: center !important;
-          font-size: 11.5px !important;
-          font-weight: 600 !important;
-          padding: 6px 4px !important;
-          line-height: 1.25 !important;
-          min-height: 32px !important;
-          margin: 0 !important;
-        }
-      `}</style>
+    <section className="star-casino-root">
+      <div className="star-casino-heading">
+        <div className="star-casino-heading-left">
+          <span className="star-casino-heading-icon">
+            <i className="fas fa-dice" />
+          </span>
 
-      {/* CATEGORY SCROLLER */}
-      <div className={`${P}-tabs`}>
+          <div>
+            <h2>CASINO GAMES</h2>
+            <p>Explore your favourite games</p>
+          </div>
+        </div>
+
+        <span className="star-casino-count">
+          {visibleGames.length} Games
+        </span>
+      </div>
+
+      {/* Categories */}
+      <nav className="star-casino-tabs" aria-label="Casino categories">
         {CATEGORIES.map((cat) => (
           <button
+            type="button"
             key={cat.key}
-            className={`${P}-tab ${activeCategory === cat.key ? `${P}-tab-active` : ''}`}
+            className={`star-casino-tab ${
+              activeCategory === cat.key
+                ? 'star-casino-tab-active'
+                : ''
+            }`}
             onClick={() => setActiveCategory(cat.key)}
+            aria-pressed={activeCategory === cat.key}
           >
             {cat.label}
           </button>
         ))}
+      </nav>
+
+      {/* Game cards */}
+      <div className="star-casino-grid">
+        {visibleGames.map((item) => (
+          <article
+            className="star-casino-card"
+            key={`${item.slug}-${item.match_id}`}
+          >
+            <a
+              href={`/casino/${item.slug}/${item.match_id}`}
+              onClick={(e) => onCasinoClick(e, item)}
+              className="star-casino-card-link"
+              aria-label={`Open ${item.title}`}
+            >
+              <div className="star-casino-image-wrap">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="star-casino-image"
+                  loading="lazy"
+                />
+
+                <div className="star-casino-image-shade" />
+
+                <span className="star-casino-play-icon">
+                  <i className="fas fa-play" />
+                </span>
+              </div>
+
+              <div className="star-casino-title">
+                <span>{item.title}</span>
+              </div>
+            </a>
+          </article>
+        ))}
+
+        {/* Matka — only shown in All Games */}
+        {activeCategory === 'all' && (
+          <article className="star-casino-card">
+            <a
+              href="/match/matka"
+              className="star-casino-card-link"
+              aria-label="Open Matka"
+            >
+              <div className="star-casino-image-wrap">
+                <img
+                  src="https://sixrun.co/assets/matka_new-CYM3bRoj.png"
+                  alt="Matka"
+                  className="star-casino-image"
+                  loading="lazy"
+                />
+
+                <div className="star-casino-image-shade" />
+
+                <span className="star-casino-play-icon">
+                  <i className="fas fa-play" />
+                </span>
+              </div>
+
+              <div className="star-casino-title">
+                <span>Matka</span>
+              </div>
+            </a>
+          </article>
+        )}
       </div>
 
-      {/* GAME GRID — 3 per row, guaranteed via !important */}
-      <div className={`${P}-grid`}>
-        {visibleGames.map((Item: any, key: number) => {
-          return (
-            <div className={`${P}-card`} key={key}>
-              <a href="#" onClick={(e) => onCasinoClick(e, Item)} className={`${P}-link`}>
-                <div className={`${P}-imgwrap`}>
-                  <img
-                    src={Item.image}
-                    alt={Item.title}
-                    className={`${P}-img`}
-                    loading="lazy"
-                  />
-                </div>
-                <div className={`${P}-title`}>{Item.title}</div>
-              </a>
-
-            </div>
-          )
-        })}
-
-          <a href="/match/matka"  className={`${P}-link`}>
-                <div className={`${P}-imgwrap`}>
-                  <img
-                    src="https://sixrun.co/assets/matka_new-CYM3bRoj.png"
-                  
-                    className={`${P}-img`}
-                    loading="lazy"
-                  />
-                </div>
-                <div className={`${P}-title`}>matka</div>
-              </a>
-      </div>
-    </div>
+      {visibleGames.length === 0 && activeCategory !== 'all' && (
+        <div className="star-casino-empty">
+          <i className="fas fa-dice" />
+          <h3>No Games Found</h3>
+          <p>No available games in this category.</p>
+        </div>
+      )}
+    </section>
   )
 }
+
 export default React.memo(CasinoListItem)

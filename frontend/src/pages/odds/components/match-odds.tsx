@@ -236,7 +236,7 @@ class MatchOdds extends React.PureComponent<
                   <div
                     style={{
                       backgroundColor: "#020421",
-                      borderColor: "#020421",
+                     
                                             color:"white"
 
                     }}
@@ -247,7 +247,7 @@ class MatchOdds extends React.PureComponent<
                   <div
                     style={{
                       backgroundColor: "#020421",
-                      borderColor: "#020421",
+                  
                       color:"white"
                     }}
                     className={`lay ${classforheading} float-left text-center`}

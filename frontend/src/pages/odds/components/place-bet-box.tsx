@@ -246,7 +246,7 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
     return rows;
   };
 
-  const [seconds, setSeconds] = React.useState<number>(7);
+  const [seconds, setSeconds] = React.useState<number>(700);
 
   React.useEffect(() => {
     if (
@@ -255,7 +255,7 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
     ) {
       return;
     }
-    setSeconds(7); // Reset timer to 7 on open
+    setSeconds(700); // Reset timer to 7 on open
 
     const interval: NodeJS.Timeout = setInterval(() => {
       setSeconds((prev) => {
@@ -294,133 +294,158 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
   //console.log(betValues, "hajdd");
 
   //console.log("place bet re render ");
-  return (
-    <>
-      {betValues.isOpen && (
-        <>
-          <div onClick={onBackDrop} className="backdrop-custom"></div>
+ 
+return (
+  <>
+    {betValues.isOpen && (
+      <>
+        <div
+          className="golden-bet-backdrop"
+          onClick={onBackDrop}
+        />
 
-          <div className="card m-b-10 place-bet">
-            <div className="card-header d-flex align-items-center justify-content-between" style={{backgroundColor:"#020421"}}>
-              <h6 className="card-title d-inline-block ">Place Bet</h6>
-              {!["CASINO", "MATKA"].includes(betValues.betData?.betOn) && (
-                <div>Timer: {seconds} seconds</div>
-              )}
-              <span
-                className="card-title d-inline-block col-2"
-                onClick={closeBetPopup}
-              >
-                X
-              </span>
+        <div
+          className="golden-bet-sheet"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Place Bet"
+        >
+          <div className="golden-bet-header">
+            <div>
+              <h3>
+                {betObj.selectionName || "Place Bet"}
+              </h3>
+              <span>PLACE BET</span>
             </div>
-            <div
-              className={`table-responsive ${
-                betObj.isBack ? "white" : "white"
-              }`}
-            >
-              <form onSubmit={onSubmit}>
-                <table className="coupon-table  table table-borderedless">
-                  <thead className="d-none">
-                    <tr>
-                      <th style={{ width: "35%", textAlign: "left" }}>
-                        (Bet for)
-                      </th>
-                      <th style={{ width: "25%", textAlign: "left" }}>Odds</th>
-                      <th style={{ width: "15%", textAlign: "left" }}>Stake</th>
-                      <th style={{ width: "15%", textAlign: "right" }}>
-                        Profit
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-center d-none">
-                        <a onClick={closeBetPopup} className="text-danger">
-                          <i className="fa fa-times" />
-                        </a>
-                        {betObj.selectionName}
-                      </td>
-                      <td className="bet-odds ">
-                        <div className="form-group d-none">
-                          <input
-                            value={parseFloat(betObj?.odds?.toFixed(4)) || ""}
-                            type="text"
-                            required
-                            maxLength={4}
-                            readOnly
-                            className="amountint"
-                            style={{ width: 60, verticalAlign: "middle" }}
-                          />
-                          <div className="spinner-buttons  input-group-btn btn-group-vertical">
-                            <button
-                              type="button"
-                              className="custom-btn-spinner btn btn-xs btn-default"
-                              onClick={() => incrementDecrementOdds("inc")}
-                            >
-                              <i className="fa fa-angle-up" />
-                            </button>
-                            <button
-                              type="button"
-                              className="custom-btn-spinner btn btn-xs btn-default"
-                              onClick={() => incrementDecrementOdds("dec")}
-                            >
-                              <i className="fa fa-angle-down" />
-                            </button>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="bet-stakes w-100">
-                        <div className="form-group bet-stake w-100">
-                          <input
-                            maxLength={10}
-                            required
-                            type="number"
-                            value={betObj.stack || ""}
-                            onBlur={onBlurStack}
-                            onChange={onChangeStack}
-                            className="w-100 py-3 "
-                            style={{ fontSize: "20px" }}
-                          />
-                        </div>
-                      </td>
-                      <td className="text-right d-none bet-profit">
-                        {betValues.betData.pnl}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colSpan={5} className="value-buttons px-3 py-2">
-                        {renderStakeButtons()}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div className="col-md-12 mt-20 justify-content-end d-flex  align-content-center  ">
-                  <button
-                    onClick={reset}
-                    type="button"
-                    className="btn btn-sm btn-warning float-left d-flex align-items-center mr-1 "
-                  >
-                    Cancel <CloseIcon style={{ fontSize: "17px" }} />
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={getPlaceBet.status === IApiStatus.Loading}
-                    className="btn btn-sm btn-success float-right m-b-j5 d-flex align-items-center"
-                  >
-                    Submit <DoneIcon style={{ fontSize: "17px" }} />
-                    {getPlaceBet.status === IApiStatus.Loading ? (
-                      <i className="mx-5 fas fa-spinner fa-spin"></i>
-                    ) : (
-                      ""
-                    )}
-                  </button>
-                </div>
-              </form>
+
+            <div className="golden-bet-header-right">
+              {!["CASINO", "MATKA"].includes(
+                betValues.betData?.betOn
+              ) && (
+                <span className="golden-bet-timer">
+                  {seconds}s
+                </span>
+              )}
+
+              <button
+                type="button"
+                className="golden-bet-close"
+                onClick={closeBetPopup}
+                aria-label="Close"
+              >
+                ×
+              </button>
             </div>
           </div>
-        </>
-      )}
-    </>
-  );
+
+          <form onSubmit={onSubmit}>
+            <div className="golden-bet-body">
+              {/* RATE */}
+
+              <div className="golden-bet-rate-row">
+                <label>Rate :</label>
+
+                <div className="golden-bet-rate">
+                  {Number(betObj.odds || 0).toFixed(2)}
+                </div>
+              </div>
+
+              {/* STAKE INPUT */}
+
+              <div className="golden-bet-stake-row">
+                <label htmlFor="golden-stake">
+                  Amount
+                </label>
+
+                <input
+                  id="golden-stake"
+                  type="number"
+                  min="1"
+                  required
+                  value={betObj.stack || ""}
+                  onChange={onChangeStack}
+                  onBlur={onBlurStack}
+                  placeholder="Enter Amount"
+                />
+              </div>
+
+              {/* STAKE BUTTONS */}
+
+              <div className="golden-bet-stakes">
+                {Array.from(
+                  {
+                    length:
+                      betValues?.betData?.betOn ===
+                      "MATCH_ODDS"
+                        ? 13
+                        : 11,
+                  },
+                  (_, i) => i + 1
+                ).map((index) => {
+                  const stakeValue = Number(
+                    stake[
+                      `value${index}` as keyof IUserBetStake
+                    ]
+                  );
+
+                  const stakeName = String(
+                    stake[
+                      `name${index}` as keyof IUserBetStake
+                    ] ?? ""
+                  );
+
+                  return (
+                    <button
+                      key={index}
+                      type="button"
+                      className="golden-stake-btn"
+                      onClick={() => {
+                        if (
+                          Number.isFinite(stakeValue) &&
+                          stakeValue > 0
+                        ) {
+                          onStack(stakeValue);
+                        }
+                      }}
+                    >
+                      {stakeName}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* ACTION BUTTONS */}
+
+              <div className="golden-bet-actions">
+                <button
+                  type="button"
+                  className="golden-cancel-btn"
+                  onClick={reset}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  className="golden-submit-btn"
+                  disabled={
+                    getPlaceBet.status ===
+                    IApiStatus.Loading
+                  }
+                >
+                  {getPlaceBet.status ===
+                  IApiStatus.Loading
+                    ? "Please wait..."
+                    : "Place Bet"}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </>
+    )}
+  </>
+);
+
 };
 export default React.memo(PlaceBetBox);

@@ -16,7 +16,7 @@ from datetime import datetime
 # superNodeUrl = "http://localhost:3025/api/"
 casinoNodeUrl = "http://localhost:3025/api/"
 
-superNodeUrl = "https://super.a2zlive.shop/api/"
+superNodeUrl = "https://super.star-99live.shop/api/"
 # casinoNodeUrl = "https://socket2.taj44.com/api/"
 
 defaultRatio: any = {

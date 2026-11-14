@@ -130,7 +130,7 @@
 //         <div className='header-bottom'>
 //           <div className='container-fluid'>
 //             <CustomLink to={'/'} className='logo'>
-//               <img src='/imgs/logo.png' />
+//               <img src='/imgs/starlogo.png' />
 //             </CustomLink>
 //             <div className='side-menu-button' onClick={toggleDrawer}>
 //               <div className='bar1' />
@@ -313,7 +313,7 @@
 //       </header>
 //       <Drawer open={isOpen} onClose={toggleDrawer} direction='left'>
 //         <div className='drawer-header'>
-//           <img src='/imgs/logo.png' className='wd-100' />
+//           <img src='/imgs/starlogo.png' className='wd-100' />
 //         </div>
 //         <div className='drawer-content'>
 //           <Tree
@@ -736,7 +736,7 @@ const Header = () => {
             style={{ background: "black" }}
           >
             {/* <img className="" src="/9x.png" /> */}
-            <img className="" style={{ width: "500px" }} src="/imgs/logo.png" />
+            <img className="" style={{ width: "500px" }} src="/imgs/starlogo.png" />
           </CustomLink>
 
           <div className="">
@@ -841,7 +841,10 @@ const Header = () => {
 
                     {dropdownOpen ? (
                       <div
-                        style={{ background: "rgb(134 100 226 / 82%)" }}
+                        style={{     background: "radial-gradient( ellipse at 80% 0%, rgba(201, 137, 21, 0.12), transparent 60% ), linear-gradient( 145deg, #17140e 0%, #060708 55%, #100d09 100%", 
+    border:" 1.5px solid #d9a234"
+    
+}}
                         className="dropdown-menuj bg-neutral-700 md:pl-2   absolutek z-50 hiddenj group-hover:block w-full"
                       >
                         {getRoleOptions().map((role) => (
@@ -1757,7 +1760,7 @@ const Header = () => {
 
       {/* <Drawer open={isOpen} onClose={toggleDrawer} direction='left'>
         <div className='drawer-header'>
-          <img src='/imgs/logo.png' className='wd-100' />
+          <img src='/imgs/starlogo.png' className='wd-100' />
         </div>
         <div className='drawer-content'>
           <Tree

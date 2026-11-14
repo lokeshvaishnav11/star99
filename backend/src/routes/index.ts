@@ -46,13 +46,13 @@ router.post('/api/sh', function (req, res) {
   return res.json({ helloworld: true })
 })
 
- router.get(
-      '/api/active-fancies-new',
-     
-      new FancyController().activeFanciesnew,
-  )
+router.get(
+  '/api/active-fancies-new',
 
-  router.get(
+  new FancyController().activeFanciesnew,
+)
+
+router.get(
   '/api/result-fancy-new',
 
   new FancyController().declarefancyresultnew,
@@ -66,15 +66,11 @@ router.get('/api/result-market-fancy-auto', new FancyController().setT10FancyRes
 router.get('/api/get-business-fancy-list', new BetController().fancybetListSelection)
 router.post('/api/update-fancy-result', new FancyController().updatefancyresultapi)
 
-router.get("/api/get-user-id-no",new FancyController().getUseridno)
-router.get("/api/user-p-serach",new FancyController().getUserDetaliswithParents)
-
-
 router.get('/api/matka-list', new FancyController().matkaList66)
 router.get('/api/matka-list-rollback', new FancyController().matkaListRollback)
 
 router.post('/api/matka-result', new FancyController().matkaResultapi)
-router.get('/api/matka-rollback',new FancyController().rollbackMatkaResult)
+router.get('/api/matka-rollback', new FancyController().rollbackMatkaResult)
 
 router.get('/api/resync_bookmaker_id', new SportsController().saveMatchResyncCron)
 router.use('/api', new T10ResultRoutes().router)

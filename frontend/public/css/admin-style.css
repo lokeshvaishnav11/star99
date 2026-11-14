@@ -5443,7 +5443,7 @@ img.rrotate {
 }
 
 .cricket-match-result .market-title {
-  background-color: var(--theme2-bg85);
+  background: var(--theme2-bg85);
   padding: 8px;
   color: var(--secondary-color);
   font-size: 14px;
@@ -6179,7 +6179,7 @@ img.rrotate {
 }
 
 .market-title {
-  background-color: var(--theme2-bg85);
+  background: var(--theme2-bg85);
   padding: 6px 8px;
   color: var(--secondary-color);
   font-size: 14px;

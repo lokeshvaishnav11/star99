@@ -1,0 +1,493 @@
+
+/* =====================================
+   STAR-99 ROYAL CASINO UI
+   BLACK + GOLD PREMIUM DESIGN
+   ===================================== */
+
+.star-casino-root {
+  --casino-gold: #e4ae37;
+  --casino-gold-light: #ffe18a;
+  --casino-dark: #070707;
+
+  width: 100%;
+  min-width: 0;
+  padding: 13px 10px 25px;
+  box-sizing: border-box;
+  color: #fff;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(177, 114, 16, 0.12),
+      transparent 55%
+    ),
+    linear-gradient(145deg, #11100c, #050505 65%, #100c07);
+}
+
+.star-casino-root *,
+.star-casino-root *::before,
+.star-casino-root *::after {
+  box-sizing: border-box;
+}
+
+/* HEADING */
+
+.star-casino-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 17px;
+  padding: 13px 14px;
+
+  border: 1px solid #b78325;
+  border-radius: 13px;
+
+  background: linear-gradient(
+    110deg,
+    #20180b,
+    #080808 65%,
+    #181207
+  );
+
+  box-shadow:
+    0 0 11px rgba(239, 174, 40, 0.18),
+    inset 0 0 13px rgba(238, 176, 42, 0.04);
+}
+
+.star-casino-heading-left {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+
+.star-casino-heading-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 39px;
+  height: 39px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ffe18b, #b97c19);
+  color: #1a1103;
+  font-size: 20px;
+  box-shadow: 0 0 12px rgba(244, 180, 45, 0.25);
+}
+
+.star-casino-heading h2 {
+  margin: 0;
+  color: #ffda77;
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+}
+
+.star-casino-heading p {
+  margin: 4px 0 0;
+  color: #a99a7a;
+  font-size: 11px;
+}
+
+.star-casino-count {
+  flex-shrink: 0;
+  padding: 6px 10px;
+  border: 1px solid #75561f;
+  border-radius: 20px;
+  color: #e9bf65;
+  background: #11100d;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* CATEGORY TABS */
+
+.star-casino-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  padding: 3px 1px 13px;
+  margin-bottom: 6px;
+
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.star-casino-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.star-casino-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+
+  min-height: 37px;
+  padding: 8px 16px;
+
+  border: 1px solid #805d21;
+  border-radius: 9px;
+
+  background: linear-gradient(145deg, #181612, #080808);
+  color: #c9b27f;
+
+  font-size: 12px;
+  font-weight: 750;
+  white-space: nowrap;
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.star-casino-tab:hover {
+  color: #ffe08b;
+  border-color: #edba4b;
+}
+
+.star-casino-tab-active {
+  border-color: #fff0b0;
+  background: linear-gradient(
+    120deg,
+    #ab741c,
+    #ffe08a 45%,
+    #d39a2c
+  );
+  color: #180f02;
+
+  box-shadow:
+    0 0 11px rgba(255, 191, 54, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.star-casino-tab-active:hover {
+  color: #180f02;
+}
+
+/* GAME GRID */
+
+.star-casino-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 11px;
+  width: 100%;
+  min-width: 0;
+}
+
+/* CARD */
+
+.star-casino-card {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  padding: 2px;
+
+  border: 1px solid #c9942e;
+  border-radius: 13px;
+
+  background: linear-gradient(
+    135deg,
+    #fff0a8,
+    #8c5b10 30%,
+    #f8c95c 60%,
+    #92610e
+  );
+
+  box-shadow:
+    0 0 8px rgba(255, 183, 38, 0.25),
+    0 4px 12px rgba(0, 0, 0, 0.4);
+
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.star-casino-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 18px rgba(255, 192, 55, 0.55),
+    0 8px 18px rgba(0, 0, 0, 0.5);
+}
+
+.star-casino-card-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #050505;
+  color: inherit;
+  text-decoration: none;
+}
+
+.star-casino-card-link:hover {
+  text-decoration: none;
+}
+
+/* IMAGE */
+
+.star-casino-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+
+  background:
+    radial-gradient(circle at center, #45300e, #090909);
+}
+
+.star-casino-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+
+  transition: transform 0.35s ease;
+}
+
+.star-casino-card:hover .star-casino-image {
+  transform: scale(1.055);
+}
+
+.star-casino-image-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background: linear-gradient(
+    to bottom,
+    transparent 55%,
+    rgba(0, 0, 0, 0.5)
+  );
+}
+
+/* PLAY ICON */
+
+.star-casino-play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 39px;
+  height: 39px;
+
+  transform: translate(-50%, -50%) scale(0.85);
+  opacity: 0;
+
+  border: 1px solid #ffe3a0;
+  border-radius: 50%;
+  background: rgba(7, 7, 7, 0.8);
+  color: #ffd36e;
+
+  box-shadow: 0 0 15px rgba(255, 190, 51, 0.4);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.star-casino-card:hover .star-casino-play-icon {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.star-casino-play-icon i {
+  margin-left: 2px;
+  font-size: 13px;
+}
+
+/* GAME TITLE */
+
+.star-casino-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 39px;
+  padding: 7px 5px;
+
+  border-top: 1px solid rgba(255, 198, 68, 0.5);
+
+  background: linear-gradient(
+    180deg,
+    #18130a,
+    #030303 70%
+  );
+
+  color: #ffe2a1;
+  text-align: center;
+  font-size: 11.5px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.star-casino-title span {
+  display: -webkit-box;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* EMPTY STATE */
+
+.star-casino-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  padding: 35px 15px;
+  margin-top: 10px;
+
+  border: 1px solid #a97c2c;
+  border-radius: 13px;
+  background: #0d0b08;
+  color: #eac577;
+  text-align: center;
+}
+
+.star-casino-empty i {
+  font-size: 28px;
+}
+
+.star-casino-empty h3 {
+  margin: 3px 0 0;
+  font-size: 16px;
+}
+
+.star-casino-empty p {
+  margin: 0;
+  color: #a99c83;
+  font-size: 12px;
+}
+
+/* TABLET */
+
+@media (min-width: 650px) {
+  .star-casino-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+  }
+
+  .star-casino-title {
+    font-size: 13px;
+    min-height: 43px;
+  }
+}
+
+/* DESKTOP */
+
+@media (min-width: 1100px) {
+  .star-casino-root {
+    padding: 20px;
+  }
+
+  .star-casino-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .star-casino-card {
+    border-radius: 16px;
+  }
+
+  .star-casino-title {
+    font-size: 14px;
+    min-height: 48px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 480px) {
+  .star-casino-root {
+    padding: 9px 7px 20px;
+  }
+
+  .star-casino-heading {
+    padding: 10px;
+    margin-bottom: 12px;
+  }
+
+  .star-casino-heading h2 {
+    font-size: 14px;
+  }
+
+  .star-casino-heading p {
+    font-size: 10px;
+  }
+
+  .star-casino-heading-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 17px;
+  }
+
+  .star-casino-count {
+    padding: 5px 7px;
+    font-size: 10px;
+  }
+
+  .star-casino-grid {
+    gap: 8px;
+  }
+
+  .star-casino-card {
+    border-radius: 10px;
+    padding: 2px;
+  }
+
+  .star-casino-card-link {
+    border-radius: 7px;
+  }
+
+  .star-casino-title {
+    min-height: 36px;
+    padding: 5px 3px;
+    font-size: 10px;
+  }
+
+  .star-casino-tab {
+    min-height: 34px;
+    padding: 7px 12px;
+    font-size: 11px;
+  }
+}
+
+/* SMALL MOBILE */
+
+@media (max-width: 350px) {
+  .star-casino-grid {
+    gap: 5px;
+  }
+
+  .star-casino-title {
+    font-size: 9px;
+  }
+}
+
+/* KEYBOARD ACCESSIBILITY */
+
+.star-casino-root button:focus-visible,
+.star-casino-card-link:focus-visible {
+  outline: 2px solid #ffe49b;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star-casino-root *,
+  .star-casino-root *::before,
+  .star-casino-root *::after {
+    transition-duration: 0.01ms !important;
+  }
+}

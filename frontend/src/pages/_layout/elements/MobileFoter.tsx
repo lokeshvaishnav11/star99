@@ -358,15 +358,16 @@ const MobileFooter = () => {
       className="d-flex justify-content-around align-items-center"
       style={{
         position: "fixed",
-        bottom: 13,
+        bottom: 2,
         left: 0,
         width: "100%",
         background: "#020421",
-        height: "42px",
+        height: "54px",
         zIndex: 99999999,
-        borderTop: "1px solid rgba(255,255,255,0.1)",
+        // borderTop: "1px solid rgba(255,255,255,0.1)",
         overflow: "hidden",
-        borderRadius: "30px",
+        borderRadius: "33px",
+        border: "1.5px solid rgb(217, 162, 52)"
       }}
     >
       {menu.map((item, i) => {

@@ -206,20 +206,25 @@ const [userAlldata, setUserAlldata] = React.useState<{ [key: string]: any }>({})
   return (
     <header className="header">
       <div className="container-fluidu">
-        <div className="ro" style={{backgroundColor:"#020421"}}>
+      
+                       
+        <div className="ro" style={{     background: "radial-gradient( ellipse at 80% 0%, rgba(201, 137, 21, 0.12), transparent 60% ), linear-gradient( 145deg, #17140e 0%, #060708 55%, #100d09 100%", 
+    border:" 1.5px solid #d9a234"
+    
+}}>
           <div className="container-fluid text-white py-2">
             <div className="d-flex align-items-center justify-content-between flex-wrap">
               {/* Logo */}
               <div className="d-flex align-items-center" style={{fontWeight:"bold",fontSize: "27px"}}>
                 <CustomLink to="/" className="d-flex logo align-items-center">
                   <img
-                    src="/imgs/logon.jpeg"
+                    src="/imgs/starlogo.png"
                     className="img-fluid "
                     // style={{ maxHeight: "40px" }}
                     alt="Logo"
                   />
                 </CustomLink>
-                {/* A2Z */}
+                {/* star-99 */}
               </div>
 
               {/* User Info */}

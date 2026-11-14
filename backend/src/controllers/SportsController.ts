@@ -129,7 +129,8 @@ class SportsController extends ApiController {
           isBookMaker,
           isT10: isT10 || isT10Fancy,
           resultstring: "",
-         
+           fancyTotalLimit:300000,
+          betDelay:1000
         }
 
         if (!syncData) {
@@ -241,7 +242,7 @@ class SportsController extends ApiController {
   async marketesData(match: IMatch, syncData: boolean) {
     const markets = await sportsService.getMarkets(match)
 
-    console.log(markets, "markets data from backend ibn ths codew sw")
+        console.log(markets.data.sports, "markets data from backend ibn ths codew sw")
 
 
     if (markets?.data?.sports?.length > 0)
@@ -335,7 +336,7 @@ class SportsController extends ApiController {
   //     }
   //     })
   //   }
-
+    
   //     return markets.data.sports.length > 0
   //   }
   //   return false
@@ -411,7 +412,7 @@ class SportsController extends ApiController {
     return false
   }
 
-  async fancyData(match: IMatch) {
+   async fancyData(match: IMatch) {
     const fancy = await sportsService.getSession(match.matchId, match.sportId)
     // console.log(fancy, "fancy data from backend ibn ths codew sw")
     // const fancyone = fancy?.data?.sports?.filter((m: any) =>
@@ -426,7 +427,7 @@ class SportsController extends ApiController {
       const name = m?.RunnerName || "";
 
       return (
-        (m.gtype === "session" || m.gtype === "fancy") &&
+        (m.gtype === "session" || m.gtype === "fancy1") &&
 
         // must include
         !name.includes(".3 over ") &&
@@ -746,217 +747,217 @@ class SportsController extends ApiController {
   //   }
   // }
 
-  // async getFancyList(req: Request, res: Response): Promise<Response> {
-  //   try {
-  //     const { matchId, gtype }: any = req.query;
+// async getFancyList(req: Request, res: Response): Promise<Response> {
+//   try {
+//     const { matchId, gtype }: any = req.query;
 
-  //     const fancy = await Fancy.find({
-  //       matchId,
-  //       active: true,
-  //     }).sort({ sr_no: 1, marketId: 1 });
+//     const fancy = await Fancy.find({
+//       matchId,
+//       active: true,
+//     }).sort({ sr_no: 1, marketId: 1 });
 
-  //     // Priority groups
-  //     const priorityOrder = [
-  //       " over run ",      // 1st priority (SINGULAR)
-  //       " over runs ",     // 2nd priority (PLURAL)
-  //       " Fall of ",
-  //       "  run",
-  //       " Boundaries",
-  //       " pship Boundaries ",
-  //     ];
+//     // Priority groups
+//     const priorityOrder = [
+//       " over run ",      // 1st priority (SINGULAR)
+//       " over runs ",     // 2nd priority (PLURAL)
+//       " Fall of ",
+//       "  run",
+//       " Boundaries",
+//       " pship Boundaries ",
+//     ];
 
-  //     // Common sessions ASC
-  //     const commonSessions = [10, 15, 20, 25, 30, 35, 40, 45, 50];
+//     // Common sessions ASC
+//     const commonSessions = [10, 15, 20, 25, 30, 35, 40, 45, 50];
 
-  //     const extractSessionNumber = (name: string) => {
-  //       const match = name?.match(/\b(\d+)\b/);
-  //       return match ? parseInt(match[1]) : null;
-  //     };
+//     const extractSessionNumber = (name: string) => {
+//       const match = name?.match(/\b(\d+)\b/);
+//       return match ? parseInt(match[1]) : null;
+//     };
 
-  //     const sortedFancy = fancy.sort((a: any, b: any) => {
-  //       const nameA = a?.fancyName?.toLowerCase() || "";
-  //       const nameB = b?.fancyName?.toLowerCase() || "";
+//     const sortedFancy = fancy.sort((a: any, b: any) => {
+//       const nameA = a?.fancyName?.toLowerCase() || "";
+//       const nameB = b?.fancyName?.toLowerCase() || "";
 
-  //       // Get priority rank (lower = higher rank)
-  //       const indexA = priorityOrder.findIndex((p) => nameA.includes(p));
-  //       const indexB = priorityOrder.findIndex((p) => nameB.includes(p));
+//       // Get priority rank (lower = higher rank)
+//       const indexA = priorityOrder.findIndex((p) => nameA.includes(p));
+//       const indexB = priorityOrder.findIndex((p) => nameB.includes(p));
 
-  //       const rankA = indexA === -1 ? 999 : indexA;
-  //       const rankB = indexB === -1 ? 999 : indexB;
+//       const rankA = indexA === -1 ? 999 : indexA;
+//       const rankB = indexB === -1 ? 999 : indexB;
 
-  //       // 1️⃣ Sort first by priority group
-  //       if (rankA !== rankB) return rankA - rankB;
+//       // 1️⃣ Sort first by priority group
+//       if (rankA !== rankB) return rankA - rankB;
 
-  //       // 2️⃣ For "over run" AND "over runs" → apply session number logic
-  //       const isOverRunA =
-  //         nameA.includes(" over run ") || nameA.includes(" over runs ");
-  //       const isOverRunB =
-  //         nameB.includes(" over run ") || nameB.includes(" over runs ");
+//       // 2️⃣ For "over run" AND "over runs" → apply session number logic
+//       const isOverRunA =
+//         nameA.includes(" over run ") || nameA.includes(" over runs ");
+//       const isOverRunB =
+//         nameB.includes(" over run ") || nameB.includes(" over runs ");
 
-  //       if (isOverRunA || isOverRunB) {
-  //         const numA = extractSessionNumber(nameA) || -1;
-  //         const numB = extractSessionNumber(nameB) || -1;
+//       if (isOverRunA || isOverRunB) {
+//         const numA = extractSessionNumber(nameA) || -1;
+//         const numB = extractSessionNumber(nameB) || -1;
 
-  //         const aCommon = commonSessions.includes(numA);
-  //         const bCommon = commonSessions.includes(numB);
+//         const aCommon = commonSessions.includes(numA);
+//         const bCommon = commonSessions.includes(numB);
 
-  //         // 3️⃣ Common sessions at top
-  //         if (aCommon && !bCommon) return -1;
-  //         if (!aCommon && bCommon) return 1;
+//         // 3️⃣ Common sessions at top
+//         if (aCommon && !bCommon) return -1;
+//         if (!aCommon && bCommon) return 1;
 
-  //         // 4️⃣ Both common → ASC
-  //         if (aCommon && bCommon) return numA - numB;
+//         // 4️⃣ Both common → ASC
+//         if (aCommon && bCommon) return numA - numB;
 
-  //         // 5️⃣ Both uncommon → DESC
-  //         return numB - numA;
-  //       }
+//         // 5️⃣ Both uncommon → DESC
+//         return numB - numA;
+//       }
 
-  //       // 6️⃣ fallback alphabetical sorting
-  //       return nameA.localeCompare(nameB);
-  //     });
+//       // 6️⃣ fallback alphabetical sorting
+//       return nameA.localeCompare(nameB);
+//     });
 
-  //     return this.success(res, sortedFancy);
-  //   } catch (e: any) {
-  //     return this.fail(res, e);
-  //   }
-  // }
+//     return this.success(res, sortedFancy);
+//   } catch (e: any) {
+//     return this.fail(res, e);
+//   }
+// }
 
-  // async getFancyList(req: Request, res: Response): Promise<Response> {
-  //   try {
-  //     const { matchId, gtype }: any = req.query;
+// async getFancyList(req: Request, res: Response): Promise<Response> {
+//   try {
+//     const { matchId, gtype }: any = req.query;
 
-  //     const fancy = await Fancy.find({
-  //       matchId,
-  //       active: true,
-  //     }).sort({ sr_no: 1, marketId: 1 });
+//     const fancy = await Fancy.find({
+//       matchId,
+//       active: true,
+//     }).sort({ sr_no: 1, marketId: 1 });
 
-  //     const priorityOrder = [
-  //       " over runs ",
-  //       " over run ",
+//     const priorityOrder = [
+//       " over runs ",
+//       " over run ",
+      
+//       "fall of",
+//       " run",
+//       "boundaries",
+//       "pship boundaries",
+//     ];
 
-  //       "fall of",
-  //       " run",
-  //       "boundaries",
-  //       "pship boundaries",
-  //     ];
+//     const commonSessions = [6,10, 15, 20, 25, 30, 35, 40, 45, 50];
 
-  //     const commonSessions = [6,10, 15, 20, 25, 30, 35, 40, 45, 50];
+//     const extractSessionNumber = (name: string) => {
+//       const match = name?.match(/\b(\d+)\b/);
+//       return match ? parseInt(match[1]) : null;
+//     };
 
-  //     const extractSessionNumber = (name: string) => {
-  //       const match = name?.match(/\b(\d+)\b/);
-  //       return match ? parseInt(match[1]) : null;
-  //     };
+//     const sortedFancy = fancy.sort((a: any, b: any) => {
+//       const nameA = a?.fancyName?.toLowerCase() || "";
+//       const nameB = b?.fancyName?.toLowerCase() || "";
 
-  //     const sortedFancy = fancy.sort((a: any, b: any) => {
-  //       const nameA = a?.fancyName?.toLowerCase() || "";
-  //       const nameB = b?.fancyName?.toLowerCase() || "";
+//       const indexA = priorityOrder.findIndex((p) => nameA.includes(p));
+//       const indexB = priorityOrder.findIndex((p) => nameB.includes(p));
+//       const rankA = indexA === -1 ? 999 : indexA;
+//       const rankB = indexB === -1 ? 999 : indexB;
 
-  //       const indexA = priorityOrder.findIndex((p) => nameA.includes(p));
-  //       const indexB = priorityOrder.findIndex((p) => nameB.includes(p));
-  //       const rankA = indexA === -1 ? 999 : indexA;
-  //       const rankB = indexB === -1 ? 999 : indexB;
+//       if (rankA !== rankB) return rankA - rankB;
 
-  //       if (rankA !== rankB) return rankA - rankB;
+//       const isOverRunA =
+//         nameA.includes(" over run ") || nameA.includes(" over runs ");
+//       const isOverRunB =
+//         nameB.includes(" over run ") || nameB.includes(" over runs ");
 
-  //       const isOverRunA =
-  //         nameA.includes(" over run ") || nameA.includes(" over runs ");
-  //       const isOverRunB =
-  //         nameB.includes(" over run ") || nameB.includes(" over runs ");
+//       if (isOverRunA || isOverRunB) {
+//         const numA = extractSessionNumber(nameA) || -1;
+//         const numB = extractSessionNumber(nameB) || -1;
 
-  //       if (isOverRunA || isOverRunB) {
-  //         const numA = extractSessionNumber(nameA) || -1;
-  //         const numB = extractSessionNumber(nameB) || -1;
+//         const aCommon = commonSessions.includes(numA);
+//         const bCommon = commonSessions.includes(numB);
 
-  //         const aCommon = commonSessions.includes(numA);
-  //         const bCommon = commonSessions.includes(numB);
+//         if (aCommon && !bCommon) return -1;
+//         if (!aCommon && bCommon) return 1;
 
-  //         if (aCommon && !bCommon) return -1;
-  //         if (!aCommon && bCommon) return 1;
+//         if (aCommon && bCommon) return numA - numB;
 
-  //         if (aCommon && bCommon) return numA - numB;
+//         // ⭐ NEW → both uncommon → ASCENDING
+//         return numA - numB;
+//       }
 
-  //         // ⭐ NEW → both uncommon → ASCENDING
-  //         return numA - numB;
-  //       }
+//       return nameA.localeCompare(nameB);
+//     });
 
-  //       return nameA.localeCompare(nameB);
-  //     });
+//     return this.success(res, sortedFancy);
+//   } catch (e: any) {
+//     return this.fail(res, e);
+//   }
+// }
 
-  //     return this.success(res, sortedFancy);
-  //   } catch (e: any) {
-  //     return this.fail(res, e);
-  //   }
-  // }
+async getFancyList(req: Request, res: Response): Promise<Response> {
+  try {
+    const { matchId }: any = req.query;
 
-  async getFancyList(req: Request, res: Response): Promise<Response> {
-    try {
-      const { matchId }: any = req.query;
+    const fancy = await Fancy.find({
+      matchId,
+      active: true,
+    }).sort({ sr_no: 1, marketId: 1 });
 
-      const fancy = await Fancy.find({
-        matchId,
-        active: true,
-      }).sort({ sr_no: 1, marketId: 1 });
+    const extractSessionNumber = (name: string) => {
+      const match = name?.match(/\b(\d+)\b/);
+      return match ? parseInt(match[1]) : null;
+    };
 
-      const extractSessionNumber = (name: string) => {
-        const match = name?.match(/\b(\d+)\b/);
-        return match ? parseInt(match[1]) : null;
-      };
+    const overRunsPriority = [6, 10, 15, 20];
 
-      const overRunsPriority = [6, 10, 15, 20];
+    const sortedFancy = fancy.sort((a: any, b: any) => {
+      const nameA = a?.fancyName?.toLowerCase() || "";
+      const nameB = b?.fancyName?.toLowerCase() || "";
 
-      const sortedFancy = fancy.sort((a: any, b: any) => {
-        const nameA = a?.fancyName?.toLowerCase() || "";
-        const nameB = b?.fancyName?.toLowerCase() || "";
+      const isOverRunsA = nameA.includes(" over runs ");
+      const isOverRunsB = nameB.includes(" over runs ");
 
-        const isOverRunsA = nameA.includes(" over runs ");
-        const isOverRunsB = nameB.includes(" over runs ");
+      const isOverRunA = nameA.includes(" over run ");
+      const isOverRunB = nameB.includes(" over run ");
 
-        const isOverRunA = nameA.includes(" over run ");
-        const isOverRunB = nameB.includes(" over run ");
+      /** 1️⃣ Over Runs first */
+      if (isOverRunsA && !isOverRunsB) return -1;
+      if (!isOverRunsA && isOverRunsB) return 1;
 
-        /** 1️⃣ Over Runs first */
-        if (isOverRunsA && !isOverRunsB) return -1;
-        if (!isOverRunsA && isOverRunsB) return 1;
+      /** 2️⃣ Over Run after Over Runs */
+      if (isOverRunA && !isOverRunB && !isOverRunsA) return -1;
+      if (!isOverRunA && isOverRunB && !isOverRunsB) return 1;
 
-        /** 2️⃣ Over Run after Over Runs */
-        if (isOverRunA && !isOverRunB && !isOverRunsA) return -1;
-        if (!isOverRunA && isOverRunB && !isOverRunsB) return 1;
+      /** Over Runs internal sorting */
+      if (isOverRunsA && isOverRunsB) {
+        const numA = extractSessionNumber(nameA) ?? 999;
+        const numB = extractSessionNumber(nameB) ?? 999;
 
-        /** Over Runs internal sorting */
-        if (isOverRunsA && isOverRunsB) {
-          const numA = extractSessionNumber(nameA) ?? 999;
-          const numB = extractSessionNumber(nameB) ?? 999;
+        const indexA = overRunsPriority.indexOf(numA);
+        const indexB = overRunsPriority.indexOf(numB);
 
-          const indexA = overRunsPriority.indexOf(numA);
-          const indexB = overRunsPriority.indexOf(numB);
-
-          // ⭐ 6,10,15,20 first
-          if (indexA !== -1 || indexB !== -1) {
-            if (indexA === -1) return 1;
-            if (indexB === -1) return -1;
-            return indexA - indexB;
-          }
-
-          // baaki Over Runs → ascending
-          return numA - numB;
+        // ⭐ 6,10,15,20 first
+        if (indexA !== -1 || indexB !== -1) {
+          if (indexA === -1) return 1;
+          if (indexB === -1) return -1;
+          return indexA - indexB;
         }
 
-        /** Over Run internal sorting */
-        if (isOverRunA && isOverRunB) {
-          const numA = extractSessionNumber(nameA) ?? 999;
-          const numB = extractSessionNumber(nameB) ?? 999;
-          return numA - numB;
-        }
+        // baaki Over Runs → ascending
+        return numA - numB;
+      }
 
-        /** Remaining fancy → default */
-        return nameA.localeCompare(nameB);
-      });
+      /** Over Run internal sorting */
+      if (isOverRunA && isOverRunB) {
+        const numA = extractSessionNumber(nameA) ?? 999;
+        const numB = extractSessionNumber(nameB) ?? 999;
+        return numA - numB;
+      }
 
-      return this.success(res, sortedFancy);
-    } catch (e: any) {
-      return this.fail(res, e);
-    }
+      /** Remaining fancy → default */
+      return nameA.localeCompare(nameB);
+    });
+
+    return this.success(res, sortedFancy);
+  } catch (e: any) {
+    return this.fail(res, e);
   }
+}
 
 
 
@@ -1134,7 +1135,7 @@ class SportsController extends ApiController {
   async addFancyToDb(req: Request, res: Response): Promise<Response> {
     try {
       const { fancy } = req.body
-      if (fancy.gtype == "khado" || fancy.gtype == "oddeven" || fancy.gtype == "cricketcasino"  || fancy.gtype == "fancy2"||fancy.gtype == "meter" || fancy.RunnerName.includes(' run bhav ') || fancy.RunnerName.includes(" Caught out ") || fancy.RunnerName.includes(' ball No ') || fancy.RunnerName.includes(' Run bhav ') || fancy.RunnerName.includes(' run bhav') || fancy.RunnerName.includes('.3 over ') || fancy.RunnerName.includes(' ball run ') || fancy.RunnerName.includes(' Nextman ') || fancy.RunnerName.includes('Power Surge ')) {
+      if (fancy.gtype == "khado" || fancy.gtype == "oddeven" || fancy.gtype == "meter" || fancy.RunnerName.includes(' run bhav ') || fancy.RunnerName.includes(" Caught out ") || fancy.RunnerName.includes(' ball No ') || fancy.RunnerName.includes(' Run bhav ') || fancy.RunnerName.includes(' run bhav') || fancy.RunnerName.includes('.3 over ') || fancy.RunnerName.includes(' ball run ') || fancy.RunnerName.includes(' Nextman ') || fancy.RunnerName.includes('Power Surge ')) {
         return this.fail(res, 'not fancy added')
       }
       let type = ''
@@ -1500,9 +1501,7 @@ class SportsController extends ApiController {
   //   }
   // }
 
-  // diamond api
-
-  getSeriesWithMarket = async (req: Request, res: Response): Promise<any> => {
+    getSeriesWithMarket = async (req: Request, res: Response): Promise<any> => {
     try {
       const { EventTypeID } = req.query
       if (!EventTypeID) return this.fail(res, 'EventTypeID is required field')
@@ -1511,12 +1510,12 @@ class SportsController extends ApiController {
       const matchIds = alreadyAdded.map((match: any) => match.matchId)
 
       const response = await axios.get(
-       "http://64.227.139.183:3088/sportapi/match-list?sportsid=4&key=lokesh8279",
+        "http://64.227.139.183:3088/sportapi/match-list?sportsid=4&key=lokesh1234",
         {
           headers: {
-            "x-api-key": "1cfdeb5a7b55d02111f3e2bd324f609f2330c928",
+            "x-api-key": "a3f41cc1eff0e0609f70b738d9e9d6cfda7b7465",
             "x-api-secret":
-              "0e3be4c11c551261575a87b50a0b14da1c87c50aada2770c765a1ed6f2d5b84b",
+              "06926b1891e99df1dd28f123c4935cfb87d07e4b9641f21ac99bc6f31263f946",
           },
         }
       )

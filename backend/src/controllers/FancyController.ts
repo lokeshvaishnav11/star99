@@ -24,10 +24,8 @@ import { cp } from "node:fs";
 import { BetStake } from "../models/BetStake";
 import Matka from "../models/Matka";
 import Matkagames from "../models/Matkagames";
-import { useridno, UseridNo } from "../models/UserId";
 
 var ObjectId = require("mongoose").Types.ObjectId;
-import { createClient } from "redis";
 
 export class FancyController extends ApiController {
   // activeFancies = async (req: Request, res: Response): Promise<Response> => {
@@ -159,7 +157,7 @@ export class FancyController extends ApiController {
   //     const totalMatkaExposure = result[0]?.totalExposure || 0
   //     console.log(totalMatkaExposure + data.stack*data.odds,"makkttt", matakaLimit,data.stack*data.odds)
 
-
+     
   //     if(totalMatkaExposure + data.stack*data.odds > matakaLimit ){
   //       return this.fail(res,"This Number Matka Limit is complete")
   //     }
@@ -202,302 +200,302 @@ export class FancyController extends ApiController {
 
   // }
 
-  // placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
-  //   const getAndar = (num: number) => Math.floor(num / 10);
-  //   const getBahar = (num: number) => num % 10;
+// placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
+//   const getAndar = (num: number) => Math.floor(num / 10);
+//   const getBahar = (num: number) => num % 10;
 
-  //   try {
-  //     const data = req.body;
-  //     const { _id }: any = req.user;
+//   try {
+//     const data = req.body;
+//     const { _id }: any = req.user;
 
-  //     if (!data) return this.fail(res, "Invalid data");
+//     if (!data) return this.fail(res, "Invalid data");
 
-  //     const userData = await User.findById(_id);
-  //     const balanceData = await Balance.findOne({ userId: _id });
-  //     const parentData = await User.findById(userData?.parentId);
+//     const userData = await User.findById(_id);
+//     const balanceData = await Balance.findOne({ userId: _id });
+//     const parentData = await User.findById(userData?.parentId);
 
-  //     if (!userData || !balanceData || !parentData)
-  //       return this.fail(res, "Invalid user data");
+//     if (!userData || !balanceData || !parentData)
+//       return this.fail(res, "Invalid user data");
 
-  //     const matkaLimit = parentData.matkalimit;
+//     const matkaLimit = parentData.matkalimit;
 
-  //     // 🔹 USER TOTAL EXPOSURE
-  //     const pendingBets = await Matkabet.find({
-  //       userId: _id,
-  //       status: "pending",
-  //     }).select({ betamount: 1 });
+//     // 🔹 USER TOTAL EXPOSURE
+//     const pendingBets = await Matkabet.find({
+//       userId: _id,
+//       status: "pending",
+//     }).select({ betamount: 1 });
 
-  //     const userExposure = pendingBets.reduce(
-  //       (sum: number, b: any) => sum + b.betamount,
-  //       0
-  //     );
+//     const userExposure = pendingBets.reduce(
+//       (sum: number, b: any) => sum + b.betamount,
+//       0
+//     );
 
-  //     // 🔹 CURRENT BET DETAILS
-  //     const betType = data.gtype; // single | andar | bahar
-  //     const selection = Number(data.selectionId);
+//     // 🔹 CURRENT BET DETAILS
+//     const betType = data.gtype; // single | andar | bahar
+//     const selection = Number(data.selectionId);
 
-  //     const andar = getAndar(selection);
-  //     const bahar = getBahar(selection);
+//     const andar = getAndar(selection);
+//     const bahar = getBahar(selection);
 
-  //     // 🔹 FETCH RELATED BETS (NO REGEX)
-  //     const relatedBets = await Matkabet.find({
-  //       parentId: ObjectId(userData.parentId),
-  //       roundid: data.matchId,
-  //       status: "pending",
-  //     });
+//     // 🔹 FETCH RELATED BETS (NO REGEX)
+//     const relatedBets = await Matkabet.find({
+//       parentId: ObjectId(userData.parentId),
+//       roundid: data.matchId,
+//       status: "pending",
+//     });
 
-  //     let existingExposure = 0;
+//     let existingExposure = 0;
 
-  //     for (const bet of relatedBets) {
-  //       const betSel = Number(bet.selectionId);
-  //       const betAndar = getAndar(betSel);
-  //       const betBahar = getBahar(betSel);
+//     for (const bet of relatedBets) {
+//       const betSel = Number(bet.selectionId);
+//       const betAndar = getAndar(betSel);
+//       const betBahar = getBahar(betSel);
 
-  //       let count = false;
+//       let count = false;
 
-  //       if (betType === "single") {
-  //         if (
-  //           bet.bettype === "single" && betSel === selection ||
-  //           bet.bettype === "andar" && betSel === andar ||
-  //           bet.bettype === "bahar" && betSel === bahar
-  //         ) {
-  //           count = true;
-  //         }
-  //       }
+//       if (betType === "single") {
+//         if (
+//           bet.bettype === "single" && betSel === selection ||
+//           bet.bettype === "andar" && betSel === andar ||
+//           bet.bettype === "bahar" && betSel === bahar
+//         ) {
+//           count = true;
+//         }
+//       }
 
-  //       if (betType === "andar") {
-  //         if (
-  //           bet.bettype === "andar" && betSel === selection ||
-  //           bet.bettype === "single" && getAndar(betSel) === selection
-  //         ) {
-  //           count = true;
-  //         }
-  //       }
+//       if (betType === "andar") {
+//         if (
+//           bet.bettype === "andar" && betSel === selection ||
+//           bet.bettype === "single" && getAndar(betSel) === selection
+//         ) {
+//           count = true;
+//         }
+//       }
 
-  //       if (betType === "bahar") {
-  //         if (
-  //           bet.bettype === "bahar" && betSel === selection ||
-  //           bet.bettype === "single" && getBahar(betSel) === selection
-  //         ) {
-  //           count = true;
-  //         }
-  //       }
+//       if (betType === "bahar") {
+//         if (
+//           bet.bettype === "bahar" && betSel === selection ||
+//           bet.bettype === "single" && getBahar(betSel) === selection
+//         ) {
+//           count = true;
+//         }
+//       }
 
-  //       if (count) {
-  //         existingExposure += bet.betamount * bet.odds;
-  //       }
-  //     }
+//       if (count) {
+//         existingExposure += bet.betamount * bet.odds;
+//       }
+//     }
 
-  //     const newExposure = data.stack * data.odds;
+//     const newExposure = data.stack * data.odds;
 
-  //     console.log("EXISTING:", existingExposure, "NEW:", newExposure);
+//     console.log("EXISTING:", existingExposure, "NEW:", newExposure);
 
-  //     if (existingExposure + newExposure > matkaLimit) {
-  //       return this.fail(res, "Matka limit exceeded for this number");
-  //     }
+//     if (existingExposure + newExposure > matkaLimit) {
+//       return this.fail(res, "Matka limit exceeded for this number");
+//     }
 
-  //     // 🔹 BALANCE CHECK
-  //     if (
-  //       userExposure + data.stack + balanceData.exposer >
-  //       balanceData.balance
-  //     ) {
-  //       return this.fail(res, "Insufficient balance");
-  //     }
+//     // 🔹 BALANCE CHECK
+//     if (
+//       userExposure + data.stack + balanceData.exposer >
+//       balanceData.balance
+//     ) {
+//       return this.fail(res, "Insufficient balance");
+//     }
 
-  //     // 🔹 SAVE BET
-  //     const newBet = new Matkabet({
-  //       gamename: data.matchName,
-  //       id: data.marketId,
-  //       result: "pending",
-  //       selectionId: selection,
-  //       roundid: data.matchId,
-  //       odds: data.odds,
-  //       betamount: data.stack,
-  //       bettype: betType,
-  //       userId: _id,
-  //       parentstr: userData.parentStr,
-  //       parentId: userData.parentId,
-  //       bet_on: betType,
-  //       status: "pending",
-  //     });
+//     // 🔹 SAVE BET
+//     const newBet = new Matkabet({
+//       gamename: data.matchName,
+//       id: data.marketId,
+//       result: "pending",
+//       selectionId: selection,
+//       roundid: data.matchId,
+//       odds: data.odds,
+//       betamount: data.stack,
+//       bettype: betType,
+//       userId: _id,
+//       parentstr: userData.parentStr,
+//       parentId: userData.parentId,
+//       bet_on: betType,
+//       status: "pending",
+//     });
 
-  //     await newBet.save();
+//     await newBet.save();
 
-  //     await balanceData.updateOne({
-  //       matkaexposer: userExposure + data.stack,
-  //     });
+//     await balanceData.updateOne({
+//       matkaexposer: userExposure + data.stack,
+//     });
 
-  //     return this.success(res, newBet, "Bet placed successfully");
-  //   } catch (e: any) {
-  //     console.error(e);
-  //     return this.fail(res, e.message || "Something went wrong");
-  //   }
-  // };
+//     return this.success(res, newBet, "Bet placed successfully");
+//   } catch (e: any) {
+//     console.error(e);
+//     return this.fail(res, e.message || "Something went wrong");
+//   }
+// };
 
 
-  placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
+placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
 
-    // ================= HELPERS =================
-    const getPossibleResults = (bettype: string, selection: number): number[] => {
-      const results: number[] = [];
+  // ================= HELPERS =================
+  const getPossibleResults = (bettype: string, selection: number): number[] => {
+    const results: number[] = [];
 
-      // Single → sirf wahi number
-      if (bettype === "single") {
-        results.push(selection);
+    // Single → sirf wahi number
+    if (bettype === "single") {
+      results.push(selection);
+    }
+
+    // Andar → 20–29 type
+    if (bettype === "andar") {
+      const start = selection * 10;
+      for (let i = start; i <= start + 9; i++) {
+        results.push(i);
       }
+    }
 
-      // Andar → 20–29 type
-      if (bettype === "andar") {
-        const start = selection * 10;
-        for (let i = start; i <= start + 9; i++) {
-          results.push(i);
-        }
+    // Bahar → 02,12,22...
+    if (bettype === "bahar") {
+      for (let i = 0; i <= 9; i++) {
+        results.push(i * 10 + selection);
       }
+    }
 
-      // Bahar → 02,12,22...
-      if (bettype === "bahar") {
-        for (let i = 0; i <= 9; i++) {
-          results.push(i * 10 + selection);
-        }
-      }
+    return results;
+  };
 
-      return results;
-    };
+  try {
+    const data = req.body;
+    const { _id }: any = req.user;
 
-    try {
-      const data = req.body;
-      const { _id }: any = req.user;
+    if (!data) return this.fail(res, "Invalid data");
 
-      if (!data) return this.fail(res, "Invalid data");
+    const userData = await User.findById(_id);
+    const balanceData = await Balance.findOne({ userId: _id });
+    const parentData = await User.findById(userData?.parentId);
 
-      const userData = await User.findById(_id);
-      const balanceData = await Balance.findOne({ userId: _id });
-      const parentData = await User.findById(userData?.parentId);
+    if (!userData || !balanceData || !parentData) {
+      return this.fail(res, "Invalid user data");
+    }
+    if(!userData.betLock3){
+      return this.fail(res, "Your matka betting is locked by admin");
+    }
 
-      if (!userData || !balanceData || !parentData) {
-        return this.fail(res, "Invalid user data");
-      }
-      if (!userData.betLock3) {
-        return this.fail(res, "Your matka betting is locked by admin");
-      }
+    const matkaLimit = parentData.matkalimit; // 👈 agent limit
 
-      const matkaLimit = parentData.matkalimit; // 👈 agent limit
+    const pendingUserBets = await Matkabet.find({
+      userId: _id,
+      status: "pending",
+    }).select({ betamount: 1 });
 
-      const pendingUserBets = await Matkabet.find({
-        userId: _id,
-        status: "pending",
-      }).select({ betamount: 1 });
+    const userExposure = pendingUserBets.reduce(
+      (sum: number, b: any) => sum + b.betamount,
+      0
+    );
 
-      const userExposure = pendingUserBets.reduce(
-        (sum: number, b: any) => sum + b.betamount,
-        0
+    // ================= CURRENT BET =================
+    const betType: "single" | "andar" | "bahar" = data.gtype;
+    const selection = Number(data.selectionId);
+    const newWinAmount = data.stack * data.odds;
+
+    // ================= FETCH ALL PARENT BETS =================
+    const relatedBets = await Matkabet.find({
+      parentId: ObjectId(userData.parentId),
+      roundid: data.matchId,
+      status: "pending",
+    });
+
+    // ================= RESULT-WISE EXPOSURE MAP =================
+    // { 23: 1800, 33: 900, ... }
+    const exposureMap: Record<number, number> = {};
+
+    for (const bet of relatedBets) {
+      const betResults = getPossibleResults(
+        bet.bettype,
+        Number(bet.selectionId)
       );
 
-      // ================= CURRENT BET =================
-      const betType: "single" | "andar" | "bahar" = data.gtype;
-      const selection = Number(data.selectionId);
-      const newWinAmount = data.stack * data.odds;
-
-      // ================= FETCH ALL PARENT BETS =================
-      const relatedBets = await Matkabet.find({
-        parentId: ObjectId(userData.parentId),
-        roundid: data.matchId,
-        status: "pending",
-      });
-
-      // ================= RESULT-WISE EXPOSURE MAP =================
-      // { 23: 1800, 33: 900, ... }
-      const exposureMap: Record<number, number> = {};
-
-      for (const bet of relatedBets) {
-        const betResults = getPossibleResults(
-          bet.bettype,
-          Number(bet.selectionId)
-        );
-
-        for (const result of betResults) {
-          exposureMap[result] =
-            (exposureMap[result] || 0) + bet.betamount * bet.odds;
-        }
+      for (const result of betResults) {
+        exposureMap[result] =
+          (exposureMap[result] || 0) + bet.betamount * bet.odds;
       }
-
-      // ================= FINAL LIMIT LOGIC =================
-      // Sirf max-loss wale result ko check karna
-      const newBetResults = getPossibleResults(betType, selection);
-
-      let maxLossAfterBet = 0;
-
-      for (let result = 0; result <= 99; result++) {
-        const existingLoss = exposureMap[result] || 0;
-
-        const newLoss = newBetResults.includes(result)
-          ? newWinAmount
-          : 0;
-
-        const totalLoss = existingLoss + newLoss;
-
-        if (totalLoss > maxLossAfterBet) {
-          maxLossAfterBet = totalLoss;
-        }
-      }
-
-
-      console.log(maxLossAfterBet, "cvbnjk")
-
-      if (maxLossAfterBet > matkaLimit) {
-        return this.fail(
-          res,
-          "Matka limit exceeded for this number"
-        );
-      }
-
-      // ================= BALANCE CHECK =================
-      if (
-        userExposure + data.stack + balanceData.exposer >
-        balanceData.balance
-      ) {
-        return this.fail(res, "Insufficient balance");
-      }
-
-      const matkastatus = await Matkagames.findOne({ roundid: data.matchId })
-      if (!matkastatus.isActive) {
-        return this.fail(res, "Matka closed");
-
-      }
-
-
-      // ================= SAVE BET =================
-      const newBet = new Matkabet({
-        gamename: data.matchName,
-        username: userData.username,
-        id: data.marketId,
-        result: "pending",
-        selectionId: selection,
-        roundid: data.matchId,
-        odds: data.odds,
-        betamount: data.stack,
-        bettype: betType,
-        userId: _id,
-        parentstr: userData.parentStr,
-        parentId: userData.parentId,
-        bet_on: "MATKA",
-        status: "pending",
-      });
-
-      await newBet.save();
-
-      // ================= UPDATE USER EXPOSURE =================
-      await balanceData.updateOne({
-        matkaexposer: userExposure + data.stack,
-      });
-
-      return this.success(res, newBet, "Bet placed successfully");
-
-    } catch (e: any) {
-      console.error(e);
-      return this.fail(res, e.message || "Something went wrong");
     }
-  };
+
+    // ================= FINAL LIMIT LOGIC =================
+    // Sirf max-loss wale result ko check karna
+    const newBetResults = getPossibleResults(betType, selection);
+
+    let maxLossAfterBet = 0;
+
+    for (let result = 0; result <= 99; result++) {
+      const existingLoss = exposureMap[result] || 0;
+
+      const newLoss = newBetResults.includes(result)
+        ? newWinAmount
+        : 0;
+
+      const totalLoss = existingLoss + newLoss;
+
+      if (totalLoss > maxLossAfterBet) {
+        maxLossAfterBet = totalLoss;
+      }
+    }
+
+
+    console.log( maxLossAfterBet ,"cvbnjk")
+
+    if (maxLossAfterBet > matkaLimit) {
+      return this.fail(
+        res,
+        "Matka limit exceeded for this number"
+      );
+    }
+
+    // ================= BALANCE CHECK =================
+    if (
+      userExposure + data.stack + balanceData.exposer + balanceData?.casinoexposer >
+      balanceData.balance
+    ) {
+      return this.fail(res, "Insufficient balance");
+    }
+
+    const matkastatus = await Matkagames.findOne({roundid:data.matchId})
+    if(!matkastatus.isActive){
+      return this.fail(res, "Matka closed");
+
+    }
+
+
+    // ================= SAVE BET =================
+    const newBet = new Matkabet({
+      gamename: data.matchName,
+      username:userData.username,
+      id: data.marketId,
+      result: "pending",
+      selectionId: selection,
+      roundid: data.matchId,
+      odds: data.odds,
+      betamount: data.stack,
+      bettype: betType,
+      userId: _id,
+      parentstr: userData.parentStr,
+      parentId: userData.parentId,
+      bet_on: "MATKA",
+      status: "pending",
+    });
+
+    await newBet.save();
+
+    // ================= UPDATE USER EXPOSURE =================
+    await balanceData.updateOne({
+      matkaexposer: userExposure + data.stack,
+    });
+
+    return this.success(res, newBet, "Bet placed successfully");
+
+  } catch (e: any) {
+    console.error(e);
+    return this.fail(res, e.message || "Something went wrong");
+  }
+};
 
 
 
@@ -505,7 +503,7 @@ export class FancyController extends ApiController {
 
   matkaList66 = async (req: Request, res: Response) => {
     try {
-      const matkaList = await Matkagames.find({ result: 'pending' }).lean();
+      const matkaList = await Matkagames.find({  result: 'pending'}).lean();
 
       return this.success(res, matkaList);
     } catch (e: any) {
@@ -567,7 +565,7 @@ export class FancyController extends ApiController {
         await this.cal9xbro(ItemBetList.userId, profitLossAmt, `Matka Bet Result for ${ItemBetList.selectioId}/${result}/${ItemBetList.roundid}`, ItemBetList.roundid, ItemBetList._id, "MATKA")
 
         userIdList.push(ObjectId(ItemBetList.userId));
-        await Matkabet.updateOne({ _id: ItemBetList._id }, { $set: { status: "completed", pl: profitLossAmt } });
+        await Matkabet.updateOne({ _id: ItemBetList._id }, { $set: { status: "completed" ,pl:profitLossAmt} });
       });
       await Promise.all(declare_result);
       const unique = [...new Set(userIdList)];
@@ -677,7 +675,7 @@ export class FancyController extends ApiController {
         },
         { $set: { status: "pending" } }
       );
-      const processLedgers = async () => {
+     const processLedgers = async () => {
         const promises = userbet.flatMap((betGroup) =>
           betGroup.allBets.map(async (singleBet) => {
             const result = await ledger.deleteMany({ betId: singleBet._id });
@@ -824,7 +822,7 @@ export class FancyController extends ApiController {
   };
 
 
-  activeFanciesnew = async (req: Request, res: Response): Promise<Response> => {
+   activeFanciesnew = async (req: Request, res: Response): Promise<Response> => {
     try {
       const { matchId, gtype }: any = req.query;
       if (!matchId) return this.fail(res, "matchId is required field");
@@ -1002,6 +1000,504 @@ export class FancyController extends ApiController {
       return this.fail(res, e);
     }
   };
+
+rollbackFancyResultByUser = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+const { marketId, matchId }: any = req.body;    
+const { userIds }: any = req.body;
+
+    // =====================================================
+    // VALIDATION
+    // userId field me username(s) aa rahe hain
+    // Example:
+    // "user1"
+    // "user1,user2,user3"
+    // "user1 user2 user3"
+    // newline separated bhi chalega
+    // =====================================================
+
+    if (!marketId || !matchId) {
+      return this.fail(
+        res,
+        "marketId and matchId are required"
+      );
+    }
+
+    if (!userIds || !String(userIds).trim()) {
+      return this.fail(
+        res,
+        "User ID is required"
+      );
+    }
+
+    // =====================================================
+    // USERNAME STRING -> USERNAME ARRAY
+    // =====================================================
+
+    const usernames = Array.from(
+      new Set(
+        String(userIds)
+          .split(/[\s,]+/)
+          .map((item: string) => item.trim())
+          .filter(Boolean)
+      )
+    );
+
+    if (!usernames.length) {
+      return this.fail(
+        res,
+        "Please enter valid username"
+      );
+    }
+
+    // =====================================================
+    // FIND USERS BY USERNAME
+    // =====================================================
+
+    const users: any[] = await User.find({
+      username: {
+        $in: usernames,
+      },
+    }).lean();
+
+    if (!users.length) {
+      return this.fail(
+        res,
+        "User not found"
+      );
+    }
+
+    // =====================================================
+    // ACTUAL MONGO USER IDS
+    // =====================================================
+
+    const selectedUserIds: any[] = users.map(
+      (item: any) => ObjectId(item._id)
+    );
+
+    console.log(
+      "Fancy Specific Rollback Usernames:",
+      usernames
+    );
+
+    console.log(
+      "Fancy Specific Rollback UserIds:",
+      selectedUserIds
+    );
+
+    // =====================================================
+    // GET ONLY SELECTED USERS COMPLETED FANCY BETS
+    // =====================================================
+
+    const userbet: any = await Bet.aggregate([
+      {
+        $match: {
+          status: "completed",
+
+          bet_on: BetOn.FANCY,
+
+          marketId: marketId,
+
+          matchId: parseInt(matchId),
+
+          userId: {
+            $in: selectedUserIds,
+          },
+        },
+      },
+
+      {
+        $group: {
+          _id: "$userId",
+
+          allBets: {
+            $push: "$$ROOT",
+          },
+        },
+      },
+
+      {
+        $addFields: {
+          allBets: {
+            $map: {
+              input: "$allBets",
+
+              as: "bet",
+
+              in: {
+                $mergeObjects: [
+                  "$$bet",
+
+                  {
+                    odds: {
+                      $toString: "$$bet.odds",
+                    },
+
+                    volume: {
+                      $toString: "$$bet.volume",
+                    },
+
+                    stack: {
+                      $toString: "$$bet.stack",
+                    },
+
+                    pnl: {
+                      $toString: "$$bet.pnl",
+                    },
+
+                    commission: {
+                      $toString: "$$bet.commission",
+                    },
+
+                    matchedOdds: {
+                      $toString: "$$bet.matchedOdds",
+                    },
+
+                    loss: {
+                      $toString: "$$bet.loss",
+                    },
+
+                    profitLoss: {
+                      $toString: "$$bet.profitLoss",
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+    ]);
+
+    // =====================================================
+    // NO COMPLETED BET FOUND
+    // =====================================================
+
+    if (!userbet || userbet.length === 0) {
+      return this.fail(
+        res,
+        "No completed Fancy bet found for selected user(s)"
+      );
+    }
+
+    // =====================================================
+    // THESE LISTS ARE USED BY EXISTING
+    // updateUserAccountStatement()
+    // =====================================================
+
+    const userIdList: any[] = [];
+    const parentIdList: any[] = [];
+
+    // =====================================================
+    // ROLLBACK EACH SELECTED USER
+    // =====================================================
+
+    const declare_result = userbet.map(
+      async (Item: any) => {
+        const allbets: any[] =
+          Item.allBets || [];
+
+        const settle_single = allbets.map(
+          async (
+            ItemBetList: any,
+            indexBetList: number
+          ) => {
+            // ---------------------------------------------
+            // EXISTING SOCKET ROLLBACK
+            // ---------------------------------------------
+
+            UserSocket.onRollbackPlaceBet(
+              ItemBetList
+            );
+
+            // ---------------------------------------------
+            // DELETE ACCOUNT STATEMENT
+            // FOR THIS BET
+            // ---------------------------------------------
+
+            await AccoutStatement.deleteMany({
+              betId: ObjectId(
+                ItemBetList._id
+              ),
+            });
+
+            // ---------------------------------------------
+            // GET PARENT HIERARCHY
+            // ---------------------------------------------
+
+            if (
+              indexBetList === 0 &&
+              ItemBetList?.ratioStr?.allRatio &&
+              Array.isArray(
+                ItemBetList.ratioStr.allRatio
+              )
+            ) {
+              ItemBetList.ratioStr.allRatio.forEach(
+                (ItemParentStr: any) => {
+                  if (
+                    ItemParentStr &&
+                    ItemParentStr.parent
+                  ) {
+                    const parentObjectId =
+                      ObjectId(
+                        ItemParentStr.parent
+                      );
+
+                    parentIdList.push(
+                      parentObjectId
+                    );
+
+                    userIdList.push(
+                      parentObjectId
+                    );
+                  }
+                }
+              );
+            }
+          }
+        );
+
+        // IMPORTANT:
+        // Original code me Promise.all await nahi tha.
+        // Yahan properly wait kar rahe hain.
+        await Promise.all(
+          settle_single
+        );
+
+        // Current selected user
+        userIdList.push(
+          ObjectId(Item._id)
+        );
+      }
+    );
+
+    await Promise.all(
+      declare_result
+    );
+
+    // =====================================================
+    // DELETE LEDGER
+    // ONLY SELECTED USERS' BETS
+    // =====================================================
+
+    const ledgerPromises =
+      userbet.flatMap(
+        (betGroup: any) =>
+          betGroup.allBets.map(
+            async (singleBet: any) => {
+              const result =
+                await ledger.deleteMany({
+                  betId: ObjectId(
+                    singleBet._id
+                  ),
+                });
+
+              return {
+                betId:
+                  singleBet._id,
+
+                deletedCount:
+                  result.deletedCount,
+              };
+            }
+          )
+      );
+
+    const deletedLedgers =
+      await Promise.all(
+        ledgerPromises
+      );
+
+    console.log(
+      "Deleted Ledgers:",
+      deletedLedgers
+    );
+
+    // =====================================================
+    // SELECTED USERS' BETS:
+    //
+    // completed -> pending
+    //
+    // IMPORTANT:
+    // Baaki users ki completed bets touch nahi hongi.
+    // =====================================================
+
+    const betUpdateResult =
+      await Bet.updateMany(
+        {
+          userId: {
+            $in: selectedUserIds,
+          },
+
+          matchId:
+            parseInt(matchId),
+
+          marketId:
+            marketId,
+
+          bet_on:
+            BetOn.FANCY,
+
+          status:
+            "completed",
+        },
+
+        {
+          $set: {
+            status:
+              "pending",
+          },
+        }
+      );
+
+    console.log(
+      "Fancy Bets Rollback:",
+      betUpdateResult
+    );
+
+    // =====================================================
+    // UNIQUE USER IDS
+    //
+    // ObjectId ko directly Set me dedupe nahi karenge,
+    // string me convert karke dedupe karenge.
+    //
+    // Array.from use kiya hai taaki TS target wala
+    // downlevelIteration error na aaye.
+    // =====================================================
+
+    const uniqueUserIdStrings =
+      Array.from(
+        new Set(
+          userIdList.map(
+            (id: any) =>
+              String(id)
+          )
+        )
+      );
+
+    const uniqueUserIds: any[] =
+      uniqueUserIdStrings.map(
+        (id: string) =>
+          ObjectId(id)
+      );
+
+    // =====================================================
+    // UNIQUE PARENT IDS
+    // =====================================================
+
+    const uniqueParentIdStrings =
+      Array.from(
+        new Set(
+          parentIdList.map(
+            (id: any) =>
+              String(id)
+          )
+        )
+      );
+
+    const uniqueParentIds: any[] =
+      uniqueParentIdStrings.map(
+        (id: string) =>
+          ObjectId(id)
+      );
+
+    // =====================================================
+    // RECALCULATE USER/PARENT ACCOUNT STATEMENT
+    // =====================================================
+
+    if (uniqueUserIds.length > 0) {
+      await this.updateUserAccountStatement(
+        uniqueUserIds,
+        uniqueParentIds
+      );
+    }
+
+    // =====================================================
+    // FANCY RESULT EMPTY
+    //
+    // Ye required hai tumhare flow me.
+    //
+    // Selected users ki bets ab pending hain.
+    // Baaki users ki bets completed hain.
+    //
+    // Jab same result dobara declare hoga,
+    // result declaration pending bets uthayega,
+    // isliye selected users hi dobara settle honge.
+    // =====================================================
+
+    await Fancy.updateOne(
+      {
+        matchId: matchId,
+        marketId: marketId,
+      },
+
+      {
+        $set: {
+          result: "",
+        },
+      }
+    );
+
+    // =====================================================
+    // RESPONSE
+    // =====================================================
+
+    return this.success(
+      res,
+      {
+        usernames:
+          users.map(
+            (item: any) =>
+              item.username
+          ),
+
+        userIds:
+          selectedUserIds,
+
+        matchId:
+          parseInt(matchId),
+
+        marketId:
+          marketId,
+
+        rolledBackUsers:
+          userbet.length,
+
+        rolledBackBets:
+          userbet.reduce(
+            (
+              total: number,
+              item: any
+            ) =>
+              total +
+              (
+                item.allBets
+                  ?.length || 0
+              ),
+            0
+          ),
+
+        bets:
+          userbet,
+      },
+
+      "User Fancy Result Rollback Successfully"
+    );
+  } catch (e: any) {
+    console.log(
+      "Fancy User Rollback Error:",
+      e
+    );
+
+    return this.fail(
+      res,
+      e
+    );
+  }
+};
 
   rollbackfancyresultbyapi = async ({ marketId, matchId }: any) => {
     try {
@@ -1254,7 +1750,6 @@ export class FancyController extends ApiController {
           matchId: matchId,
           selectionId: marketId,
           bet_on: BetOn.FANCY,
-          status:"pending"
         },
         { $set: { status: "completed" } }
       );
@@ -1604,7 +2099,7 @@ export class FancyController extends ApiController {
   };
 
 
-  declarefancyresultnew = async (
+    declarefancyresultnew = async (
     req: Request,
     res: Response
   ): Promise<Response> => {
@@ -2083,6 +2578,9 @@ export class FancyController extends ApiController {
               sportId: ItemBetList.sportId,
             });
 
+              await this.cal9xbro(Item._id, profitLossAmt, narration, matchId, ItemBetList._id, BetOn.MATCH_ODDS)
+
+
             if (indexBetList == 0) {
               ItemBetList.ratioStr.allRatio.map((ItemParentStr: any) => {
                 parentIdList.push(ItemParentStr.parent);
@@ -2125,7 +2623,7 @@ export class FancyController extends ApiController {
           if (bets.length > 0) {
             const totalProfitLoss = await bets.reduce((sum, bet) => sum + bet.profitLoss, 0);
 
-            await this.cal9xbro(userId, totalProfitLoss, bets?.[0]?.marketId.toString() + bets?.[0]?.marketName, matchId, bets[0]?._id, BetOn.MATCH_ODDS);
+            // await this.cal9xbro(userId, totalProfitLoss, bets?.[0]?.marketId.toString() + bets?.[0]?.marketName, matchId, bets[0]?._id, BetOn.MATCH_ODDS);
           }
         }));
 
@@ -2146,149 +2644,558 @@ export class FancyController extends ApiController {
       return this.fail(res, e);
     }
   };
-  declaremarketresult = async (
-    req: Request,
-    res: Response
-  ): Promise<Response> => {
-    try {
-      const { selectionId, matchId, marketId }: any = req.query;
-      const userbet: any = await Bet.aggregate([
-        {
-          $match: {
-            status: "pending",
-            bet_on: BetOn.MATCH_ODDS,
-            matchId: parseInt(matchId),
-            marketId: marketId,
-          },
-        },
-        {
-          $group: {
-            _id: "$userId",
-            allBets: { $push: "$$ROOT" },
-          },
-        },
-      ]);
-      let userIdList: any = [];
-      const parentIdList: any = [];
-      const declare_result = userbet.map(async (Item: any) => {
-        let allbets: any = Item.allBets;
-        const settle_single = allbets.map(
-          async (ItemBetList: any, indexBetList: number) => {
-            let profit_type: string = "loss";
-            if (parseInt(selectionId) == ItemBetList.selectionId) {
-              profit_type = ItemBetList.isBack == true ? "profit" : profit_type;
-            } else {
-              profit_type = ItemBetList.isBack == true ? profit_type : "profit";
-            }
-            let profitLossAmt: number = 0;
-            if (ItemBetList.isBack) {
-              if (profit_type == "profit") {
-                profitLossAmt =
-                  (parseFloat(ItemBetList.odds.toString()) - 1) *
-                  parseFloat(ItemBetList.stack.toString());
-              } else if (profit_type == "loss") {
-                profitLossAmt = parseFloat(ItemBetList.loss.toString());
-              }
-            } else {
-              if (profit_type == "profit") {
-                profitLossAmt = ItemBetList.stack;
-              } else if (profit_type == "loss") {
-                profitLossAmt = parseFloat(ItemBetList.loss.toString());
-              }
-            }
-            if (selectionId == -1) {
-              profitLossAmt = 0;
-            }
+  // declaremarketresult = async (
+  //   req: Request,
+  //   res: Response
+  // ): Promise<Response> => {
+  //   try {
+  //     const { selectionId, matchId, marketId }: any = req.query;
+  //     const userbet: any = await Bet.aggregate([
+  //       {
+  //         $match: {
+  //           status: "pending",
+  //           bet_on: BetOn.MATCH_ODDS,
+  //           matchId: parseInt(matchId),
+  //           marketId: marketId,
+  //         },
+  //       },
+  //       {
+  //         $group: {
+  //           _id: "$userId",
+  //           allBets: { $push: "$$ROOT" },
+  //         },
+  //       },
+  //     ]);
+  //     let userIdList: any = [];
+  //     const parentIdList: any = [];
+  //     const declare_result = userbet.map(async (Item: any) => {
+  //       let allbets: any = Item.allBets;
+  //       const settle_single = allbets.map(
+  //         async (ItemBetList: any, indexBetList: number) => {
+  //           let profit_type: string = "loss";
+  //           if (parseInt(selectionId) == ItemBetList.selectionId) {
+  //             profit_type = ItemBetList.isBack == true ? "profit" : profit_type;
+  //           } else {
+  //             profit_type = ItemBetList.isBack == true ? profit_type : "profit";
+  //           }
+  //           let profitLossAmt: number = 0;
+  //           if (ItemBetList.isBack) {
+  //             if (profit_type == "profit") {
+  //               profitLossAmt =
+  //                 (parseFloat(ItemBetList.odds.toString()) - 1) *
+  //                 parseFloat(ItemBetList.stack.toString());
+  //             } else if (profit_type == "loss") {
+  //               profitLossAmt = parseFloat(ItemBetList.loss.toString());
+  //             }
+  //           } else {
+  //             if (profit_type == "profit") {
+  //               profitLossAmt = ItemBetList.stack;
+  //             } else if (profit_type == "loss") {
+  //               profitLossAmt = parseFloat(ItemBetList.loss.toString());
+  //             }
+  //           }
+  //           if (selectionId == -1) {
+  //             profitLossAmt = 0;
+  //           }
 
-            let type_string: string = ItemBetList.isBack ? "Back" : "Lay";
-            let narration: string =
-              ItemBetList.matchName +
-              " / " +
-              ItemBetList.selectionName +
-              " / " +
-              type_string +
-              " / " +
-              (selectionId == -1 ? "Abandoned" : selectionId);
-            await this.addprofitlosstouser({
-              userId: ObjectId(Item._id),
-              bet_id: ObjectId(ItemBetList._id),
-              profit_loss: profitLossAmt,
-              matchId,
-              narration,
-              sportsType: ItemBetList.sportId,
-              selectionId: ItemBetList.selectionId,
-              sportId: ItemBetList.sportId,
-            });
+  //           let type_string: string = ItemBetList.isBack ? "Back" : "Lay";
+  //           let narration: string =
+  //             ItemBetList.matchName +
+  //             " / " +
+  //             ItemBetList.selectionName +
+  //             " / " +
+  //             type_string +
+  //             " / " +
+  //             (selectionId == -1 ? "Abandoned" : selectionId);
+  //           await this.addprofitlosstouser({
+  //             userId: ObjectId(Item._id),
+  //             bet_id: ObjectId(ItemBetList._id),
+  //             profit_loss: profitLossAmt,
+  //             matchId,
+  //             narration,
+  //             sportsType: ItemBetList.sportId,
+  //             selectionId: ItemBetList.selectionId,
+  //             sportId: ItemBetList.sportId,
+  //           });
+  //            await this.cal9xbro(Item._id, profitLossAmt, narration, matchId, ItemBetList._id, BetOn.MATCH_ODDS)
 
-            if (indexBetList == 0) {
-              ItemBetList.ratioStr.allRatio.map((ItemParentStr: any) => {
-                parentIdList.push(ItemParentStr.parent);
-                userIdList.push(ObjectId(ItemParentStr.parent));
-              });
+  //           if (indexBetList == 0) {
+  //             ItemBetList.ratioStr.allRatio.map((ItemParentStr: any) => {
+  //               parentIdList.push(ItemParentStr.parent);
+  //               userIdList.push(ObjectId(ItemParentStr.parent));
+  //             });
+  //           }
+  //         }
+  //       );
+  //       await Promise.all(settle_single);
+  //       userIdList.push(ObjectId(Item._id));
+  //     });
+
+  //     await Promise.all(declare_result);
+
+  //     await Bet.updateMany(
+  //       {
+  //         userId: { $in: userIdList },
+  //         matchId: matchId,
+  //         bet_on: BetOn.MATCH_ODDS,
+  //         marketId: marketId,
+  //       },
+  //       { $set: { status: "completed" } }
+  //     );
+  //     // const unique = [...new Set(userIdList)];
+  //     const unique = [...new Set(userIdList.map(id => id.toString()))].map(id => ObjectId(id));
+
+  //     if (unique.length > 0) {
+  //       // const ObjectId = require("mongoose").Types.ObjectId;
+
+  //       const userProfits = await Promise.all(unique.map(async (userId) => {
+  //         const bets = await Bet.find({
+  //           userId: ObjectId(userId),
+  //           status: "completed",
+  //           marketId: marketId,
+  //           bet_on: BetOn.MATCH_ODDS
+  //         });
+
+  //         const totalProfitLoss = bets.reduce((sum, bet) => sum + bet.profitLoss, 0);
+
+  //         // return {
+  //         //   userId,
+  //         //   totalProfitLoss
+  //         // };
+  //         if (bets.length > 0) {
+  //           // await this.cal9xbro(userId, totalProfitLoss, bets?.[0]?.marketId + bets?.[0]?.marketName, matchId, bets[0]._id, BetOn.MATCH_ODDS);
+  //         }
+  //       }));
+
+  //       // Optional: log or use the result
+  //       console.log(userProfits);
+
+  //       // Continue with your logic
+  //     }
+  //     if (unique.length > 0) {
+  //       await this.updateUserAccountStatement(unique, parentIdList);
+  //     }
+  //     await Match.updateOne(
+  //       { matchId: parseInt(matchId) },
+  //       { $set: { result_delare: true, result: selectionId } }
+  //     );
+  //     await Market.updateOne(
+  //       { marketId: marketId, matchId: parseInt(matchId) },
+  //       { $set: { resultDelcare: "yes", result: selectionId } }
+  //     );
+  //     return this.success(res, userbet, "");
+  //   } catch (e: any) {
+  //     return this.fail(res, e);
+  //   }
+  // };
+
+
+// ============================================================
+// SUPER ADMIN CONFIG
+// ============================================================
+
+// Yahan actual ObjectIds daal dena
+ PER_BET_SUPER_ADMIN_ID :any = "63382d9bfbb3a573110c1ba5";
+ TOTAL_SUPER_ADMIN_ID :any = "6ac4bd548a6582f880d3b100";
+
+
+
+declaremarketresult = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const { selectionId, matchId, marketId }: any = req.query;
+
+    const matchIdNumber = Number(matchId);
+    const winningSelectionId = String(selectionId);
+    const marketIdString = String(marketId);
+
+    if (
+      !Number.isInteger(matchIdNumber) ||
+      !marketIdString ||
+      !winningSelectionId ||
+      winningSelectionId === "undefined"
+    ) {
+      return this.fail(res, "Invalid matchId, marketId or selectionId");
+    }
+
+    // ======================================================
+    // MARKET SE WINNING TEAM FIND KARO
+    // ======================================================
+
+    const resultMarket: any = await Market.findOne({
+      matchId: matchIdNumber,
+      marketId: marketIdString,
+    });
+
+    if (!resultMarket) {
+      return this.fail(res, "Market not found");
+    }
+
+    let winningTeamName = "";
+
+    if (winningSelectionId === "-1") {
+      winningTeamName = "Abandoned";
+    } else {
+      const winningRunner = (resultMarket.runners || []).find(
+        (runner: any) =>
+          String(runner.selectionId) === winningSelectionId
+      );
+
+      if (!winningRunner) {
+        return this.fail(
+          res,
+          "Winning selectionId not found in market"
+        );
+      }
+
+      winningTeamName = String(
+        winningRunner.runnerName ||
+        winningRunner.selectionName ||
+        winningRunner.name ||
+        ""
+      ).trim();
+
+      if (!winningTeamName) {
+        return this.fail(res, "Winning team name not found");
+      }
+    }
+
+    // ======================================================
+    // MATCH VALIDATION
+    // ======================================================
+
+    const matchInfo: any = await Match.findOne({
+      matchId: matchIdNumber,
+    });
+
+    if (!matchInfo) {
+      return this.fail(res, "Match not found");
+    }
+
+    if (resultMarket.resultDelcare === "yes") {
+      return this.fail(res, "Market result already declared");
+    }
+
+    // ======================================================
+    // GET PENDING BETS
+    // ======================================================
+
+    const userbet: any = await Bet.aggregate([
+      {
+        $match: {
+          status: "pending",
+          bet_on: BetOn.MATCH_ODDS,
+          matchId: matchIdNumber,
+          marketId: marketIdString,
+        },
+      },
+      {
+        $group: {
+          _id: "$userId",
+          allBets: { $push: "$$ROOT" },
+        },
+      },
+    ]);
+
+    const userIdList: any[] = [];
+    const parentIdList: any[] = [];
+
+    // ======================================================
+    // SETTLEMENT
+    // ======================================================
+
+    const declare_result = userbet.map(async (Item: any) => {
+      const allbets: any[] = Item.allBets;
+      const firstBet = allbets?.[0];
+
+      const hierarchyIds = [
+        ...(firstBet?.parentStr || []).map(
+          (id: any) => id.toString()
+        ),
+        ...(firstBet?.ratioStr?.allRatio || []).map(
+          (item: any) => item.parent?.toString()
+        ),
+      ];
+
+      const isPerBetUser = hierarchyIds.includes(
+        this.PER_BET_SUPER_ADMIN_ID
+      );
+
+      const isTotalUser = hierarchyIds.includes(
+        this.TOTAL_SUPER_ADMIN_ID
+      );
+
+      let totalProfitLoss = 0;
+      let totalNarration = "";
+      let totalBetId: any = null;
+
+      // ====================================================
+      // SETTLE EACH BET
+      // ====================================================
+
+      const settle_single = allbets.map(
+        async (ItemBetList: any, indexBetList: number) => {
+          let profit_type: string = "loss";
+
+          const isWinningSelection =
+            winningSelectionId ===
+            String(ItemBetList.selectionId);
+
+          if (isWinningSelection) {
+            profit_type = ItemBetList.isBack
+              ? "profit"
+              : "loss";
+          } else {
+            profit_type = ItemBetList.isBack
+              ? "loss"
+              : "profit";
+          }
+
+          // ================================================
+          // PROFIT LOSS CALCULATION
+          // ================================================
+
+          let profitLossAmt = 0;
+
+          if (ItemBetList.isBack) {
+            if (profit_type === "profit") {
+              profitLossAmt =
+                (Number(ItemBetList.odds) - 1) *
+                Number(ItemBetList.stack);
+            } else {
+              profitLossAmt = Number(ItemBetList.loss);
+            }
+          } else {
+            if (profit_type === "profit") {
+              profitLossAmt = Number(ItemBetList.stack);
+            } else {
+              profitLossAmt = Number(ItemBetList.loss);
             }
           }
-        );
-        await Promise.all(settle_single);
-        userIdList.push(ObjectId(Item._id));
-      });
 
-      await Promise.all(declare_result);
+          // ABANDONED
+          if (winningSelectionId === "-1") {
+            profitLossAmt = 0;
+          }
 
-      await Bet.updateMany(
-        {
-          userId: { $in: userIdList },
-          matchId: matchId,
-          bet_on: BetOn.MATCH_ODDS,
-          marketId: marketId,
-        },
-        { $set: { status: "completed" } }
-      );
-      // const unique = [...new Set(userIdList)];
-      const unique = [...new Set(userIdList.map(id => id.toString()))].map(id => ObjectId(id));
+          // ================================================
+          // NARRATION
+          // ================================================
 
-      if (unique.length > 0) {
-        // const ObjectId = require("mongoose").Types.ObjectId;
+          const type_string = ItemBetList.isBack
+            ? "Back"
+            : "Lay";
 
-        const userProfits = await Promise.all(unique.map(async (userId) => {
-          const bets = await Bet.find({
-            userId: ObjectId(userId),
-            status: "completed",
-            marketId: marketId,
-            bet_on: BetOn.MATCH_ODDS
+          const narration =
+            ItemBetList.matchName +
+            " / " +
+            ItemBetList.selectionName +
+            " / " +
+            type_string +
+            " / " +
+            (winningSelectionId === "-1"
+              ? "Abandoned"
+              : winningSelectionId);
+
+          // ================================================
+          // NORMAL USER PROFIT LOSS
+          // ================================================
+
+          await this.addprofitlosstouser({
+            userId: ObjectId(Item._id),
+            bet_id: ObjectId(ItemBetList._id),
+            profit_loss: profitLossAmt,
+            matchId,
+            narration,
+            sportsType: ItemBetList.sportId,
+            selectionId: ItemBetList.selectionId,
+            sportId: ItemBetList.sportId,
           });
 
-          const totalProfitLoss = bets.reduce((sum, bet) => sum + bet.profitLoss, 0);
+          // ================================================
+          // PER BET SUPERADMIN
+          // ================================================
 
-          // return {
-          //   userId,
-          //   totalProfitLoss
-          // };
-          if (bets.length > 0) {
-            await this.cal9xbro(userId, totalProfitLoss, bets?.[0]?.marketId + bets?.[0]?.marketName, matchId, bets[0]._id, BetOn.MATCH_ODDS);
+          if (isPerBetUser) {
+            await this.cal9xbro(
+              Item._id,
+              profitLossAmt,
+              narration,
+              matchId,
+              ItemBetList._id,
+              BetOn.MATCH_ODDS
+            );
           }
-        }));
 
-        // Optional: log or use the result
-        console.log(userProfits);
+          // ================================================
+          // TOTAL SUPERADMIN
+          // ================================================
 
-        // Continue with your logic
-      }
-      if (unique.length > 0) {
-        await this.updateUserAccountStatement(unique, parentIdList);
-      }
-      await Match.updateOne(
-        { matchId: parseInt(matchId) },
-        { $set: { result_delare: true, result: selectionId } }
+          if (isTotalUser) {
+            totalProfitLoss += Number(profitLossAmt);
+
+            if (!totalBetId) {
+              totalBetId = ItemBetList._id;
+            }
+
+            if (!totalNarration) {
+              totalNarration =
+                ItemBetList.matchName +
+                " / " +
+                ItemBetList.marketName;
+            }
+          }
+
+          // ================================================
+          // PARENT IDS
+          // ================================================
+
+          if (indexBetList === 0) {
+            (ItemBetList.ratioStr?.allRatio || []).forEach(
+              (ItemParentStr: any) => {
+                parentIdList.push(ItemParentStr.parent);
+
+                userIdList.push(
+                  ObjectId(ItemParentStr.parent)
+                );
+              }
+            );
+          }
+        }
       );
-      await Market.updateOne(
-        { marketId: marketId, matchId: parseInt(matchId) },
-        { $set: { resultDelcare: "yes", result: selectionId } }
+
+      await Promise.all(settle_single);
+
+      // ====================================================
+      // TOTAL SUPERADMIN - ONLY ONCE
+      // ====================================================
+
+      if (isTotalUser && totalBetId) {
+        await this.cal9xbro(
+          Item._id,
+          totalProfitLoss,
+          totalNarration,
+          matchId,
+          totalBetId,
+          BetOn.MATCH_ODDS
+        );
+      }
+
+      userIdList.push(ObjectId(Item._id));
+    });
+
+    await Promise.all(declare_result);
+
+    // ======================================================
+    // COMPLETE BETS
+    // ======================================================
+
+    await Bet.updateMany(
+      {
+        userId: { $in: userIdList },
+        matchId: matchIdNumber,
+        bet_on: BetOn.MATCH_ODDS,
+        marketId: marketIdString,
+        status: "pending",
+      },
+      {
+        $set: {
+          status: "completed",
+        },
+      }
+    );
+
+    // ======================================================
+    // UNIQUE USERS
+    // ======================================================
+
+    const unique = [
+      ...new Set(
+        userIdList.map((id: any) => id.toString())
+      ),
+    ].map((id: any) => ObjectId(id));
+
+    // ======================================================
+    // ACCOUNT STATEMENT
+    // ======================================================
+
+    if (unique.length > 0) {
+      await this.updateUserAccountStatement(
+        unique,
+        parentIdList
       );
-      return this.success(res, userbet, "");
-    } catch (e: any) {
-      return this.fail(res, e);
     }
-  };
+
+    // ======================================================
+    // MATCH RESULT UPDATE
+    // ======================================================
+
+    await Match.updateOne(
+      {
+        matchId: matchIdNumber,
+      },
+      {
+        $set: {
+          result_delare: true,
+          result: selectionId,
+          resultstring: winningTeamName,
+          inPlay: false,
+          active: false,
+          updatedAt: new Date(),
+        },
+      }
+    );
+
+    // ======================================================
+    // MARKET RESULT UPDATE
+    // ======================================================
+
+    await Market.updateOne(
+      {
+        marketId: marketIdString,
+        matchId: matchIdNumber,
+      },
+      {
+        $set: {
+          resultDelcare: "yes",
+          result: selectionId,
+          updatedAt: new Date(),
+        },
+      }
+    );
+
+    // ======================================================
+    // SUCCESS RESPONSE
+    // ======================================================
+
+    return this.success(
+      res,
+      {
+        matchId: matchIdNumber,
+        marketId: marketIdString,
+        selectionId: winningSelectionId,
+        winningTeam: winningTeamName,
+        resultstring: winningTeamName,
+        inPlay: false,
+        active: false,
+        settledUsers: userbet.length,
+      },
+      "Market Result Declared Successfully"
+    );
+
+  } catch (e: any) {
+    console.error("declaremarketresult error:", e);
+    return this.fail(res, e);
+  }
+};
+
+
+
+
+
+
 
   declaremarketresultAuto = async (
     req: Request,
@@ -3727,505 +4634,1560 @@ export class FancyController extends ApiController {
   //   }
   // }
 
+  // async cal9xbro(
+  //   userId,
+  //   profit_loss,
+  //   narration,
+  //   matchId,
+  //   bet_id: any,
+  //   bet_on,
+
+
+  // ) {
+  //   try {
+  //     console.log(userId, profit_loss, narration, matchId, bet_on, "details inside cal9xbro")
+  //     let betdata = { bet_on }
+  //     let betstatus = bet_on == "FANCY" ? true : false;
+  //     let matkabetstatus = bet_on == "MATKA" ? true : false;
+  //     let casinostatus = bet_on == "CASINO" ? true : false;
+
+  //     let commission_value;
+  //     if (betstatus) {
+  //       let betdetails = await Bet.findById(bet_id)
+  //       commission_value = betdetails?.stack
+  //     } else if (matkabetstatus) {
+  //       let betdetailsmatka = await Matkabet.findById(bet_id)
+  //       commission_value = betdetailsmatka?.betamount
+  //     }
+  //     else {
+  //       commission_value = -profit_loss
+  //     }
+
+  //     console.log("bet data", bet_id);
+
+  //     console.log("hhello world hahahahahahhahahhah insidecal9xbro");
+
+  //     // const bId = await ledger.find({});
+  //     if (false) {
+  //       console.log("hello world");
+  //       return "hello world";
+  //     } else {
+  //       try {
+  //         let mainledgerBalance: number = 0;
+  //         let calvalue: number = 0;
+  //         // Fetch the current ledger balance
+
+  //         const ledgerData: any = await ledger.findOne({ ChildId: userId });
+  //         const userData = await User.findOne({ _id: userId });
+  //         let p1info = await User.findOne({ _id: userData.parentId });
+  //         console.log(p1info, "FGH")
+  //         if (p1info?.parentId) {
+  //           let partnresip = p1info?.partnership;
+  //           let p2infoj = await User.findOne({ _id: p1info?.parentId });
+  //           mainledgerBalance = -profit_loss;
+  //           // console.log(partnresip,"hello world for this partnership")
+  //           const currentBalance: any = ledgerData ? ledgerData.money : 0;
+  //           let multix;
+  //           let dmultixu;
+  //           if (betdata.bet_on == "CASINO" || betdata.bet_on == "MATCH_ODDS") {
+  //             multix = p1info?.mcom || 0;
+  //             dmultixu = userData?.mcom || 0;
+  //           } else if (betdata.bet_on == "FANCY") {
+  //             multix = p1info?.scom || 0;
+  //             dmultixu = userData?.scom || 0;
+  //           } else {
+  //             multix = p1info?.matcom || 0;
+  //             dmultixu = userData?.matcom || 0;
+  //           }
+  //           var commissionlegaf =
+  //            !(betstatus || matkabetstatus) && profit_loss > 0
+  //               ? 0
+  //               : (commission_value * multix) / 100;
+  //           let commissiondegaf =
+  //            !(betstatus || matkabetstatus) && profit_loss > 0
+  //               ? 0
+  //               : (commission_value * dmultixu) / 100;
+  //           // let share = -profit_loss * (p1info?.share / 100);
+  //           calvalue = -profit_loss - commissionlegaf;
+  //           let share = calvalue * (p1info?.share / 100);
+  //           // let fammount = -(profit_loss) - commissionlegaf-commissiondegaf;
+  //           // console.log(share ,"share hjklphjkl;hjkl")
+  //           var fammount = mainledgerBalance;
+
+  //           mainledgerBalance = ((-profit_loss - commissionlegaf) * (100 - p1info?.share)) / 100;
+
+
+  //           let profit =
+  //             calvalue * (p1info?.share / 100) +
+  //             commissionlegaf -
+  //             commissiondegaf;
+  //           console.log(profit, "profit is here")
+  //           const xyz = await ledger.create({
+  //             ParentId: userData?._id,
+  //             money: -profit_loss,
+  //             umoney: -profit_loss,
+  //             username: userData?.username,
+  //             parentName: p1info.username,
+  //             commissionlega: commissiondegaf,
+  //             commissiondega: 0,
+  //             narration,
+  //             fammount,
+  //             betId: bet_id,
+  //             Fancy: betstatus,
+  //             updown: -profit_loss,
+  //             profit: commissionlegaf,
+  //             cname: userData?.code,
+  //             pname: p1info?.code,
+  //             matchId
+  //           }, { new: true, upset: true });
+  //           console.log(xyz, "xyz")
+  //           // commission  entry in account statementes 
+  //           if (bet_on != "FANCY" && bet_on != "MATKA" && commissiondegaf > 0) {
+  //             const getAccStmt = await AccoutStatement.findOne({ userId: userId })
+  //               .sort({ createdAt: -1 })
+  //               .lean();
+  //             const getOpenBal = getAccStmt?.closeBal ? getAccStmt.closeBal : 0;
+
+  //             const userAccountData: IAccoutStatement = {
+  //               userId,
+  //               narration: "commission",
+  //               amount: commissiondegaf,
+  //               type: ChipsType.pnl,
+  //               txnType: commissiondegaf > 0 ? TxnType.cr : TxnType.dr,
+  //               openBal: getOpenBal,
+  //               closeBal: getOpenBal + +commissiondegaf,
+  //               matchId: matchId,
+  //               // betId: bet_id,
+  //               iscom: true,
+  //               // selectionId,
+  //               // sportId,
+  //             };
+
+  //             const newUserAccStmt = new AccoutStatement(userAccountData);
+  //             await newUserAccStmt.save();
+  //           }
+
+  //           const updatedLedgerp = await ledger.create({
+  //             ChildId: userId,
+
+  //             ParentId: userData?.parentId,
+  //             money: fammount,
+  //             umoney: mainledgerBalance,
+  //             username: userData?.username,
+  //             parentName: p1info.username,
+  //             commissionlega: commissionlegaf,
+  //             commissiondega: commissiondegaf,
+  //             narration,
+  //             fammount,
+  //             betId: bet_id,
+  //             Fancy: betstatus,
+  //             updown: share,
+  //             profit,
+  //             cname: userData?.code,
+  //             pname: p1info?.code,
+  //             matchId
+  //           });
+
+  //           // const result =   await Balance.findOneAndUpdate(
+  //           //     { userId :userId },
+  //           //     { $inc: { mainbalance: commissionlegaf } },
+
+  //           //   );
+
+  //           let multi;
+  //           let lmulti;
+  //           let p2infoh = await User.findOne({ _id: p1info?.parentId });
+
+  //           if (betdata.bet_on == "CASINO" || betdata.bet_on == "MATCH_ODDS") {
+  //             multi = p1info?.mcom || 0;
+  //             lmulti = p2infoh?.mcom || 0;
+  //           } else if (betdata.bet_on == "FANCY") {
+  //             multi = p1info.scom || 0;
+  //             lmulti = p2infoh.scom || 0;
+  //           } else {
+  //             multi = p1info.matcom || 0;
+  //             lmulti = p2infoh.matcom || 0;
+  //           }
+
+  //           const ledgerDatap1: any = await ledger.findOne({
+  //             ChildId: p1info._id,
+  //           });
+  //           // const currentBalancep1:any = ledgerDatap1 ? ledgerDatap1.money : 0;
+  //           let ammount =
+  //            !(betstatus || matkabetstatus) && profit_loss > 0 ? -profit_loss : -profit_loss; // profit_loss - betdata.stack*multi
+  //           let commissiondega =
+  //            !(betstatus || matkabetstatus) && profit_loss > 0 ? 0 : (commission_value * multi) / 100;
+  //           let commissionlega =
+  //            !(betstatus || matkabetstatus) && profit_loss > 0
+  //               ? 0
+  //               : (commission_value * lmulti) / 100;
+
+  //           let money = mainledgerBalance;
+  //           // mainledgerBalance = finalammount;
+  //           // let updown = -(profit_loss-commissionlegaf)*(p2infoh?.share - p1info?.share)/100
+  //           let updown = (calvalue * (p2infoh?.share - p1info?.share)) / 100;
+
+  //           let umoney =
+  //             ((-profit_loss - commissionlega) * (100 - p2infoh?.share)) / 100;
+  //           let profitone = mainledgerBalance - umoney;
+  //           mainledgerBalance = umoney;
+
+
+  //           // let commissionlega = profit_loss > 0 && ! betstatus ? 0:(betdata.stack*lmulti)/100
+  //           // let commissiondega = profit_loss > 0 && ! betstatus ? 0:(betdata.stack*dmulti)/100
+
+  //           const updatedLedger = await ledger.create(
+  //             {
+  //               ChildId: userData.parentId,
+
+  //               ParentId: p1info?.parentId,
+  //               money,
+  //               username: p1info.username,
+  //               parentName: p2infoh.username,
+  //               commissionlega,
+  //               commissiondega,
+  //               narration,
+  //               fammount,
+  //               betId: bet_id,
+  //               Fancy: betstatus,
+  //               updown,
+  //               umoney,
+  //               profit: profitone,
+  //               cname: p1info?.code,
+  //               pname: p2infoh?.code,
+  //               matchId
+  //             } // Add to current balance
+  //           );
+  //         }
+  //         let p2info = await User.findOne({ _id: p1info?.parentId });
+
+  //         if (p2info?.parentId) {
+  //           let p3info = await User.findOne({ _id: p2info.parentId });
+  //           let partnresip = p2info.partnership;
+  //           let money = mainledgerBalance;
+  //           let lmulti, dmulti;
+  //           if (betdata.bet_on == "CASINO" || betdata.bet_on == "MATCH_ODDS") {
+  //             lmulti = p3info.mcom || 0;
+  //             dmulti = p2info?.mcom || 0;
+  //           } else if (betdata.bet_on == "FANCY") {
+  //             lmulti = p3info.scom || 0;
+  //             dmulti = p2info.scom || 0;
+  //           } else {
+  //             lmulti = p3info.matcom || 0;
+  //             dmulti = p2info.matcom || 0;
+  //           }
+
+  //           // const ledgerDatap2:any = await ledger.findOne({ ChildId: p2info._id });
+  //           // const currentBalancep2:any = ledgerDatap2 ? ledgerDatap2.money : 0;
+  //           // let ammoun = -profit_loss - (betdata.stack * dmulti) / 100;
+  //           // let ammount = profit_loss > 0 && !betstatus ? -profit_loss : ammoun; // profit_loss - betdata.stack*multi
+
+  //           let commissionlega =
+  //            !(betstatus || matkabetstatus) && profit_loss > 0
+  //               ? 0
+  //               : (commission_value * lmulti) / 100;
+  //           let commissiondega =
+  //            !(betstatus || matkabetstatus) && profit_loss > 0
+  //               ? 0
+  //               : (commission_value * dmulti) / 100;
+
+  //           // let finalammount = mainledgerBalance - commissiondega - mainledgerBalance*(p2info?.share)/100;
+  //           // let updown = -(profit_loss)*(p3info?.share -p2info?.share)/100
+  //           let updown = (calvalue * (p3info?.share - p2info?.share)) / 100;
+  //           // let profitone = updown + commissionlega - commissiondega;
+
+  //           let umoney =
+  //             ((-profit_loss - commissionlega) * (100 - p3info?.share)) / 100;
+  //           let profitone = mainledgerBalance - umoney;
+  //           mainledgerBalance = umoney;
+
+
+  //           const updatedLedger = await ledger.create({
+  //             ChildId: p1info?.parentId,
+  //             ParentId: p2info?.parentId,
+  //             money,
+  //             username: p2info.username,
+  //             commissiondega,
+  //             commissionlega,
+  //             narration,
+  //             fammount,
+  //             betId: bet_id,
+  //             Fancy: betstatus,
+  //             updown,
+  //             umoney,
+  //             parentName: p3info.username,
+  //             profit: profitone,
+  //             cname: p2info?.code,
+  //             pname: p3info?.code,
+  //             matchId
+  //           });
+  //         }
+
+  //         let p3info = await User.findOne({ _id: p2info?.parentId });
+  //         if (p3info?.parentId) {
+  //           let p4info = await User.findOne({ _id: p3info?.parentId });
+  //           let partnresip = p3info.partnership;
+  //           let lmulti, dmulti;
+  //           if (betdata.bet_on == "CASINO" || betdata.bet_on == "MATCH_ODDS") {
+  //             lmulti = p4info.mcom || 0;
+  //             dmulti = p3info.mcom || 0;
+  //           } else if (betdata.bet_on == "FANCY") {
+  //             lmulti = p4info.scom || 0;
+  //             dmulti = p3info.scom || 0;
+  //           } else {
+  //             lmulti = p4info.matcom || 0;
+  //             dmulti = p3info.matcom || 0;
+  //           }
+
+  //           const ledgerDatap2: any = await ledger.findOne({
+  //             ChildId: p3info._id,
+  //           });
+  //           const currentBalancep2: any = ledgerDatap2 ? ledgerDatap2.money : 0;
+  //           // let ammoun = -profit_loss - (betdata.stack * dmulti) / 100;
+  //           // let ammount = profit_loss > 0 && !betstatus ? -profit_loss : ammoun; // profit_loss - betdata.stack*multi
+
+  //           let commissionlega =
+  //            !(betstatus || matkabetstatus) && profit_loss > 0
+  //               ? 0
+  //               : (commission_value * lmulti) / 100;
+  //           let commissiondega =
+  //            !(betstatus || matkabetstatus) && profit_loss > 0
+  //               ? 0
+  //               : (commission_value * dmulti) / 100;
+  //           let money = mainledgerBalance;
+  //           // let finalammount = mainledgerBalance - commissiondega - mainledgerBalance*(p3info?.share)/100;
+  //           //  mainledgerBalance = finalammount;
+  //           //  let updown = -(profit_loss)*(p4info?.share - p3info?.share)/100
+  //           let updown = (calvalue * (p4info?.share - p3info?.share)) / 100;
+  //           // let profitone = updown + commissionlega - commissiondega;
+
+  //           let umoney =
+  //             ((-profit_loss - commissionlega) * (100 - p4info?.share)) / 100;
+  //           let profitone = mainledgerBalance - umoney;
+
+  //           mainledgerBalance = umoney;
+
+  //           const updatedLedger = await ledger.create({
+  //             ChildId: p2info?.parentId,
+  //             ParentId: p3info?.parentId,
+  //             money,
+  //             username: p3info.username,
+  //             commissiondega,
+  //             commissionlega,
+  //             narration,
+  //             fammount,
+  //             betId: bet_id,
+  //             Fancy: betstatus,
+  //             updown,
+  //             umoney,
+  //             parentName: p4info.username,
+  //             profit: profitone,
+  //             cname: p3info?.code,
+  //             pname: p4info?.code,
+  //             matchId
+  //           });
+  //         }
+
+  //         let p4info = await User.findOne({ _id: p3info?.parentId });
+  //         if (p4info?.parentId) {
+  //           let p5info = await User.findOne({ _id: p4info?.parentId });
+  //           let partnresip = p4info.partnership;
+  //           let lmulti, dmulti;
+  //           if (betdata.bet_on == "CASINO" || betdata.bet_on == "MATCH_ODDS") {
+  //             lmulti = p5info?.mcom || 0;
+  //             dmulti = p4info?.mcom || 0;
+  //           } else if (betdata.bet_on == "FANCY") {
+  //             lmulti = p5info?.scom || 0;
+  //             dmulti = p4info?.scom || 0;
+  //           } else {
+  //             lmulti = p5info?.matcom || 0;
+  //             dmulti = p4info?.matcom || 0;
+  //           }
+
+  //           // const ledgerDatap2:any = await ledger.findOne({ ChildId: p4info._id });
+  //           // const currentBalancep2:any = ledgerDatap2 ? ledgerDatap2.money : 0;
+  //           let money = mainledgerBalance;
+  //           // let ammoun = -profit_loss - (betdata.stack * dmulti) / 100;
+  //           // let ammount = profit_loss > 0 && !betstatus ? -profit_loss : ammoun; // profit_loss - betdata.stack*multi
+
+  //           let commissionlega =
+  //            !(betstatus || matkabetstatus) && profit_loss > 0
+  //               ? 0
+  //               : (commission_value * lmulti) / 100;
+  //           let commissiondega =
+  //            !(betstatus || matkabetstatus) && profit_loss > 0
+  //               ? 0
+  //               : (commission_value * dmulti) / 100;
+
+  //           //  let finalammount = mainledgerBalance - commissiondega - mainledgerBalance*(p4info?.share)/100;
+  //           //  mainledgerBalance = finalammount;
+  //           //  let updown = -(profit_loss)*(p5info?.share - p4info?.share)/100
+  //           let updown = (calvalue * (p5info?.share - p4info?.share)) / 100;
+
+  //           // let umoney = mainledgerBalance - updown;
+  //           let umoney =
+  //             ((-profit_loss - commissionlega) * (100 - p5info?.share)) / 100;
+  //           let profitone = mainledgerBalance - umoney;
+
+  //           mainledgerBalance = umoney;
+
+  //           const updatedLedger = await ledger.create({
+  //             ChildId: p3info?.parentId,
+  //             ParentId: p4info?.parentId,
+  //             money,
+  //             username: p4info.username,
+  //             commissiondega,
+  //             commissionlega,
+  //             narration,
+  //             fammount,
+  //             betId: bet_id,
+  //             Fancy: betstatus,
+  //             updown,
+  //             umoney,
+  //             parentName: p5info.username,
+  //             profit: profitone,
+  //             cname: p4info?.code,
+  //             pname: p5info?.code,
+  //             matchId
+  //           });
+  //           // mainledgerBalance = 0;
+  //         }
+  //         let p41info = await User.findOne({ _id: p4info?.parentId });
+  //         if (p41info?.parentId) {
+  //           let p51info = await User.findOne({ _id: p41info?.parentId });
+  //           let partnresip = p41info.partnership;
+  //           let lmulti, dmulti;
+  //           if (betdata.bet_on == "CASINO" || betdata.bet_on == "MATCH_ODDS") {
+  //             lmulti = p51info?.mcom || 0;
+  //             dmulti = p41info?.mcom || 0;
+  //           } else if (betdata.bet_on == "FANCY") {
+  //             lmulti = p51info?.scom || 0;
+  //             dmulti = p41info?.scom || 0;
+  //           } else {
+  //             lmulti = p51info?.matcom || 0;
+  //             dmulti = p41info?.matcom || 0;
+  //           }
+
+  //           // const ledgerDatap2:any = await ledger.findOne({ ChildId: p4info._id });
+  //           // const currentBalancep2:any = ledgerDatap2 ? ledgerDatap2.money : 0;
+  //           let money = mainledgerBalance;
+  //           // let ammoun = -profit_loss - (betdata.stack * dmulti) / 100;
+  //           // let ammount = profit_loss > 0 && !betstatus ? -profit_loss : ammoun; // profit_loss - betdata.stack*multi
+
+  //           let commissionlega =
+  //            !(betstatus || matkabetstatus) && profit_loss > 0
+  //               ? 0
+  //               : (commission_value * lmulti) / 100;
+  //           let commissiondega =
+  //            !(betstatus || matkabetstatus) && profit_loss > 0
+  //               ? 0
+  //               : (commission_value * dmulti) / 100;
+
+  //           //  let finalammount = mainledgerBalance - commissiondega - mainledgerBalance*(p4info?.share)/100;
+  //           //  mainledgerBalance = finalammount;
+  //           //  let updown = -(profit_loss)*(p5info?.share - p4info?.share)/100
+  //           let updown = (calvalue * (p51info?.share - p41info?.share)) / 100;
+
+  //           // let umoney = mainledgerBalance - updown;
+  //           let umoney =
+  //             ((-profit_loss - commissionlega) * (100 - p51info?.share)) / 100;
+  //           let profitone = mainledgerBalance - umoney;
+
+  //           mainledgerBalance = money;
+
+  //           const updatedLedger = await ledger.create({
+  //             ChildId: p4info?.parentId,
+  //             ParentId: p41info?.parentId,
+  //             money,
+  //             username: p41info.username,
+  //             commissiondega,
+  //             commissionlega,
+  //             narration,
+  //             betId: bet_id,
+  //             Fancy: betstatus,
+  //             updown,
+  //             umoney,
+  //             parentName: p51info.username,
+  //             profit: profitone,
+  //             cname: p41info?.code,
+  //             pname: p51info?.code,
+  //             fammount,
+  //             matchId
+  //           });
+  //           mainledgerBalance = 0;
+  //         }
+
+
+  //         // await Balance.findOneAndUpdate(
+  //         //   { userId },
+  //         //   { $inc: { mainbalance: commissionlegaf } },
+  //         //   { new: true }
+  //         // );
+  //       } catch (error) {
+  //         console.error("Error updating ledger for user:", userId, error);
+  //         return error
+  //       }
+  //     }
+
+  //     return "success";
+  //   } catch (error) {
+  //     console.error("Error in allClientLedger:", error,userId,matchId,profit_loss);
+  //     // res.status(500).send({ error: 'Internal server error' });
+  //     // return this.success(res,"hello world")
+  //     return error
+  //   }
+  // }
+
+
+
+
   async cal9xbro(
+
     userId,
+
     profit_loss,
+
     narration,
+
     matchId,
+
     bet_id: any,
-    bet_on
+
+    bet_on,
+
+
+
+
 
   ) {
+
     try {
+
       console.log(userId, profit_loss, narration, matchId, bet_on, "details inside cal9xbro")
+
       let betdata = { bet_on }
+
       let betstatus = bet_on == "FANCY" ? true : false;
+
       let matkabetstatus = bet_on == "MATKA" ? true : false;
+
+      let casinostatus = bet_on == "CASINO" ? true : false;
+
+
+
       let commission_value;
+
       if (betstatus) {
+
         let betdetails = await Bet.findById(bet_id)
+
         commission_value = betdetails?.stack
+
       } else if (matkabetstatus) {
+
         let betdetailsmatka = await Matkabet.findById(bet_id)
+
         commission_value = betdetailsmatka?.betamount
+
       }
+
       else {
+
         commission_value = -profit_loss
+
       }
+
+
 
       console.log("bet data", bet_id);
 
+
+
       console.log("hhello world hahahahahahhahahhah insidecal9xbro");
 
+
+
       // const bId = await ledger.find({});
+
       if (false) {
+
         console.log("hello world");
+
         return "hello world";
+
       } else {
+
         try {
+
           let mainledgerBalance: number = 0;
+
           let calvalue: number = 0;
+
           // Fetch the current ledger balance
 
+
+
           const ledgerData: any = await ledger.findOne({ ChildId: userId });
+
           const userData = await User.findOne({ _id: userId });
+
           let p1info = await User.findOne({ _id: userData.parentId });
+
           console.log(p1info, "FGH")
+
           if (p1info?.parentId) {
+
             let partnresip = p1info?.partnership;
+
             let p2infoj = await User.findOne({ _id: p1info?.parentId });
+
             mainledgerBalance = -profit_loss;
+
             // console.log(partnresip,"hello world for this partnership")
+
             const currentBalance: any = ledgerData ? ledgerData.money : 0;
+
             let multix;
+
             let dmultixu;
-            if (betdata.bet_on == "CASINO" || betdata.bet_on == "MATCH_ODDS") {
+
+            if (betdata.bet_on == "CASINO") {
+
+              multix = p1info?.cascom || 0;
+
+              dmultixu = userData?.cascom || 0;
+
+            } else if (betdata.bet_on == "MATCH_ODDS") {
+
               multix = p1info?.mcom || 0;
+
               dmultixu = userData?.mcom || 0;
+
             } else if (betdata.bet_on == "FANCY") {
+
               multix = p1info?.scom || 0;
+
               dmultixu = userData?.scom || 0;
+
             } else {
+
               multix = p1info?.matcom || 0;
+
               dmultixu = userData?.matcom || 0;
+
             }
+
             var commissionlegaf =
-              !(betstatus || matkabetstatus) && profit_loss > 0
+
+             !(betstatus || matkabetstatus) && profit_loss > 0
+
                 ? 0
+
                 : (commission_value * multix) / 100;
+
             let commissiondegaf =
-              !(betstatus || matkabetstatus) && profit_loss > 0
+
+             !(betstatus || matkabetstatus) && profit_loss > 0
+
                 ? 0
+
                 : (commission_value * dmultixu) / 100;
+
             // let share = -profit_loss * (p1info?.share / 100);
+
             calvalue = -profit_loss - commissionlegaf;
+
             let share = calvalue * (p1info?.share / 100);
+
             // let fammount = -(profit_loss) - commissionlegaf-commissiondegaf;
+
             // console.log(share ,"share hjklphjkl;hjkl")
+
             var fammount = mainledgerBalance;
+
+
 
             mainledgerBalance = ((-profit_loss - commissionlegaf) * (100 - p1info?.share)) / 100;
 
 
+
+
+
             let profit =
+
               calvalue * (p1info?.share / 100) +
+
               commissionlegaf -
+
               commissiondegaf;
+
             console.log(profit, "profit is here")
+
             const xyz = await ledger.create({
+
               ParentId: userData?._id,
+
               money: -profit_loss,
+
               umoney: -profit_loss,
+
               username: userData?.username,
+
               parentName: p1info.username,
+
               commissionlega: commissiondegaf,
+
               commissiondega: 0,
+
               narration,
+
               fammount,
+
               betId: bet_id,
+
               Fancy: betstatus,
+            casinostatus,
+
               updown: -profit_loss,
+
               profit: commissionlegaf,
+
               cname: userData?.code,
+
               pname: p1info?.code,
+
               matchId
+
             }, { new: true, upset: true });
+
             console.log(xyz, "xyz")
+
             // commission  entry in account statementes 
+
             if (bet_on != "FANCY" && bet_on != "MATKA" && commissiondegaf > 0) {
+
               const getAccStmt = await AccoutStatement.findOne({ userId: userId })
+
                 .sort({ createdAt: -1 })
+
                 .lean();
+
               const getOpenBal = getAccStmt?.closeBal ? getAccStmt.closeBal : 0;
 
+
+
               const userAccountData: IAccoutStatement = {
+
                 userId,
+
                 narration: "commission",
+
                 amount: commissiondegaf,
+
                 type: ChipsType.pnl,
+
                 txnType: commissiondegaf > 0 ? TxnType.cr : TxnType.dr,
+
                 openBal: getOpenBal,
+
                 closeBal: getOpenBal + +commissiondegaf,
+
                 matchId: matchId,
+
                 // betId: bet_id,
+
                 iscom: true,
+
                 // selectionId,
+
                 // sportId,
+
               };
 
+
+
               const newUserAccStmt = new AccoutStatement(userAccountData);
+
               await newUserAccStmt.save();
+
             }
 
+
+
             const updatedLedgerp = await ledger.create({
+
               ChildId: userId,
 
+
+
               ParentId: userData?.parentId,
+
               money: fammount,
+
               umoney: mainledgerBalance,
+
               username: userData?.username,
+
               parentName: p1info.username,
+
               commissionlega: commissionlegaf,
+
               commissiondega: commissiondegaf,
+
               narration,
+
               fammount,
+
               betId: bet_id,
+
               Fancy: betstatus,
+            casinostatus,
+
               updown: share,
+
               profit,
+
               cname: userData?.code,
+
               pname: p1info?.code,
+
               matchId
+
             });
 
+
+
             // const result =   await Balance.findOneAndUpdate(
+
             //     { userId :userId },
+
             //     { $inc: { mainbalance: commissionlegaf } },
+
+
 
             //   );
 
+
+
             let multi;
+
             let lmulti;
+
             let p2infoh = await User.findOne({ _id: p1info?.parentId });
 
-            if (betdata.bet_on == "CASINO" || betdata.bet_on == "MATCH_ODDS") {
+
+
+            if (betdata.bet_on == "CASINO") {
+
+              multi = p1info?.cascom || 0;
+
+              lmulti = p2infoh?.cascom || 0;
+
+            } else if (betdata.bet_on == "MATCH_ODDS") {
+
               multi = p1info?.mcom || 0;
+
               lmulti = p2infoh?.mcom || 0;
+
             } else if (betdata.bet_on == "FANCY") {
+
               multi = p1info.scom || 0;
+
               lmulti = p2infoh.scom || 0;
+
             } else {
+
               multi = p1info.matcom || 0;
+
               lmulti = p2infoh.matcom || 0;
+
             }
 
+
+
             const ledgerDatap1: any = await ledger.findOne({
+
               ChildId: p1info._id,
+
             });
+
             // const currentBalancep1:any = ledgerDatap1 ? ledgerDatap1.money : 0;
+
             let ammount =
-              !(betstatus || matkabetstatus) && profit_loss > 0 ? -profit_loss : -profit_loss; // profit_loss - betdata.stack*multi
+
+             !(betstatus || matkabetstatus) && profit_loss > 0 ? -profit_loss : -profit_loss; // profit_loss - betdata.stack*multi
+
             let commissiondega =
-              !(betstatus || matkabetstatus) && profit_loss > 0 ? 0 : (commission_value * multi) / 100;
+
+             !(betstatus || matkabetstatus) && profit_loss > 0 ? 0 : (commission_value * multi) / 100;
+
             let commissionlega =
-              !(betstatus || matkabetstatus) && profit_loss > 0
+
+             !(betstatus || matkabetstatus) && profit_loss > 0
+
                 ? 0
+
                 : (commission_value * lmulti) / 100;
 
+
+
             let money = mainledgerBalance;
+
             // mainledgerBalance = finalammount;
+
             // let updown = -(profit_loss-commissionlegaf)*(p2infoh?.share - p1info?.share)/100
+
             let updown = (calvalue * (p2infoh?.share - p1info?.share)) / 100;
 
+
+
             let umoney =
+
               ((-profit_loss - commissionlega) * (100 - p2infoh?.share)) / 100;
+
             let profitone = mainledgerBalance - umoney;
+
             mainledgerBalance = umoney;
+
+
+
 
 
             // let commissionlega = profit_loss > 0 && ! betstatus ? 0:(betdata.stack*lmulti)/100
+
             // let commissiondega = profit_loss > 0 && ! betstatus ? 0:(betdata.stack*dmulti)/100
 
+
+
             const updatedLedger = await ledger.create(
+
               {
+
                 ChildId: userData.parentId,
 
+
+
                 ParentId: p1info?.parentId,
+
                 money,
+
                 username: p1info.username,
+
                 parentName: p2infoh.username,
+
                 commissionlega,
+
                 commissiondega,
+
                 narration,
+
                 fammount,
+
                 betId: bet_id,
+
                 Fancy: betstatus,
+            casinostatus,
+
                 updown,
+
                 umoney,
+
                 profit: profitone,
+
                 cname: p1info?.code,
+
                 pname: p2infoh?.code,
+
                 matchId
+
               } // Add to current balance
+
             );
+
           }
+
           let p2info = await User.findOne({ _id: p1info?.parentId });
 
+
+
           if (p2info?.parentId) {
+
             let p3info = await User.findOne({ _id: p2info.parentId });
+
             let partnresip = p2info.partnership;
+
             let money = mainledgerBalance;
+
             let lmulti, dmulti;
-            if (betdata.bet_on == "CASINO" || betdata.bet_on == "MATCH_ODDS") {
+
+            if (betdata.bet_on == "CASINO") {
+
+              lmulti = p3info.cascom || 0;
+
+              dmulti = p2info?.cascom || 0;
+
+            } else if (betdata.bet_on == "MATCH_ODDS") {
+
               lmulti = p3info.mcom || 0;
+
               dmulti = p2info?.mcom || 0;
+
             } else if (betdata.bet_on == "FANCY") {
+
               lmulti = p3info.scom || 0;
+
               dmulti = p2info.scom || 0;
+
             } else {
+
               lmulti = p3info.matcom || 0;
+
               dmulti = p2info.matcom || 0;
+
             }
+
+
 
             // const ledgerDatap2:any = await ledger.findOne({ ChildId: p2info._id });
+
             // const currentBalancep2:any = ledgerDatap2 ? ledgerDatap2.money : 0;
+
             // let ammoun = -profit_loss - (betdata.stack * dmulti) / 100;
+
             // let ammount = profit_loss > 0 && !betstatus ? -profit_loss : ammoun; // profit_loss - betdata.stack*multi
 
+
+
             let commissionlega =
-              !(betstatus || matkabetstatus) && profit_loss > 0
+
+             !(betstatus || matkabetstatus) && profit_loss > 0
+
                 ? 0
+
                 : (commission_value * lmulti) / 100;
+
             let commissiondega =
-              !(betstatus || matkabetstatus) && profit_loss > 0
+
+             !(betstatus || matkabetstatus) && profit_loss > 0
+
                 ? 0
+
                 : (commission_value * dmulti) / 100;
+
+
 
             // let finalammount = mainledgerBalance - commissiondega - mainledgerBalance*(p2info?.share)/100;
+
             // let updown = -(profit_loss)*(p3info?.share -p2info?.share)/100
+
             let updown = (calvalue * (p3info?.share - p2info?.share)) / 100;
+
             // let profitone = updown + commissionlega - commissiondega;
 
+
+
             let umoney =
+
               ((-profit_loss - commissionlega) * (100 - p3info?.share)) / 100;
+
             let profitone = mainledgerBalance - umoney;
+
             mainledgerBalance = umoney;
 
 
+
+
+
             const updatedLedger = await ledger.create({
+
               ChildId: p1info?.parentId,
+
               ParentId: p2info?.parentId,
+
               money,
+
               username: p2info.username,
+
               commissiondega,
+
               commissionlega,
+
               narration,
+
               fammount,
+
               betId: bet_id,
+
               Fancy: betstatus,
+            casinostatus,
+
               updown,
+
               umoney,
+
               parentName: p3info.username,
+
               profit: profitone,
+
               cname: p2info?.code,
+
               pname: p3info?.code,
+
               matchId
+
             });
+
           }
+
+
 
           let p3info = await User.findOne({ _id: p2info?.parentId });
+
           if (p3info?.parentId) {
+
             let p4info = await User.findOne({ _id: p3info?.parentId });
+
             let partnresip = p3info.partnership;
+
             let lmulti, dmulti;
-            if (betdata.bet_on == "CASINO" || betdata.bet_on == "MATCH_ODDS") {
+
+            if (betdata.bet_on == "CASINO") {
+
+              lmulti = p4info.cascom || 0;
+
+              dmulti = p3info.cascom || 0;
+
+            } else if (betdata.bet_on == "MATCH_ODDS") {
+
               lmulti = p4info.mcom || 0;
+
               dmulti = p3info.mcom || 0;
+
             } else if (betdata.bet_on == "FANCY") {
+
               lmulti = p4info.scom || 0;
+
               dmulti = p3info.scom || 0;
+
             } else {
+
               lmulti = p4info.matcom || 0;
+
               dmulti = p3info.matcom || 0;
+
             }
+
+
 
             const ledgerDatap2: any = await ledger.findOne({
+
               ChildId: p3info._id,
+
             });
+
             const currentBalancep2: any = ledgerDatap2 ? ledgerDatap2.money : 0;
+
             // let ammoun = -profit_loss - (betdata.stack * dmulti) / 100;
+
             // let ammount = profit_loss > 0 && !betstatus ? -profit_loss : ammoun; // profit_loss - betdata.stack*multi
 
+
+
             let commissionlega =
-              !(betstatus || matkabetstatus) && profit_loss > 0
+
+             !(betstatus || matkabetstatus) && profit_loss > 0
+
                 ? 0
+
                 : (commission_value * lmulti) / 100;
+
             let commissiondega =
-              !(betstatus || matkabetstatus) && profit_loss > 0
+
+             !(betstatus || matkabetstatus) && profit_loss > 0
+
                 ? 0
+
                 : (commission_value * dmulti) / 100;
+
             let money = mainledgerBalance;
+
             // let finalammount = mainledgerBalance - commissiondega - mainledgerBalance*(p3info?.share)/100;
+
             //  mainledgerBalance = finalammount;
+
             //  let updown = -(profit_loss)*(p4info?.share - p3info?.share)/100
+
             let updown = (calvalue * (p4info?.share - p3info?.share)) / 100;
+
             // let profitone = updown + commissionlega - commissiondega;
 
+
+
             let umoney =
+
               ((-profit_loss - commissionlega) * (100 - p4info?.share)) / 100;
+
             let profitone = mainledgerBalance - umoney;
+
+
 
             mainledgerBalance = umoney;
 
+
+
             const updatedLedger = await ledger.create({
+
               ChildId: p2info?.parentId,
+
               ParentId: p3info?.parentId,
+
               money,
+
               username: p3info.username,
+
               commissiondega,
+
               commissionlega,
+
               narration,
+
               fammount,
+
               betId: bet_id,
+
               Fancy: betstatus,
+            casinostatus,
+
               updown,
+
               umoney,
+
               parentName: p4info.username,
+
               profit: profitone,
+
               cname: p3info?.code,
+
               pname: p4info?.code,
+
               matchId
+
             });
+
           }
+
+
 
           let p4info = await User.findOne({ _id: p3info?.parentId });
+
           if (p4info?.parentId) {
+
             let p5info = await User.findOne({ _id: p4info?.parentId });
+
             let partnresip = p4info.partnership;
+
             let lmulti, dmulti;
-            if (betdata.bet_on == "CASINO" || betdata.bet_on == "MATCH_ODDS") {
+
+            if (betdata.bet_on == "CASINO") {
+
+              lmulti = p5info?.cascom || 0;
+
+              dmulti = p4info?.cascom || 0;
+
+            } else if (betdata.bet_on == "MATCH_ODDS") {
+
               lmulti = p5info?.mcom || 0;
+
               dmulti = p4info?.mcom || 0;
+
             } else if (betdata.bet_on == "FANCY") {
+
               lmulti = p5info?.scom || 0;
+
               dmulti = p4info?.scom || 0;
+
             } else {
+
               lmulti = p5info?.matcom || 0;
+
               dmulti = p4info?.matcom || 0;
+
             }
 
+
+
             // const ledgerDatap2:any = await ledger.findOne({ ChildId: p4info._id });
+
             // const currentBalancep2:any = ledgerDatap2 ? ledgerDatap2.money : 0;
+
             let money = mainledgerBalance;
+
             // let ammoun = -profit_loss - (betdata.stack * dmulti) / 100;
+
             // let ammount = profit_loss > 0 && !betstatus ? -profit_loss : ammoun; // profit_loss - betdata.stack*multi
 
+
+
             let commissionlega =
-              !(betstatus || matkabetstatus) && profit_loss > 0
+
+             !(betstatus || matkabetstatus) && profit_loss > 0
+
                 ? 0
+
                 : (commission_value * lmulti) / 100;
+
             let commissiondega =
-              !(betstatus || matkabetstatus) && profit_loss > 0
+
+             !(betstatus || matkabetstatus) && profit_loss > 0
+
                 ? 0
+
                 : (commission_value * dmulti) / 100;
 
+
+
             //  let finalammount = mainledgerBalance - commissiondega - mainledgerBalance*(p4info?.share)/100;
+
             //  mainledgerBalance = finalammount;
+
             //  let updown = -(profit_loss)*(p5info?.share - p4info?.share)/100
+
             let updown = (calvalue * (p5info?.share - p4info?.share)) / 100;
 
+
+
             // let umoney = mainledgerBalance - updown;
+
             let umoney =
+
               ((-profit_loss - commissionlega) * (100 - p5info?.share)) / 100;
+
             let profitone = mainledgerBalance - umoney;
+
+
 
             mainledgerBalance = umoney;
 
+
+
             const updatedLedger = await ledger.create({
+
               ChildId: p3info?.parentId,
+
               ParentId: p4info?.parentId,
+
               money,
+
               username: p4info.username,
+
               commissiondega,
+
               commissionlega,
+
               narration,
+
               fammount,
+
               betId: bet_id,
+
               Fancy: betstatus,
+            casinostatus,
+
               updown,
+
               umoney,
+
               parentName: p5info.username,
+
               profit: profitone,
+
               cname: p4info?.code,
+
               pname: p5info?.code,
+
               matchId
+
             });
+
             // mainledgerBalance = 0;
+
           }
+
           let p41info = await User.findOne({ _id: p4info?.parentId });
+
           if (p41info?.parentId) {
+
             let p51info = await User.findOne({ _id: p41info?.parentId });
+
             let partnresip = p41info.partnership;
+
             let lmulti, dmulti;
-            if (betdata.bet_on == "CASINO" || betdata.bet_on == "MATCH_ODDS") {
+
+            if (betdata.bet_on == "CASINO") {
+
+              lmulti = p51info?.cascom || 0;
+
+              dmulti = p41info?.cascom || 0;
+
+            } else if (betdata.bet_on == "MATCH_ODDS") {
+
               lmulti = p51info?.mcom || 0;
+
               dmulti = p41info?.mcom || 0;
+
             } else if (betdata.bet_on == "FANCY") {
+
               lmulti = p51info?.scom || 0;
+
               dmulti = p41info?.scom || 0;
+
             } else {
+
               lmulti = p51info?.matcom || 0;
+
               dmulti = p41info?.matcom || 0;
+
             }
 
+
+
             // const ledgerDatap2:any = await ledger.findOne({ ChildId: p4info._id });
+
             // const currentBalancep2:any = ledgerDatap2 ? ledgerDatap2.money : 0;
+
             let money = mainledgerBalance;
+
             // let ammoun = -profit_loss - (betdata.stack * dmulti) / 100;
+
             // let ammount = profit_loss > 0 && !betstatus ? -profit_loss : ammoun; // profit_loss - betdata.stack*multi
 
+
+
             let commissionlega =
-              !(betstatus || matkabetstatus) && profit_loss > 0
+
+             !(betstatus || matkabetstatus) && profit_loss > 0
+
                 ? 0
+
                 : (commission_value * lmulti) / 100;
+
             let commissiondega =
-              !(betstatus || matkabetstatus) && profit_loss > 0
+
+             !(betstatus || matkabetstatus) && profit_loss > 0
+
                 ? 0
+
                 : (commission_value * dmulti) / 100;
 
+
+
             //  let finalammount = mainledgerBalance - commissiondega - mainledgerBalance*(p4info?.share)/100;
+
             //  mainledgerBalance = finalammount;
+
             //  let updown = -(profit_loss)*(p5info?.share - p4info?.share)/100
+
             let updown = (calvalue * (p51info?.share - p41info?.share)) / 100;
 
+
+
             // let umoney = mainledgerBalance - updown;
+
             let umoney =
+
               ((-profit_loss - commissionlega) * (100 - p51info?.share)) / 100;
+
             let profitone = mainledgerBalance - umoney;
+
+
 
             mainledgerBalance = money;
 
+
+
             const updatedLedger = await ledger.create({
+
               ChildId: p4info?.parentId,
+
               ParentId: p41info?.parentId,
+
               money,
+
               username: p41info.username,
+
               commissiondega,
+
               commissionlega,
+
               narration,
+
               betId: bet_id,
+
               Fancy: betstatus,
+            casinostatus,
+
               updown,
+
               umoney,
+
               parentName: p51info.username,
+
               profit: profitone,
+
               cname: p41info?.code,
+
               pname: p51info?.code,
+
               fammount,
+
               matchId
+
             });
+
             mainledgerBalance = 0;
+
           }
 
 
+
+
+
           // await Balance.findOneAndUpdate(
+
           //   { userId },
+
           //   { $inc: { mainbalance: commissionlegaf } },
+
           //   { new: true }
+
           // );
+
         } catch (error) {
+
           console.error("Error updating ledger for user:", userId, error);
+
           return error
+
         }
+
       }
 
+
+
       return "success";
+
     } catch (error) {
-      console.error("Error in allClientLedger:", error, userId, matchId, profit_loss);
+
+      console.error("Error in allClientLedger:", error,userId,matchId,profit_loss);
+
       // res.status(500).send({ error: 'Internal server error' });
+
       // return this.success(res,"hello world")
+
       return error
+
     }
+
   }
 
   addprofitlosstouser = async ({
@@ -4514,262 +6476,6 @@ export class FancyController extends ApiController {
         .json({ msg: "Internal Server Error", status: false });
     }
   };
-
-  getUseridno = async (req: Request, res: Response) => {
-
-
-    try {
-      const data: any = await useridno.findOne({})
-
-      if (!data) {
-        await useridno.create({
-          id: 10000
-        });
-      }
-
-      return res.json({ data, status: true });
-    } catch (error) {
-      console.error("Error resetting commissions:", error);
-      return res
-        .status(500)
-        .json({ msg: "Internal Server Error", status: false });
-    }
-  };
-
-  
-//  getUserDetaliswithParents = async (
-//   req: Request,
-//   res: Response
-// ) => {
-//   try {
-// const userId = req.query.userId as string;   
-//  console.log(userId,"useriiiiiid")
-
-
-//     if (!userId) {
-//       return res.status(400).json({
-//         status: false,
-//         msg: "Enter User ID",
-//       });
-//     }
-
-//     const formattedUserId = userId.toUpperCase();
-
-//     // User Find
-//     const user: any = await User.findOne({ username: formattedUserId });
-
-//     if (!user) {
-//       return res.status(404).json({
-//         status: false,
-//         msg: "User not found",
-//       });
-//     }
-
-//     // Parent Details
-//     const parents = await User
-//       .find(
-//         {
-//           _id: {
-//             $in: user.parentStr.map((id: any) => ObjectId(id)),
-//           },
-//         },
-//         {
-//           username: 1,
-//           code: 1,
-//           isLogin:1,
-//         }
-//       )
-//       .lean();
-
-//     return res.json({
-//       status: true,
-//       data: {
-//         user: {
-//           username: user.username,
-//           code: user.code,
-//           isLogin:user.isLogin,
-//         },
-//         parents,
-//       },
-//     });
-//   } catch (error) {
-//     console.log(error);
-
-//     return res.status(500).json({
-//       status: false,
-//       msg: "Internal Server Error",
-//     });
-//   }
-// };
-
-
-getUserDetaliswithParents = async (
-  req: Request,
-  res: Response
-) => {
-  let redisClient: any;
-
-  try {
-    const userId = req.query.userId as string;
-
-    console.log(userId, "useriiiiiid");
-
-    if (!userId) {
-      return res.status(400).json({
-        status: false,
-        msg: "Enter User ID",
-      });
-    }
-
-    const formattedUserId = userId.toUpperCase();
-
-    // ==============================
-    // FIND USER
-    // ==============================
-
-    const user: any = await User.findOne({
-      username: formattedUserId,
-    }).lean();
-
-    if (!user) {
-      return res.status(404).json({
-        status: false,
-        msg: "User not found",
-      });
-    }
-
-    // ==============================
-    // FIND ALL PARENTS
-    // ==============================
-
-    const parents: any[] = await User.find(
-      {
-        _id: {
-          $in: (user.parentStr || []).map(
-            (id: any) => ObjectId(id)
-          ),
-        },
-      },
-      {
-        username: 1,
-        code: 1,
-        isLogin: 1,
-      }
-    ).lean();
-
-    // ==============================
-    // REDIS CONNECTION
-    // ==============================
-
-    redisClient = createClient({
-      socket: {
-        host: process.env.REDIS_QUEUE_HOST,
-        port: Number(process.env.REDIS_QUEUE_PORT),
-      },
-    });
-
-    redisClient.on("error", (err: any) => {
-      console.log("Redis Error:", err);
-    });
-
-    await redisClient.connect();
-
-    // ==============================
-    // USER + PARENTS REDIS KEYS
-    // ==============================
-
-    const redisKeys = [
-      `user-${user._id.toString()}`,
-
-      ...parents.map(
-        (parent: any) =>
-          `user-${parent._id.toString()}`
-      ),
-    ];
-
-    // Ek hi request me sab users check
-    const redisStatuses = await redisClient.mGet(
-      redisKeys
-    );
-
-    // ==============================
-    // CURRENT USER ONLINE STATUS
-    // ==============================
-
-    const userIsOnline =
-      redisStatuses[0] !== null;
-
-    // ==============================
-    // PARENTS ONLINE STATUS
-    // ==============================
-
-    const parentsWithStatus = parents.map(
-      (parent: any, index: number) => ({
-        ...parent,
-
-        // Existing DB field
-        isLogin: parent.isLogin,
-
-        // Actual online/offline from Redis
-        isOnline:
-          redisStatuses[index + 1] !== null,
-      })
-    );
-
-    // ==============================
-    // CLOSE REDIS CONNECTION
-    // ==============================
-
-    await redisClient.quit();
-    redisClient = null;
-
-    // ==============================
-    // RESPONSE
-    // ==============================
-
-    return res.json({
-      status: true,
-
-      data: {
-        user: {
-          username: user.username,
-          code: user.code,
-         
-      _id: user._id.toString(), // ✅ YE MISSING THA
-     
-          // Existing DB field
-          isLogin: user.isLogin,
-
-          // Actual online/offline
-          isOnline: userIsOnline,
-        },
-
-        parents: parentsWithStatus,
-      },
-    });
-
-  } catch (error) {
-    console.log(
-      "getUserDetaliswithParents error:",
-      error
-    );
-
-    // Error aaye to connection close
-    if (redisClient?.isOpen) {
-      try {
-        await redisClient.quit();
-      } catch (e) {
-        console.log("Redis quit error:", e);
-      }
-    }
-
-    return res.status(500).json({
-      status: false,
-      msg: "Internal Server Error",
-    });
-  }
-};
-
 }
 
 // import axios from "axios";

@@ -14,11 +14,11 @@ const LimitInfo = (props:any) => {
       {/* <i className='fas fa-info-circle m-l-10'></i> */}
     </a>
     <div  className='min-max-infoj '>
-      <span className='m-r-5'>
+      <span className='m-r-5 min-mx-color'>
         <b>Min:</b>
         {min}
       </span>{' '}
-      <span className='m-r-5'>
+      <span className='m-r-5 min-mx-color'>
         <b>Max:</b>
         {max}
       </span>

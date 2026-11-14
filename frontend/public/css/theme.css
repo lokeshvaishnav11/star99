@@ -12,8 +12,9 @@
   /* --theme2-bg: darkgoldenrod; */  
   --theme2-bg: #020421;
   --theme2-bg70: #1B4332B3;
-  --theme2-bg85: #1B4332D9;
+  --theme2-bg85: radial-gradient(at 80% 0%, rgba(201, 137, 21, 0.12), transparent 60%), linear-gradient(145deg, rgb(23, 20, 14) 0%, rgb(6, 7, 8) 55%, rgb(16, 13, 9) 100%);
   --primary-color: #fff;
   --secondary-color: #fff;
   --grey-color: #007bff;
 }
+

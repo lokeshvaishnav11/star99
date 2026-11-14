@@ -286,7 +286,7 @@
 // const getPendingFancyList = async () => {
 //   try {
 //     const { data } = await axios.get(
-//       "https://napi.A2Z.online/api/get-business-fancy-list"
+//       "https://napi.star-99.online/api/get-business-fancy-list"
 //     );
 //     console.log("lokesh")
 //     return data?.data?.list || [];
@@ -330,7 +330,7 @@
 // const declareFancyResult = async (payload) => {
 //   try {
 //     await axios.post(
-//       "https://napi.A2Z.online/api/update-fancy-result",
+//       "https://napi.star-99.online/api/update-fancy-result",
 //       payload
 //     );
 //   } catch (e) {
@@ -728,7 +728,7 @@ const BookMakerOddsData = async () => {
 // const getPendingFancyList = async () => {
 //   try {
 //     const { data } = await axios.get(
-//       "https://api.a2zlive.shop/api/get-business-fancy-list"
+//       "https://api.star-99live.shop/api/get-business-fancy-list"
 //     );
 //     return data?.data?.list || [];
 //   } catch (e) {
@@ -769,7 +769,7 @@ const BookMakerOddsData = async () => {
 // const declareFancyResult = async (payload) => {
 //   try {
 //     await axios.post(
-//       "https://api.a2zlive.shop/api/update-fancy-result",
+//       "https://api.star-99live.shop/api/update-fancy-result",
 //       payload
 //     );
 //   } catch (e) {
@@ -823,7 +823,7 @@ const BookMakerOddsData = async () => {
 // ---------------- Fancy Results Processors ----------------
 
 const FANCY_APIS = [
-  "https://api.a2zlive.shop",
+  "https://api.star-99live.shop",
   "https://sixapi.vkmster.com",
   "https://api.star-99.com"
 ];

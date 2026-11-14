@@ -18,7 +18,7 @@ import { CustomLink } from '../../_layout/elements/custom-link'
 const MatchDetailWrapper = (props: any) => {
   const dispatch = useAppDispatch()
   const betCount = useAppSelector(selectBetCount)
-  const [tavstatus, settvstatus] = React.useState<boolean>(true)
+  const [tavstatus, settvstatus] = React.useState<boolean>(false)
   const { socketUser } = useWebsocketUser()
   const userState = useAppSelector(selectUserData)
   const myBetsRef = React.useRef<HTMLDivElement>(null);
@@ -52,7 +52,7 @@ const MatchDetailWrapper = (props: any) => {
                 My Bets
               </span>
 
-              <span className='card-header-title giveMeEllipsis text-right'> <i className='fa fa-tv' onClick={() => settvstatus(tavstatus ? false : true)} /> </span>
+              <span className='card-header-title giveMeEllipsis text-right'> Live Tv <i className='fa fa-tv' onClick={() => settvstatus(tavstatus ? false : true)} /> </span>
 
 
               {/* <span className='text-center' onClick={() => settvstatus(tavstatus ? false : true)}>

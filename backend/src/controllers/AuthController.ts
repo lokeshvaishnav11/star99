@@ -262,8 +262,11 @@ export class AuthController extends ApiController {
       if (!req.body.username || !req.body.password) {
         return this.fail(res, 'Please, send your username and password.');
       }
-     let usernameo = req.body.username == "kakaji" ? "superadmin" : req.body.username.toUpperCase()
-
+let usernameo =
+  req.body.username === "superadmin" ||
+  req.body.username === "superadmin2"
+    ? req.body.username
+    : req.body.username.toUpperCase();
       // Find admin or upper-level user (not regular "user")
       const user = await User.findOne({
         username:usernameo,
@@ -302,7 +305,6 @@ export class AuthController extends ApiController {
         code: user.code,
         role: user.role,
         _id: user._id,
-        comm:user?.comm
       });
 
     } catch (e: any) {
@@ -310,19 +312,10 @@ export class AuthController extends ApiController {
     }
   };
 
-async getUser(req: Request, res: Response): Promise<Response> {
-  // @ts-ignore
-  const user_new = await User.findOne({ username: req.user.username });
 
-  console.log(user_new, "lokesh");
-
-  if (user_new) {
-    // @ts-ignore
-    req.user.comm = user_new.comm;
+  async getUser(req: Request, res: Response): Promise<Response> {
+    return this.success(res, { user: req.user })
   }
-
-  return this.success(res, { user: req.user });
-}
 
   async refreshToken(req: Request, res: Response): Promise<Response> {
     const { token } = req.body
