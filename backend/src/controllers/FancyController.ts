@@ -24,6 +24,7 @@ import { cp } from "node:fs";
 import { BetStake } from "../models/BetStake";
 import Matka from "../models/Matka";
 import Matkagames from "../models/Matkagames";
+import { useridno } from "../models/UserId";
 
 var ObjectId = require("mongoose").Types.ObjectId;
 
@@ -510,6 +511,28 @@ placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
       return this.fail(res, e);
     }
   }
+
+
+    getUseridno = async (req: Request, res: Response) => {
+
+
+    try {
+      const data: any = await useridno.findOne({})
+
+      if (!data) {
+        await useridno.create({
+          id: 10000
+        });
+      }
+
+      return res.json({ data, status: true });
+    } catch (error) {
+      console.error("Error resetting commissions:", error);
+      return res
+        .status(500)
+        .json({ msg: "Internal Server Error", status: false });
+    }
+  };
 
   matkaListRollback = async (req: Request, res: Response) => {
     try {

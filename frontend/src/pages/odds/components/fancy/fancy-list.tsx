@@ -25,9 +25,11 @@ export const FancyList = React.memo(
   ({
     fancies,
     fancyUpdate,
+    ttwo,
   }: {
     fancies: LFancy[];
     fancyUpdate: Record<string, IFancy>;
+    ttwo:any
   }) => {
     const userState = useAppSelector(selectUserData);
     //console.log(userState, "isuyererer in fancylist" ) // Debugging user state
@@ -91,9 +93,20 @@ export const FancyList = React.memo(
   .replace(/\s+/g, " ")
   .trim();
 
+// const shouldHide =
+//   fancyName.includes("bhav") ||
+//   /(?:^|\s)2(?:\s+adv)?$/.test(fancyName);
+
+// if (shouldHide) {
+//   return null;
+
+// }
+
+
 const shouldHide =
   fancyName.includes("bhav") ||
-  /(?:^|\s)2(?:\s+adv)?$/.test(fancyName);
+  /(?:^|\s)2\s+adv$/.test(fancyName) ||
+  (!ttwo && /(?:^|\s)2$/.test(fancyName));
 
 if (shouldHide) {
   return null;

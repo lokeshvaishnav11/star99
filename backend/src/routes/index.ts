@@ -72,6 +72,9 @@ router.get('/api/matka-list-rollback', new FancyController().matkaListRollback)
 router.post('/api/matka-result', new FancyController().matkaResultapi)
 router.get('/api/matka-rollback', new FancyController().rollbackMatkaResult)
 
+router.get("/api/get-user-id-no",new FancyController().getUseridno)
+
+
 router.get('/api/resync_bookmaker_id', new SportsController().saveMatchResyncCron)
 router.use('/api', new T10ResultRoutes().router)
 router.use('/api', new SportRoutes().router)

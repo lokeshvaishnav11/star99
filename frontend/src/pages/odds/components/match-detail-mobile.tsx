@@ -19,6 +19,8 @@ const MatchDetailWrapper = (props: any) => {
   const dispatch = useAppDispatch()
   const betCount = useAppSelector(selectBetCount)
   const [tavstatus, settvstatus] = React.useState<boolean>(false)
+    const [istwo, setistwo] = React.useState<boolean>(false)
+
   const { socketUser } = useWebsocketUser()
   const userState = useAppSelector(selectUserData)
   const myBetsRef = React.useRef<HTMLDivElement>(null);
@@ -37,6 +39,16 @@ const MatchDetailWrapper = (props: any) => {
   // }, [])
   const shared = useParams().share
 
+  React.useEffect(() => {
+  if (
+    props.markets &&
+    props.markets[0]?.runners &&
+    props.markets[0]?.runners?.length > 2
+  ) {
+    setistwo(true);
+  }
+}, [props.markets]);
+console.log(props.markets,"market is here props wale ")
 
   return (
     <>
@@ -218,7 +230,7 @@ const MatchDetailWrapper = (props: any) => {
             {props.fancies && props.currentMatch && props.currentMatch.sportId == '4' && (
               <Fragment>
                 {/*@ts-expect-error */}
-                {<Fancy socketUser={socketUser} fancies={props.fancies} matchId={props.matchId!} />}
+                {<Fancy socketUser={socketUser} data={props.markets} fancies={props.fancies} matchId={props.matchId!} />}
               </Fragment>
             )}
 

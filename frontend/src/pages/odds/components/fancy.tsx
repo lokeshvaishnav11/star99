@@ -29,6 +29,7 @@ class Fancy extends React.Component<
     fancyType: string;
     setRules: (data: { open: boolean; type: string }) => void;
     socketUser: any;
+  two: boolean;
   },
   {
     fancies: FancyBallTypes;
@@ -44,6 +45,7 @@ class Fancy extends React.Component<
   constructor(props: any) {
     super(props);
     const session = props.fancies;
+    console.log(props.data,"props data is here")
     const updateFancy: Record<string, IFancy> = {};
     const typesFancy: any = {};
     //console.log(session,"session from the frrontend  Hello Worrld ")
@@ -392,7 +394,8 @@ class Fancy extends React.Component<
   render(): React.ReactNode {
     const { fancies, matchId, fancyUpdate } = this.state;
     const clsgrid = isMobile ? "col-12" : "col-12";
-    const { fancyType } = this.props;
+    const { fancyType ,two} = this.props;
+      // console.log("FANCY RECEIVED DATA:", this.props.data);
 
     return (
       <>
@@ -442,6 +445,7 @@ class Fancy extends React.Component<
                   <FancyList
                     fancies={fancies.blank}
                     fancyUpdate={fancyUpdate}
+                    ttwo ={two}
                   />
                 </>
               )}
@@ -464,6 +468,8 @@ class Fancy extends React.Component<
                   <FancyList
                     fancies={fancies.overBallNo}
                     fancyUpdate={fancyUpdate}
+                                         ttwo ={two}
+
                   />
                 )}
               </div>
@@ -482,6 +488,7 @@ class Fancy extends React.Component<
                   <FancyList
                     fancies={fancies.ballRun}
                     fancyUpdate={fancyUpdate}
+                     ttwo ={two}
                   />
                 )}
               </div>
