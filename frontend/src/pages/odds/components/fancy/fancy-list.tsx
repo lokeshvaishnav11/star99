@@ -43,6 +43,8 @@ export const FancyList = React.memo(
     // setLim(userState.user)
     // console.log(userState,"isuyererer")
 
+    console.log(ttwo,"hello world in this fancylist")
+
     const onBet = (isBack = false, market: any) => {
       if (userState.user.role !== RoleType.user) return false;
 

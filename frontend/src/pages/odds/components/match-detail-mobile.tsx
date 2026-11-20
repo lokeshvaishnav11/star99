@@ -48,7 +48,7 @@ const MatchDetailWrapper = (props: any) => {
     setistwo(true);
   }
 }, [props.markets]);
-console.log(props.markets,"market is here props wale ")
+console.log(props.markets,istwo,"market is here props wale ")
 
   return (
     <>
@@ -230,7 +230,7 @@ console.log(props.markets,"market is here props wale ")
             {props.fancies && props.currentMatch && props.currentMatch.sportId == '4' && (
               <Fragment>
                 {/*@ts-expect-error */}
-                {<Fancy socketUser={socketUser} data={props.markets} fancies={props.fancies} matchId={props.matchId!} />}
+                {<Fancy socketUser={socketUser} two={istwo} fancies={props.fancies} matchId={props.matchId!} />}
               </Fragment>
             )}
 

@@ -396,6 +396,7 @@ class Fancy extends React.Component<
     const clsgrid = isMobile ? "col-12" : "col-12";
     const { fancyType ,two} = this.props;
       // console.log("FANCY RECEIVED DATA:", this.props.data);
+      console.log(two,"two is here ")
 
     return (
       <>
