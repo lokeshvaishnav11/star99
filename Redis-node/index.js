@@ -983,7 +983,7 @@ const start = async () => {
   setInterval(getFancyDataApi, 1000);           // API Polling every 1s
   setInterval(formattedFancyData, 1000);        // Redis Sync every 1s
   setInterval(BookMakerOddsData, 900);          // Odds Publishing every 900ms
-  setInterval(processPendingFancyResult, 2000); // Result Declarations every 2s
+  // setInterval(processPendingFancyResult, 2000); // Result Declarations every 2s
 
   const PORT = process.env.PORT || 3031;
   server.listen(PORT, () => {

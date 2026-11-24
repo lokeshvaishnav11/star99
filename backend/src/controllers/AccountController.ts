@@ -1268,30 +1268,104 @@ getAccountStmtList = async (req: Request, res: Response) => {
     }
   }
 
-  clinetladger22 = async (req:Request,res:Response)=>{
-    console.log(req.body,"seocndd ledgerr")
-    try {
-      // let user = req.user
-      // let id = user["_id"]
-      const id = req.body.sendId
-      const user = await User.findOne({ _id: id });
-      console.log(user,"ffff")
+  clinetladger22 = async (req: Request, res: Response) => {
+  try {
+    let id = Types.ObjectId(req.body.sendId);
+    let user = await User.findOne({_id:id})
 
-      if (!user) {
-        return res.status(404).json({ success: false, message: "User not found" });
+    const result = await ledger.aggregate([
+      {
+        $match: {
+          $or: [
+            { ParentId: id },
+            // { ChildId: id }
+          ]
+        }
+      },
+
+      {
+        $addFields: {
+          isParent: { $eq: ["$ParentId", id] }
+        }
+      },
+
+     {
+  $group: {
+    _id: "$ChildId",
+
+    ParentId: { $first: "$ParentId" }, // 👈 ADD THIS
+    ChildId: { $first: "$ChildId" },
+
+    username: { $first: "$username" },
+    cname: { $first: "$cname" },
+
+    positive: {
+      $sum: {
+        $cond: [
+          { $and: [{ $eq: ["$settled", false] }, { $gt: ["$money", 0] }] },
+          "$money",
+          0
+        ]
       }
+    },
+    negative: {
+      $sum: {
+        $cond: [
+          { $and: [{ $eq: ["$settled", false] }, { $lt: ["$money", 0] }] },
+          { $abs: "$money" },
+          0
+        ]
+      }
+    },
 
-
-      // const ddata = await ledger.find({ChildId:id})
-      const ldata = await ledger.find({ParentId:id})
-      const ddata= await ledger.find({ChildId:id})
-      // const arr = [ddata,ldata]
-      return this.success(res, [ldata,ddata, {user}])
-  
-    } catch (error) {
-      
+    settled: {
+      $sum: {
+        $cond: [{ $eq: ["$settled", true] }, "$money", 0]
+      }
     }
   }
+},
+
+     {
+  $addFields: {
+    ChildId: "$ChildId",
+    ParentId: "$ParentId", // 👈 ensure output me aaye
+    amount: { $subtract: ["$positive", "$negative"] },
+    final: { $add: [{ $subtract: ["$positive", "$negative"] }, "$settled"] },
+    agent: { $concat: ["$username", " (", "$cname", ")"] }
+  }
+},
+{
+  $match: {
+    $expr: {
+      $ne: ["$ParentId", "$ChildId"]
+    }
+  }
+},
+      {
+        $facet: {
+          lenaArray: [
+            { $match: { final: { $gte: 0 } } }
+          ],
+          denaArray: [
+            { $match: { final: { $lt: 0 } } }
+          ],
+         
+        },
+      
+      }
+    ]);
+
+     return this.success(res, {
+      lenaArray: result[0]?.lenaArray || [],
+      denaArray: result[0]?.denaArray || [],
+      user: user || null
+    });
+
+  } catch (error) {
+    return this.fail(res, error);
+  }
+};
 
   iframeurl = async (req:Request,res:Response)=>{
     try {
