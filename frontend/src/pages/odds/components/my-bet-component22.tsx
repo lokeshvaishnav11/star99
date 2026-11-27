@@ -571,9 +571,9 @@ const MyBetComponent22 = () => {
         // Removed: setbetlist(betList)
         // Redux expects FancyBook, not DeclaredBet[].
 
-        dispatch(
-          setBookMarketList(data?.odds_profit || {})
-        );
+        // dispatch(
+        //   setBookMarketList(data?.odds_profit || {})
+        // );
 
         dispatch(setBetCount(betList.length));
       })
